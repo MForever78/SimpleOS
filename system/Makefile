@@ -8,10 +8,10 @@ SOURCES=	\
 		stdlib/stdlib.asm
 
 build/sys.coe: build/sys.bin
-	../mips_as/bin2coe.sh $< > $@
+	./mips_as/bin2coe.sh $< > $@
 
 build/sys.bin: build/sys-bundle.asm
-	../mips_as/mas --def ../mips_as/res/defination.xml -l build/label -o $@ $< 
+	./mips_as/mas --def ./mips_as/res/defination.xml -l build/label -o $@ $< 
 
 build/sys-bundle.asm: $(SOURCES)
 	cpp main/sys.asm | sed 's/__CR__/\n/g' | ./scripts/func-ext.js | ./scripts/string2as.js > $@
