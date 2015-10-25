@@ -23,12 +23,26 @@ _mul_loop_start:
     @param a
     @param b
 
-    move(@a, @retval)
+    move(@retval, @a)
     move(@tb, @b)
 _mod_loop_start:
     slt @compare_result, @retval, @tb
     bne @compare_result, @zero, _mod_end
     sub @retval, @retval, @tb
     j _mod_loop_start
+@enddef
+
+@def div
+    @param a
+    @param b
+
+    move(@retval, @zero)
+    move(@ta, @a@a)
+    move(@tb, @b)
+_div_loop_start:
+    slt @compare_result, @ta, @tb
+    bne @compare_result, @zero, _div_end
+    addi @retval, @retval, 1
+    j _div_loop_start
 @enddef
 

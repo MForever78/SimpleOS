@@ -45,7 +45,7 @@ _strchr_loop_begin:
     lb @sc, 0(@retval)
     beq @c, @sc, _strchr_end
     beq @zero, @sc, _strchr_end
-    addi @retval, 1
+    addi @retval, @retval, 1
     j _strchr_loop_begin
 @enddef
 
