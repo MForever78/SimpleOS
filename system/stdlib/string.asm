@@ -35,6 +35,42 @@ _memcpy_loop_begin:
 
 @enddef # memcpy
 
+@def strchr
+    @param str
+    @param char
+
+    move(@retval, @str)
+    move(@c, @char)
+_strchr_loop_begin:
+    lb @sc, 0(@retval)
+    beq @c, @sc, _strchr_end
+    beq @zero, @sc, _strchr_end
+    addi @retval, @retval, 1
+    j _strchr_loop_begin
+@enddef
+
+@def strncmp
+    @param sa
+    @param sb
+    @param len
+    
+    move(@ta, @sa)
+    move(@tb, @sb)
+    move(@tl, @len)
+_strncmp_loop_begin:
+    lb @a_content, 0(@ta)
+    lb @b_content, 0(@tb)
+    or @retval, @a_content, @b_content
+    beq @retval, @zero, _strncmp_end
+
+    sub @retval, @a_content, @b_content
+    bne @retval, @zero, _strncmp_end
+
+    addi @ta, @ta, 1
+    addi @tb, @tb, 1
+    j _strncmp_loop_begin
+@enddef # strncmp
+
 @def strcmp
     @param sa
     @param sb
@@ -47,7 +83,6 @@ _strcmp_loop_begin:
     or @retval, @a_content, @b_content
     beq @retval, @zero, _strcmp_end
 
-_strcmp_loop_not_both_end:
     sub @retval, @a_content, @b_content
     bne @retval, @zero, _strcmp_end
 

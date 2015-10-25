@@ -146,3 +146,29 @@ _malloc_block_size_fit:
 __malloc_normalize_size_not_adjusted:
     move(@retval, @size)
 @enddef
+
+@def load_half_unaligned
+    @param addr
+
+    lb @lower, 0(@addr)
+    lb @upper, 1(@addr)
+    sll @retval, @upper, 8
+    or @retval, @retval, @lower
+@enddef
+
+@def load_dword_unaligned
+    @param addr
+    lb @b0, 0(@addr)
+    lb @b1, 1(@addr)
+    lb @b2, 2(@addr)
+    lb @b3, 3(@addr)
+
+    sll @b1, @b1, 8
+    sll @b2, @b2, 16
+    sll @b3, @b3, 24
+
+    move(@retval, @b0)
+    or @retval, @retval, @b1
+    or @retval, @retval, @b2
+    or @retval, @retval, @b3
+@enddef

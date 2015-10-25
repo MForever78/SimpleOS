@@ -15,9 +15,9 @@ process.stdin.on('readable', function () {
 process.stdin.on('end', function () {
     var lines = content.split('\n');
     lines.forEach(function (line) {
-        if (/^.*string.*\"[^"]+\"/.test(line)) {
+        if (/^\s*string\s*\"[^"]+\"/.test(line)) {
             line.replace(
-                /^(.*)string.*\"([^"]+)\"/,
+                /^(\s*)string\s*\"([^"]+)\"/,
                 function (match, indent, content) {
                     var len = content.length;
                     for (var i = 0; i < len; ++i) {

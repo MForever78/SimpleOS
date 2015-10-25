@@ -14,7 +14,8 @@ build/sys.bin: build/sys-bundle.asm
 	./mips_as/mas --def ./mips_as/res/defination.xml -l build/label -o $@ $< 
 
 build/sys-bundle.asm: $(SOURCES)
-	cpp main/sys.asm | ./scripts/newline-sub.js | ./scripts/func-ext.js | ./scripts/string2as.js > $@
+	cpp main/sys.asm | ./scripts/newline-sub.js | ./scripts/func-ext.js \
+		| ./scripts/string2as.js | ./scripts/reserve.js > $@
 
 .PHONY: clean
 
