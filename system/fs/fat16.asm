@@ -1,35 +1,36 @@
+#include "driver.asm"
 
-@global BLOCK_SIZE
-    dd 512
+@global FAT_BOOT_RECORD
+    dd 0
 
-@global BOOT_RECORD
+@global FAT_SECTOR_PER_CLUSTER
+    dd 0
+
+@global FAT_START_OF_FAT
+    dd 0
+
+@global FAT_START_OF_ROOT
     dd 0
 
 @def fat16_init
-    @call malloc, @BLOCK_SIZE
-    sw @retval, @&BOOT_RECORD
-    @call fat16_read_block, @zero
+    @call malloc, @DRIVER_BLOCK_SIZE
+    sw @retval, @&FAT_BOOT_RECORD
+    @call read_block, @zero, @FAT_BOOT_RECORD
+
+    move(@base_addr, @FAT_BOOT_RECORD)
+    
+    @call _fat16_load_fat, @base_addr
 @enddef
 
-@global DISK_MEMORY_OFFSET
-    dd 0x08000000   # 128MB
+@def _fat16_load_fat
+    @param base_addr
 
-@def fat16_read_block
-    @param index
-    @param ptr
+    lh @reserved_sectors, 14(@base_addr)
+    lh @sectors_per_fat, 22(@base_addr)
 
-    ## now on the simulator
-    sll @src, @index, 9 # mul index by 512
-    add @src, @src, @DISK_MEMORY_OFFSET
-    @call memcpy, @ptr, @src, @BLOCK_SIZE
+    sll @fat_size, @sectors_per_fat, 9  # mul sectors_per_fat by 512
+    @call malloc, @fat_size
+    sw @retval, @&FAT_START_OF_FAT
+
+    @call read_blocks, @reserved_sectors, @sectors_per_fat, @FAT_START_OF_FAT
 @enddef
-
-@def fat16_write_block
-    @param index
-    @param ptr
-
-    sll @dst, @index, 9 # mul index by 512
-    add @dst, @dst, @DISK_MEMORY_OFFSET
-    @call memcpy, @dst, @ptr, @BLOCK_SIZE
-@enddef
-

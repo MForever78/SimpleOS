@@ -137,7 +137,6 @@ process.stdin.on('end', function () {
         var direct;
         if (line.match(/^\s*@/)) {
             direct = splitLine(line);
-            console.error(direct);
         }
 
         if (direct) {

@@ -19,3 +19,16 @@ _mul_loop_start:
     j _mul_loop_start
 @enddef # mul
 
+@def mod
+    @param a
+    @param b
+
+    move(@a, @retval)
+    move(@tb, @b)
+_mod_loop_start:
+    slt @compare_result, @retval, @tb
+    bne @compare_result, @zero, _mod_end
+    sub @retval, @retval, @tb
+    j _mod_loop_start
+@enddef
+
