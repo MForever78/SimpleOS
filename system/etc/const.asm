@@ -1,1 +1,2 @@
-#define STACK_SIZE  4096
+## stack top address, should updated later
+#define STACK_SIZE  1048576

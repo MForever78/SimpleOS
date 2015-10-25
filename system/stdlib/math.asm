@@ -37,7 +37,7 @@ _mod_loop_start:
     @param b
 
     move(@retval, @zero)
-    move(@ta, @a@a)
+    move(@ta, @a)
     move(@tb, @b)
 _div_loop_start:
     slt @compare_result, @ta, @tb
@@ -46,3 +46,28 @@ _div_loop_start:
     j _div_loop_start
 @enddef
 
+@def max
+    @param a
+    @param b
+    
+    slt @compare_result, @a, @b
+    beq @compare_result, @zero, _max_a_is_greater
+    move(@retval, @b)
+    @return
+_max_a_is_greater:
+    move(@retval, @a)
+    @return
+@enddef
+
+@def min
+    @param a
+    @param b
+    
+    slt @compare_result, @a, @b
+    beq @compare_result, @zero, _max_a_is_greater
+    move(@retval, @a)
+    @return
+_max_a_is_greater:
+    move(@retval, @b)
+    @return
+@enddef
