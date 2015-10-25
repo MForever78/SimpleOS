@@ -16,7 +16,7 @@ int3:
 
 int_keyboard:
 int4:
-    dd 0
+    dd _routine_keyboard_input
 
 int_uart:
 int5:
