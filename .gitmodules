@@ -1,0 +1,3 @@
+[submodule "system/mips_as"]
+	path = system/mips_as
+	url = https://github.com/clarkok/mips_as.git

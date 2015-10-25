@@ -49,7 +49,7 @@ _read_blocks_loop_start:
     beq @tc, @zero, _read_blocks_end
 
     addi @ts, @ts, 1
-    addi @tp, @tp, @DRIVER_BLOCK_SIZE
+    add @tp, @tp, @DRIVER_BLOCK_SIZE
     
     j _read_blocks_loop_start
 @enddef
@@ -74,7 +74,7 @@ _read_blocks_loop_start:
     beq @tc, @zero, _read_blocks_end
 
     addi @ts, @ts, 1
-    addi @tp, @tp, @DRIVER_BLOCK_SIZE
+    add @tp, @tp, @DRIVER_BLOCK_SIZE
     
     j _read_blocks_loop_start
 @enddef
@@ -99,7 +99,7 @@ _read_blocks_loop_start:
     @param index
 
     @call mod, @index, @DRIVER_SECTOR_COUNT
-    addi @retval, @index, @DRIVER_SECTOR_START
+    add @retval, @index, @DRIVER_SECTOR_START
 @enddef
 
 @global DISK_MEMORY_OFFSET
