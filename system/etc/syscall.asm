@@ -17,7 +17,7 @@ _routine_keyboard_input:
     lli(@addr, ADDR_KEYBOARD)
     lw      @scan_code, 0(@addr)
     ## save scan code to buffer
-    sw      @scan_code, 0(@&input_ptr)
+    sw      @scan_code, 0(@input_ptr)
     ## move input pointer
     addi    @input_ptr, 1
     sw      @input_ptr, @&_keyboard_in_ptr
