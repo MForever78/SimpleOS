@@ -338,7 +338,11 @@ process.stdin.on('end', function () {
                 var register;
                 switch (symbol.type) {
                     case 'global':
-                        globalError('Invalid global variable, move it to local / temp variable first: ' + item);
+                        if (item[1] === '&') {
+                            globalError('Invalid global variable reference: ' + item);
+                        }
+                        Lw('$at', item.substr(1), '$gp');
+                        register = '$at';
                         break;
                     case 'local':
                         register = '$s' + symbol.index;
@@ -348,11 +352,13 @@ process.stdin.on('end', function () {
                         break;
                     case 'parameter':
                         if (symbol.index > 3) {
-                            globalError('Index too large, move it to local / temp variable first: ' 
-                                    + item + ', index: ' + symbol.index);
+                            Lw('$at', symbol.index * 4 + 8, '$fp');
+                            register = '$at';
                         }
-                        Lw('$a' + symbol.index, symbol.index * 4 + 8, '$fp');
-                        register = '$a' + symbol.index;
+                        else {
+                            Lw('$a' + symbol.index, symbol.index * 4 + 8, '$fp');
+                            register = '$a' + symbol.index;
+                        }
                         break;
                     case 'fixed':
                         register = symbol.reg;

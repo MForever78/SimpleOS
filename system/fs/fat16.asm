@@ -7,7 +7,7 @@
 
 @def fat16_init
     @call malloc @BLOCK_SIZE
-    sw @retval @&BPB_POINTER
+    sw @retval, @&BPB_POINTER
 @enddef
 
 @global DISK_MEMORY_OFFSET
