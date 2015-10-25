@@ -122,7 +122,7 @@ _main_end:
 BLOCK_SIZE:
     dd 512
 
-BPB_POINTER:
+BOOT_RECORD:
     dd 0
 
 fat16_init:
@@ -136,7 +136,11 @@ fat16_init:
     sw $at, 0($sp)
     jal malloc
     addi $sp, $sp, 4
-    sw $v0, BPB_POINTER($gp)
+    sw $v0, BOOT_RECORD($gp)
+    addi $sp, $sp, -4
+    sw $zero, 0($sp)
+    jal fat16_read_block
+    addi $sp, $sp, 4
 
 _fat16_init_end:
     lw $ra, 0($sp)

@@ -2,12 +2,13 @@
 @global BLOCK_SIZE
     dd 512
 
-@global BPB_POINTER
+@global BOOT_RECORD
     dd 0
 
 @def fat16_init
-    @call malloc @BLOCK_SIZE
-    sw @retval, @&BPB_POINTER
+    @call malloc, @BLOCK_SIZE
+    sw @retval, @&BOOT_RECORD
+    @call fat16_read_block, @zero
 @enddef
 
 @global DISK_MEMORY_OFFSET
@@ -20,7 +21,7 @@
     ## now on the simulator
     sll @src, @index, 9 # mul index by 512
     add @src, @src, @DISK_MEMORY_OFFSET
-    @call memcpy @ptr @src @BLOCK_SIZE
+    @call memcpy, @ptr, @src, @BLOCK_SIZE
 @enddef
 
 @def fat16_write_block
@@ -29,6 +30,6 @@
 
     sll @dst, @index, 9 # mul index by 512
     add @dst, @dst, @DISK_MEMORY_OFFSET
-    @call memcpy @dst @ptr @BLOCK_SIZE
+    @call memcpy, @dst, @ptr, @BLOCK_SIZE
 @enddef
 

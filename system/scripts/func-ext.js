@@ -136,7 +136,8 @@ process.stdin.on('end', function () {
     lines.forEach(function (line) {
         var direct;
         if (line.match(/^\s*@/)) {
-            direct = line.replace(/^\s*@(.*?)\s*$/, '$1').split(/\s+/g);
+            direct = splitLine(line);
+            console.error(direct);
         }
 
         if (direct) {
@@ -210,7 +211,7 @@ process.stdin.on('end', function () {
     lines.forEach(function (line) {
         var direct;
         if (line.match(/^\s*@/)) {
-            direct = line.replace(/^\s*@([^#]*?)(\s*|#.*)$/, '$1').split(/\s+/g);
+            direct = splitLine(line);
         }
 
         if (direct) {
@@ -447,6 +448,10 @@ process.stdin.on('end', function () {
 
     function JAL(label) {
         output_buf.push('    jal ' + label);
+    }
+
+    function splitLine(line) {
+        return line.replace(/#.*$/, '').replace(/^\s*@(.*?)\s*$/, '$1').replace(/,/g, ' ').split(/\s+/g);
     }
 });
 
