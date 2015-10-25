@@ -48,7 +48,7 @@
 
     @call memset, @FAT_ROOT_FD_PTR, @zero, FILE_SIZE
     sll @root_sector, @sector_per_fat, 1
-    addi @root_sector, @root_sector, @reserved_sectors
+    add @root_sector, @root_sector, @reserved_sectors
     sw @root_sector, FILE_SECTOR_D(@FAT_ROOT_FD_PTR)
 @enddef
 
@@ -58,6 +58,46 @@
     @param length
     @param ptr
 
+    @local sector
+    @local offset
+    @local read_length
+    
+    @call div, @start, @DRIVER_BLOCK_SIZE
+    @call _fat16_sector_in_file, @fp, @retval
+    move(@sector, @retval)
+    @call mod, @start, @DRIVER_BLOCK_SIZE
+    move(@offset, @offset)
+    
+_fat16_read_file_loop_begin:
+    sub @read_length, @DRIVER_BLOCK_SIZE, @offset
+    @call min, @read_length, @length
+    move(@read_length, @retval)
+    @call _fat16_read_file_in_sector, @sector, @offset, @read_length, @ptr
+
+    sub @tmp, @length, @read_length
+    sw @tmp, @&length
+    add @tmp, @ptr, @read_length
+    sw @tmp, @&ptr
+    move(@offset, @zero)
+    @call _fat16_next_sector, @sector
+    move(@sector, @retval)
+    bne @length, @zero, _fat16_read_file_loop_begin
+@enddef
+
+@def _fat16_next_sector
+    @param sector
+
+    @local sector_next
+
+    addi @sector_next, @sector, 1
+    @call mod, @sector_next, @FAT_SECTOR_PER_CLUSTER
+    beq @retval, @zero, _fat16_next_sector_next_cluster
+    move(@retval, @sector_next)
+    @return
+_fat16_next_sector_next_cluster:
+    @call div, @sector, @FAT_SECTOR_PER_CLUSTER
+    @call _fat16_next_cluster, @retval
+    @call mul, @retval, @FAT_SECTOR_PER_CLUSTER
 @enddef
 
 @def _fat16_sector_in_file
@@ -89,8 +129,9 @@ _fat16_sector_in_file_find_cluster:
 @def _fat16_next_cluster
     @param cluster
 
-    // TODO
-
+    sll @fat_offset, @cluster, 1
+    add @fat_entry, @fat_offset, @FAT_START_OF_FAT
+    lh @retval, 0(@fat_entry)
 @enddef
 
 @def _fat16_read_file_in_sector

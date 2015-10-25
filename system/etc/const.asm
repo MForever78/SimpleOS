@@ -1,1 +1,1 @@
-#define STACK_SIZE  4096
+#define STACK_SIZE  1048576
