@@ -1,34 +1,34 @@
-
+## size of a block, which is used as sector size in FAT
 @global DRIVER_BLOCK_SIZE
     dd 512
 
+## index of start sector for the first primary partition
 @global DRIVER_SECTOR_START
     dd 0
 
+## number of sectors in the first primary partition
 @global DRIVER_SECTOR_COUNT
     dd 0
 
+## initialize the driver, should exec before fat16_init
 @def driver_init
-    @call malloc, @DRIVER_BLOCK_SIZE
+    @call malloc, @DRIVER_BLOCK_SIZE        # allocate buffer for MBR
     move(@mbr, @retval)
 
-    @call _driver_read_block, @zero, @mbr
+    @call _driver_read_block, @zero, @mbr   # read MBR to buffer
 
-    lh @low_half, 454(@mbr)
-    lh @high_half, 456(@mbr)
-    sll @sector_start, @high_half, 16
-    or @sector_start, @sector_start, @low_half
-    sw @sector_start, @&DRIVER_SECTOR_START
+    addi @addr, @mbr, 454
+    @call load_word_unalign, @addr
+    sw @retval, @&DRIVER_SECTOR_START       # retrive & save SECTOR_START
 
-    lh @low_half, 458(@mbr)
-    lh @high_half, 460(@mbr)
-    sll @sector_count, @high_half, 16
-    or @sector_count, @sector_count, @low_half
-    sw @sector_count, @&DRIVER_SECTOR_COUNT
+    addi @addr, @mbr, 458
+    @call load_word_unalign, @addr
+    sw @retval, @&DRIVER_SECTOR_COUNT       # retrive & save SECTOR_COUNT
 
-    @call free, @mbr
+    @call free, @mbr                        # free buffer for MBR
 @enddef
 
+## read continuous blocks from driver
 @def read_blocks
     @param start
     @param count
@@ -38,12 +38,13 @@
     @local tp
     @local tc
 
-    @call _driver_calc_offset, @start
+    @call _driver_calc_offset, @start       # calculate the absolute index of blcok on the driver
+                                            #   with the given logical index in the partition
 
     move(@ts, @retval)
     move(@tp, @ptr)
 
-_read_blocks_loop_start:
+_read_blocks_loop_start:                    # loop to read all blocks
     @call _driver_read_block, @ts, @tp
     addi @tc, @tc, -1
     beq @tc, @zero, _read_blocks_end
@@ -54,6 +55,7 @@ _read_blocks_loop_start:
     j _read_blocks_loop_start
 @enddef
 
+## write continuous blocks into driver
 @def write_blocks
     @param start
     @param count
@@ -79,6 +81,7 @@ _read_blocks_loop_start:
     j _read_blocks_loop_start
 @enddef
 
+## read a single block from driver
 @def read_block
     @param index
     @param ptr
@@ -87,6 +90,7 @@ _read_blocks_loop_start:
     @call read_blocks, @index, @one, @ptr
 @enddef
 
+## write a single block into driver
 @def write_block
     @param index
     @param ptr
@@ -95,13 +99,16 @@ _read_blocks_loop_start:
     @call write_blocks, @index, @one, @ptr
 @enddef
 
+## calculate absolute block index
 @def _driver_calc_offset
     @param index
 
-    @call mod, @index, @DRIVER_SECTOR_COUNT
+    @call mod, @index, @DRIVER_SECTOR_COUNT     # if index greater than bound, then loop back
     add @retval, @index, @DRIVER_SECTOR_START
 @enddef
 
+#########################################################################
+## for debug, map the driver directly into memory
 @global DISK_MEMORY_OFFSET
     dd 0x08000000   # 128MB
 
