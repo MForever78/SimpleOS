@@ -1,4 +1,5 @@
-#!/usr/bin/nodejs
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
 process.stdin.setEncoding('utf-8');
 
