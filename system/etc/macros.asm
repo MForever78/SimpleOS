@@ -18,6 +18,13 @@
     lw      reg,    0($sp)      __CR__\
     addi    $sp,    $sp,    4
 
+## bus address
+#define ADDR_UART_DATA      0x20000000
+#define ADDR_UART_STATUS    0x20000200
+#define ADDR_VGA            0x40000000
+#define ADDR_KEYBOARD       0x60000000
+#define ADDR_TIMER          0x70000000
+
 ## offset of FAT_BOOT_RECORD
 #define FBR_SECTOR_PER_CLUSTER_B    13
 #define FBR_RESERVED_SECTORS_W      14
