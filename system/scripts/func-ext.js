@@ -368,7 +368,8 @@ process.stdin.on('end', function () {
                 Push(register);
             }
             else {
-                Push(item);
+                Addi('$at', '$zero', item);
+                Push('$at');
             }
         });
         JAL(func);
@@ -432,6 +433,10 @@ process.stdin.on('end', function () {
 
     function NewLine() {
         output_buf.push('');
+    }
+
+    function Addi(dest, src, imm) {
+        output_buf.push('    addi ' + dest + ', ' + src + ', ' + imm);
     }
 
     function Lw(dest, offset, base) {
