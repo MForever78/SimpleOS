@@ -6,6 +6,13 @@ _general_interrupt_addr:
     dd _general_interrupt_handler
     
 _general_interrupt_handler:
+    ## call interrupt handler function to save contex
+    @call interrupt_handler
+
+    ## interrupt return
+    eret
+
+@def interrupt_handler
     ## save the world
     addi    $sp, $sp, -136
     sw      $0, 0($sp)
@@ -49,7 +56,7 @@ _general_interrupt_handler:
     
     ## renable interrupts
     srl     @status, 16
-    mtc0    13, @status
+    mtc0    12, @status
     
     ## reset global pointer
     move($gp, $zero)
@@ -99,9 +106,7 @@ _general_interrupt_handler:
     mtc0    13, @cause
     mtc0    14, @epc
     addi    $sp, $sp, 136
-
-    ## interrupt return
-    eret
+@enddef
 
 int_base:
 int_reboot:
