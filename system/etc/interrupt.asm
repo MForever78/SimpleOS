@@ -47,16 +47,16 @@ _general_interrupt_handler:
     sw      $29, 116($sp)
     sw      $30, 120($sp)
     sw      $31, 124($sp)
-    mfc0    @status, 12
-    mfc0    @cause, 13
-    mfc0    @epc, 14
+    mfco    @status, 12
+    mfco    @cause, 13
+    mfco    @epc, 14
     sw      @status, 128($sp)
     sw      @cause, 132($sp)
     sw      @epc, 136($sp)
     
     ## renable interrupts
-    srl     @status, 16
-    mtc0    12, @status
+    srl     @status, @status, 16
+    mtco    @status, 12
     
     ## reset global pointer
     move($gp, $zero)
@@ -102,9 +102,9 @@ _general_interrupt_handler:
     lw      @status, 128($sp)
     lw      @cause, 132($sp)
     lw      @epc, 136($sp)
-    mtc0    12, @status
-    mtc0    13, @cause
-    mtc0    14, @epc
+    mtco    @status, 12
+    mtco    @cause, 13
+    mtco    @epc, 14
     addi    $sp, $sp, 136
 @enddef
 
