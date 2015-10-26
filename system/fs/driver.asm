@@ -12,20 +12,20 @@
 
 ## initialize the driver, should exec before fat16_init
 @def driver_init
-    @call malloc, @DRIVER_BLOCK_SIZE        # allocate buffer for MBR
+    @call malloc, @DRIVER_BLOCK_SIZE        ## allocate buffer for MBR
     move(@mbr, @retval)
 
-    @call _driver_read_block, @zero, @mbr   # read MBR to buffer
+    @call _driver_read_block, @zero, @mbr   ## read MBR to buffer
 
     addi @addr, @mbr, 454
-    @call load_word_unalign, @addr
-    sw @retval, @&DRIVER_SECTOR_START       # retrive & save SECTOR_START
+    @call load_dword_unaligned, @addr
+    sw @retval, @&DRIVER_SECTOR_START       ## retrive & save SECTOR_START
 
     addi @addr, @mbr, 458
-    @call load_word_unalign, @addr
-    sw @retval, @&DRIVER_SECTOR_COUNT       # retrive & save SECTOR_COUNT
+    @call load_dword_unaligned, @addr
+    sw @retval, @&DRIVER_SECTOR_COUNT       ## retrive & save SECTOR_COUNT
 
-    @call free, @mbr                        # free buffer for MBR
+    @call free, @mbr                        ## free buffer for MBR
 @enddef
 
 ## read continuous blocks from driver
@@ -38,13 +38,13 @@
     @local tp
     @local tc
 
-    @call _driver_calc_offset, @start       # calculate the absolute index of blcok on the driver
+    @call _driver_calc_offset, @start       ## calculate the absolute index of blcok on the driver
                                             ##   with the given logical index in the partition
 
     move(@ts, @retval)
     move(@tp, @ptr)
 
-_read_blocks_loop_start:                    # loop to read all blocks
+_read_blocks_loop_start:                    ## loop to read all blocks
     @call _driver_read_block, @ts, @tp
     addi @tc, @tc, -1
     beq @tc, @zero, _read_blocks_end
