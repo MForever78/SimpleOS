@@ -39,7 +39,7 @@
     @local tc
 
     @call _driver_calc_offset, @start       # calculate the absolute index of blcok on the driver
-                                            #   with the given logical index in the partition
+                                            ##   with the given logical index in the partition
 
     move(@ts, @retval)
     move(@tp, @ptr)
