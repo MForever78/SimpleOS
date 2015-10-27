@@ -127,7 +127,7 @@ int3:
 
 int_keyboard:
 int4:
-    dd _routine_keyboard_input
+    dd _routine_keyboard_int
 
 int_uart:
 int5:
@@ -137,3 +137,39 @@ int_spi:
 int6:
     dd 0
 
+syscall_clock:
+    dd _routine_clock_syscall
+
+
+_keyboard_buff:
+    size 256
+@global _keyboard_in_ptr
+        dd _keyboard_buff
+@global _keyboard_out_ptr
+        dd _keyboard_buff
+
+_routine_keyboard_int:
+    @call keyboard_int_handler
+
+@def keyboard_int_handler
+    lw      @input_ptr, @_keyboard_in_ptr
+    lw      @output_ptr, @_keyboard_out_ptr
+    addi    @input_ptr, 1
+    beq     @input_ptr, @output_ptr, _keyboard_int_handler_end
+    ## buffer not full, save code from keyboard
+    addi    @input_ptr, -1
+    ## read scan code from keyboard
+    lli(@addr, ADDR_KEYBOARD)
+    lw      @scan_code, 0(@addr)
+    ## save scan code to buffer
+    sw      @scan_code, 0(@input_ptr)
+    ## move input pointer
+    addi    @input_ptr, 1
+    sw      @input_ptr, @&_keyboard_in_ptr
+
+    ## if buffer is full, do nothing (maybe ring a bell?)
+@enddef
+
+_routine_clock_syscall:
+    
+    
