@@ -26,7 +26,7 @@
 #define ADDR_UART_STATUS    0x20000200
 #define ADDR_VGA            0x40000000
 #define ADDR_KEYBOARD       0x60000000
-#define ADDR_TIMER          0x70000000
+#define ADDR_CLOCK          0x70000000
 
 ## offset of FAT_BOOT_RECORD
 #define FBR_SECTOR_PER_CLUSTER_B    13

@@ -138,7 +138,24 @@ int6:
     dd 0
 
 syscall_clock:
+syscall7:
     dd _routine_clock_syscall
+
+syscall_print_char:
+syscall8:
+    dd 0
+
+syscall_print:
+syscall9:
+    dd 0
+
+syscall_board:
+syscall10:
+    dd 0
+
+syscall_led:
+syscall11:
+    dd 0
 
 
 _keyboard_buff:
