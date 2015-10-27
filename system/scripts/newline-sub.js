@@ -13,6 +13,6 @@ process.stdin.on('readable', function () {
 });
 
 process.stdin.on('end', function () {
-  console.log(content.replace('__CR__', '\n'));
+  console.log(content.replace(/__CR__/g, '\n'));
 });
 
