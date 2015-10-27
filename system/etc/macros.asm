@@ -28,7 +28,8 @@
 #define FBR_SECTOR_PER_FAT_W        22
 
 ## offset of FILE structure
-#define FILE_SECTOR_D           0
+#define FILE_CLUSTER_W          0
+#define FILE_RESERVED_W         2
 #define FILE_ENTRY_CLUSTER_W    4
 #define FILE_ENTRY_OFFSET_W     6
 #define FILE_SIZE               8
@@ -40,3 +41,8 @@
 #define ENTRY_CLUSTER_W         26
 #define ENTRY_FILE_SIZE_D       28
 #define ENTRY_SIZE              32
+
+#define ENTRY_ATTR_DIR          2
+#define ENTRY_ATTR_SYSTEM       8
+#define ENTRY_ATTR_READ_ONLY    16
+#define ENTRY_ATTR_ARCHIVE      32

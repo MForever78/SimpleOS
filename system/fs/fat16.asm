@@ -15,11 +15,17 @@
 @global FAT_START_OF_FAT            # buffer for FAT
     dd 0
 
-@global FAT_ROOT_FD                 # File descriptor for Root
-    size FILE_SIZE
+@global FAT_OFFSET_OF_DATA
+    dd 0
+
+@global FAT_ROOT_SECTOR             # sector for Root
+    dd 0
 
 @global FAT_PATH_SEP                # path separator
-    db 47                           # '/'
+    char '/'
+
+@global FAT_EXT_SEP
+    char '.'
 
 ## initialize fat16
 @def fat16_init
@@ -36,8 +42,8 @@
 
     ## retrive infomation from FAT Boot Record
     lb @sector_per_cluster, FBR_SECTOR_PER_CLUSTER_B(@base_addr)
-    lw @reserved_sectors,   FBR_RESERVED_SECTORS_W(@base_addr)
-    lw @sector_per_fat,     FBR_SECTOR_PER_FAT_W(@base_addr)
+    lh @reserved_sectors,   FBR_RESERVED_SECTORS_W(@base_addr)
+    lh @sector_per_fat,     FBR_SECTOR_PER_FAT_W(@base_addr)
 
     ## store SECTOR_PER_CLUSTER
     sw @sector_per_cluster, @&FAT_SECTOR_PER_CLUSTER
@@ -57,23 +63,79 @@
     sw @retval, @&FAT_START_OF_FAT
     @call read_blocks, @reserved_sectors, @sector_per_fat, @FAT_START_OF_FAT
 
-    ## initialize FD for Root
-    la(@root_fp, FAT_ROOT_FD)
-    @call memset, @root_fp, @zero, FILE_SIZE
+    sll @fat_length, @sector_per_fat, 1
+    srl @root_length, @FAT_MAX_ROOT_ENTRIES, 4
+    add @data_offset, @fat_length, @root_length
+    add @data_offset, @data_offset, @reserved_sectors
+    sw @data_offset, @&FAT_OFFSET_OF_DATA
+
+    ## initialize ROOT_SECTOR
     sll @root_sector, @sector_per_fat, 1
     add @root_sector, @root_sector, @reserved_sectors
-    sw @root_sector, FILE_SECTOR_D(@root_fp)
+    sw @root_sector, @&FAT_ROOT_SECTOR
 @enddef
 
 @def fat16_file_size
     @param fp
 
-    @local sector
     @local buffer
     @local ret
     
     lh @cluster, FILE_ENTRY_CLUSTER_W(@fp)
     beq @cluster, @zero, _fat16_file_size_root
+
+    @call fat16_is_dir, @fp
+    beq @retval, @zero, _fat16_file_size_dir
+
+    @call malloc, @DRIVER_BLOCK_SIZE
+    move(@buffer, @retval)
+
+    @call _fat16_get_entry_of_file, @fp, @buffer
+
+    lw @ret, ENTRY_FILE_SIZE_D(@retval)
+
+    @call free, @buffer
+
+    move(@retval, @ret)
+    @return
+_fat16_file_size_dir:
+    move(@retval, @FAT_CLUSTER_SIZE)
+    @return
+_fat16_file_size_root:
+    sll @retval, @FAT_MAX_ROOT_ENTRIES, 5   # mul by 32
+@enddef
+
+@def fat16_is_dir
+    @param fp
+
+    @local buffer
+    @local ret
+
+    lh @cluster, FILE_CLUSTER_W(@fp)
+    beq @cluster, @zero, _fat16_is_dir_root
+
+    @call malloc, @DRIVER_BLOCK_SIZE
+    move(@buffer, @retval)
+
+    @call _fat16_get_entry_of_file, @fp, @buffer
+    
+    lb @attr, ENTRY_ATTR_B(@retval)
+    andi @ret, @attr, ENTRY_ATTR_DIR
+
+    @call free, @buffer
+    move(@retval, @ret)
+    @return
+_fat16_is_dir_root:
+    li(@retval, 1)
+@enddef
+
+@def _fat16_get_entry_of_file
+    @param fp
+    @param buffer
+
+    @local sector
+
+    lh @cluster, FILE_ENTRY_CLUSTER_W(@fp)
     @call mul, @cluster, @FAT_SECTOR_PER_CLUSTER
     move(@sector, @retval)
 
@@ -81,34 +143,104 @@
     srl @offset, @offset, 9
     add @sector, @sector, @offset
 
-    @call malloc, @DRIVER_BLOCK_SIZE
-    move(@buffer, @retval)
-
     @call read_block, @sector, @buffer
 
     lh @offset, FILE_ENTRY_OFFSET_W(@fp)
     andi @offset, @offset, 0x01FF
-    add @base_addr, @offset, @buffer
-    lw @ret, ENTRY_FILE_SIZE_D(@base_addr)
-
-    @call free, @buffer
-
-    move(@retval, @ret)
-    @return
-
-_fat16_file_size_root:
-    sll @retval, @FAT_MAX_ROOT_ENTRIES, 5   # mul by 32
+    add @retval, @offset, @buffer
 @enddef
 
 @def fat16_open_file
     @param path
 
+    @local fp
+    @local fp_in_dir
+    @local path_level_limit
     @local name
     @local ext
-    @local fd
-    @local path_level
+    @local path_buffer
 
-    la(@fd, FAT_ROOT_FD)
+    @call malloc, 11
+    move(@path_buffer, @retval)
+
+    move(@name, @path_buffer)
+    addi @ext, @path_buffer, 8
+
+    lb @ch, 0(@path)
+    bne @ch, @FAT_PATH_SEP, _fat16_open_file_not_found
+    addi @tmp, @path, 1
+    sw @tmp, @&path
+
+    ## find in root
+    @call fat16_get_root_fd
+    move(@fp, @retval)
+
+_fat16_open_file_loop_begin:
+    lb @ch, 0(@path)
+    beq @ch, @zero, _fat16_open_file_found
+
+    @call fat16_is_dir, @fp
+    beq @retval, @zero, _fat16_open_file_not_found_and_free_fp
+
+    @call strchr, @path, @FAT_PATH_SEP
+    move(@path_level_limit, @retval)
+
+    @call fat16_normalize_path_level, @path, @path_level_limit, @path_buffer
+    @call fat16_find_in_dir, @fp, @name, @ext
+    move(@fp_in_dir, @retval)
+    @call free, @fp
+    beq @fp_in_dir, @zero, _fat16_open_file_not_found
+
+    addi @path, @path_level_limit, 1
+    j _fat16_open_file_loop_begin
+
+_fat16_open_file_not_found_and_free_fp:
+    @call free, @fp
+_fat16_open_file_not_found:
+    @call free, @path_buffer
+    li(@retval, 0)
+    @return
+_fat16_open_file_found:
+    @call free, @path_buffer
+    move(@retval, @fp)
+@enddef
+
+@def fat16_get_root_fd
+    @local ret
+
+    @call malloc, FILE_SIZE
+    move(@ret, @retval)
+    @call memset, @ret, @zero, FILE_SIZE
+    move(@retval, @ret)
+@enddef
+
+@def fat16_normalize_path_level
+    @param path_level
+    @param path_level_limit
+    @param buffer
+
+    @local path_ext
+    @local path_level_length
+
+    @call memset, @buffer, @zero, 11
+
+    sub @path_level_length, @path_level_limit, @path_level
+    
+    @call strnchr, @path_level, @FAT_EXT_SEP, @path_level_length
+    move(@path_ext, @retval)
+    sub @name_length, @path_ext, @path_level
+    @call min, @name_length, 8
+    @call strnuppercase, @buffer, @path_level, @retval
+
+    lb @ch, 0(@path_ext)
+    beq @ch, @FAT_EXT_SEP, _fat16_normalize_path_level_end
+    beq @ch, @zero, _fat16_normalize_path_level_end
+
+    addi @path_ext, @path_ext, 1
+    sub @ext_length, @path_level_limit, @path_ext
+    @call min, @ext_length, 3
+    addi @ext_buffer, @buffer, 8
+    @call strnuppercase, @ext_buffer, @path_ext, @retval
 @enddef
 
 @def fat16_find_in_dir
@@ -127,12 +259,13 @@ _fat16_file_size_root:
     @call malloc, @dir_size
     move(@buffer, @retval)
 
-    @call fat16_read_file, @fp, @zero, @dir_size
+    @call fat16_read_file, @fp, @zero, @dir_size, @buffer
     move(@entry, @buffer)
 
 _fat16_find_in_dir_loop_begin:
     lb @first_byte, 0(@entry)
     beq @first_byte, @zero, _fat16_find_in_dir_not_found
+    ## TODO detect dir file end
 
     addi @addr, @entry, ENTRY_NAME_S
     @call strncmp, @addr, @name, 8
@@ -147,8 +280,7 @@ _fat16_find_in_dir_loop_begin:
     move(@ret, @retval)
 
     lw @cluster, ENTRY_CLUSTER_W(@entry)
-    @call mul, @cluster, @FAT_SECTOR_PER_CLUSTER
-    sw @retval, FILE_SECTOR_D(@ret)
+    sw @cluster, FILE_CLUSTER_W(@ret)
 
     sub @offset_in_dir, @entry, @buffer
     @call div, @offset_in_dir, @FAT_CLUSTER_SIZE
@@ -191,7 +323,8 @@ _fat16_find_in_dir_not_found:
     @call _fat16_sector_in_file, @fp, @retval
     move(@sector, @retval)
     @call mod, @start, @DRIVER_BLOCK_SIZE
-    move(@offset, @offset)
+    move(@offset, @retval)
+    j _fat16_read_file_loop_begin
     
 _fat16_read_file_loop_begin:
     ## calculate read_length for this read
@@ -212,6 +345,7 @@ _fat16_read_file_loop_begin:
     @call _fat16_next_sector, @sector
     move(@sector, @retval)
     bne @length, @zero, _fat16_read_file_loop_begin
+
 @enddef
 
 ## calculate next sector in the file
@@ -222,16 +356,22 @@ _fat16_read_file_loop_begin:
 
     ## detect if sector_next is still in this cluster
     addi @sector_next, @sector, 1
-    @call mod, @sector_next, @FAT_SECTOR_PER_CLUSTER
-    beq @retval, @zero, _fat16_next_sector_next_cluster
-    move(@retval, @sector_next)
-    @return
+    slt @compare_result, @FAT_OFFSET_OF_DATA, @sector_next
+    beq @compare_result, @zero, _fat16_next_sector_return
+
+    sub @offset, @sector_next, @FAT_OFFSET_OF_DATA
+    @call mod, @offset, @FAT_SECTOR_PER_CLUSTER
+    bne @retval, @zero, _fat16_next_sector_return
 
 _fat16_next_sector_next_cluster:
     ## if not, call next_cluster
     @call div, @sector, @FAT_SECTOR_PER_CLUSTER
     @call _fat16_next_cluster, @retval
     @call mul, @retval, @FAT_SECTOR_PER_CLUSTER
+    @return
+
+_fat16_next_sector_return:
+    move(@retval, @sector_next)
 @enddef
 
 ## get sector in file by index
@@ -245,9 +385,8 @@ _fat16_next_sector_next_cluster:
     move(@ti, @index)
 
     ## calculate first cluster
-    lw @file_sector, FILE_SECTOR_D(@fp)
-    @call div, @file_sector, @FAT_SECTOR_PER_CLUSTER
-    move(@cluster, @retval)
+    lw @cluster, FILE_CLUSTER_W(@fp)
+    beq @cluster, @zero, _fat16_sector_in_file_root
 
 _fat16_sector_in_file_loop_begin:
     ## loop to find that cluster
@@ -262,6 +401,9 @@ _fat16_sector_in_file_find_cluster:
     ## locate the sector
     @call mul, @cluster, @FAT_SECTOR_PER_CLUSTER
     add @retval, @retval, @ti
+    @return
+_fat16_sector_in_file_root:
+    add @retval, @index, @FAT_ROOT_SECTOR
 @enddef
 
 ## get next cluster
@@ -270,8 +412,17 @@ _fat16_sector_in_file_find_cluster:
 
     ## lookup FAT
     sll @fat_offset, @cluster, 1
+    addi @fat_offset, @fat_offset, 2
     add @fat_entry, @fat_offset, @FAT_START_OF_FAT
     lh @retval, 0(@fat_entry)
+@enddef
+
+@def _fat16_sector_of_cluster
+    @param cluster
+
+    addi @tmp, @cluster, -1
+    @call mul, @tmp, @FAT_SECTOR_PER_CLUSTER
+    add @retval, @retval, @FAT_OFFSET_OF_DATA
 @enddef
 
 @def _fat16_read_file_in_sector
@@ -282,6 +433,13 @@ _fat16_sector_in_file_find_cluster:
 
     @local sector_buffer
 
+    bne @offset, @zero, _fat16_read_file_in_sector_use_buffer
+    bne @length, @DRIVER_BLOCK_SIZE, _fat16_read_file_in_sector_use_buffer
+
+    @call read_block, @sector, @ptr
+    @return
+
+_fat16_read_file_in_sector_use_buffer:
     ## read that sector into a buffer
     @call malloc, @DRIVER_BLOCK_SIZE
     move(@sector_buffer, @retval)
@@ -290,4 +448,5 @@ _fat16_sector_in_file_find_cluster:
     ## copy requested part into caller''s buffer
     add @begin, @sector_buffer, @offset
     @call memcpy, @ptr, @begin, @length
+    @call free, @sector_buffer
 @enddef

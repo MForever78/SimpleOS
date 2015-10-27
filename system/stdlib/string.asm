@@ -49,6 +49,23 @@ _strchr_loop_begin:
     j _strchr_loop_begin
 @enddef
 
+@def strnchr
+    @param str
+    @param char
+    @param limit
+
+    move(@retval, @str)
+    move(@c, @char)
+    move(@l, @limit)
+    beq @l, @zero, _strnchr_end
+_strnchr_loop_begin:
+    lb @sc, 0(@retval)
+    beq @c, @sc, _strnchr_end
+    beq @zero, @sc, _strnchr_end
+    addi @retval, @retval, 1
+    j _strnchr_loop_begin
+@enddef
+
 @def strncmp
     @param sa
     @param sb
@@ -105,3 +122,47 @@ _strlen_loop_begin:
     addi @ts, @ts, 1
     j _strlen_loop_begin
 @enddef # strlen
+
+@def strnuppercase
+    @param dst
+    @param src
+    @param count
+
+    @local td
+    @local ts
+    @local tc
+
+    move(@td, @dst)
+    move(@ts, @src)
+    move(@tc, @count)
+    beq @tc, @zero, _strnuppercase_end
+_strnuppercase_loop_begin:
+    lb @tmp, 0(@ts)
+    beq @tmp, @zero, _strnuppercase_end
+    @call uppercase, @tmp
+    sb @retval, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+    addi @tc, @tc, -1
+    bne @tc, @zero, _strnuppercase_loop_begin
+@enddef
+
+@global LOWER_A
+    char 'a'
+
+@global LOWER_Z
+    char 'z'
+
+@def uppercase
+    @param char
+
+    slt @compare_result, @char, @LOWER_A
+    bne @compare_result, @zero, _uppercase_not_changed
+    slt @compare_result, @LOWER_Z, @char
+    bne @compare_result, @zero, _uppercase_not_changed
+
+    addi @retval, @char, -32
+    @return
+_uppercase_not_changed:
+    move(@retval, @char)
+@enddef

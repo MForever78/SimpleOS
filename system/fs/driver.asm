@@ -12,6 +12,8 @@
 
 ## initialize the driver, should exec before fat16_init
 @def driver_init
+    @local mbr
+
     @call malloc, @DRIVER_BLOCK_SIZE        ## allocate buffer for MBR
     move(@mbr, @retval)
 
@@ -43,6 +45,7 @@
 
     move(@ts, @retval)
     move(@tp, @ptr)
+    move(@tc, @count)
 
 _read_blocks_loop_start:                    ## loop to read all blocks
     @call _driver_read_block, @ts, @tp
@@ -70,15 +73,15 @@ _read_blocks_loop_start:                    ## loop to read all blocks
     move(@ts, @retval)
     move(@tp, @ptr)
 
-_read_blocks_loop_start:
+_write_blocks_loop_start:
     @call _driver_write_block, @ts, @tp
     addi @tc, @tc, -1
-    beq @tc, @zero, _read_blocks_end
+    beq @tc, @zero, _write_blocks_end
 
     addi @ts, @ts, 1
     add @tp, @tp, @DRIVER_BLOCK_SIZE
     
-    j _read_blocks_loop_start
+    j _write_blocks_loop_start
 @enddef
 
 ## read a single block from driver
