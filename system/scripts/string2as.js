@@ -33,6 +33,15 @@ process.stdin.on('end', function () {
                 }
             );
         }
+        else if (/^\s*char\s*\'[^']\'/.test(line)) {
+            line.replace(
+                /^(\s*)char\s*\'([^'])\'/,
+                function (match, indent, content) {
+                    // for this is a single variable, so use dd
+                    console.log(indent + 'dd ' + content.charCodeAt(0));
+                }
+            );
+        }
         else {
             console.log(line);
         }
