@@ -171,5 +171,12 @@ _routine_keyboard_int:
 @enddef
 
 _routine_clock_syscall:
-    
+    @call clock_syscall_handler
+    sw      @retval, 0(@$a0)
+
+@def clock_syscall_handler
+    lli(@addr, ADDR_CLOCK)
+    lw      @time, 0(@addr)
+    move(@retval, @time)
+@enddef
     
