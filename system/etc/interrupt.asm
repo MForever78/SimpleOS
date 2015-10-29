@@ -170,7 +170,7 @@ _routine_keyboard_int:
     mfco    @status, 12
     srl     @status, @status, 16
     andi    @status, @status, 0xfffd
-    mfto    @status, 12
+    mtco    @status, 12
 
     ## load & compare pointers
     lw      @input_ptr, @_keyboard_in_ptr
