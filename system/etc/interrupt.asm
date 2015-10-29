@@ -173,22 +173,24 @@ _routine_keyboard_int:
     mtco    @status, 12
 
     ## load & compare pointers
-    lw      @input_ptr, @_keyboard_in_ptr
-    lw      @output_ptr, @_keyboard_out_ptr
-    addi    @input_ptr, 1
+    lw      @input_ptr, @&_keyboard_in_ptr
+    lw      @output_ptr, @&_keyboard_out_ptr
+    addi    @input_ptr, @input_ptr, 1
     beq     @input_ptr, @output_ptr, _keyboard_int_handler_end
     ## buffer not full, save code from keyboard
-    addi    @input_ptr, -1
+    addi    @input_ptr, @input_ptr, -1
     ## read scan code from keyboard
     lui     @addr, ADDR_KEYBOARD
     lw      @scan_code, 0(@addr)
     ## save scan code to buffer
     sw      @scan_code, 0(@input_ptr)
     ## move input pointer
-    addi    @input_ptr, 1
+    addi    @input_ptr, @input_ptr, 1
     sw      @input_ptr, @&_keyboard_in_ptr
 
     ## if buffer is full, do nothing (maybe ring a bell?)
+    _keyboard_int_handler_end:
+        @return
 @enddef
 
 _routine_clock_syscall:
