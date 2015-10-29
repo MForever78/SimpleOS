@@ -22,11 +22,12 @@
     addi    dest,   $gp,    label
 
 ## bus address
-#define ADDR_UART_DATA      0x20000000
-#define ADDR_UART_STATUS    0x20000200
-#define ADDR_VGA            0x40000000
-#define ADDR_KEYBOARD       0x60000000
-#define ADDR_CLOCK          0x70000000
+#define ADDR_UART_DATA      0x2000
+#define ADDR_UART_STATUS_H  0x2000
+#define ADDR_UART_STATUS_L  0x0200
+#define ADDR_VGA            0x4000
+#define ADDR_KEYBOARD       0x6000
+#define ADDR_CLOCK          0x7000
 
 ## offset of FAT_BOOT_RECORD
 #define FBR_SECTOR_PER_CLUSTER_B    13
