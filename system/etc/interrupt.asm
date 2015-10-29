@@ -54,10 +54,6 @@ _general_interrupt_handler:
     sw      @cause, 132($sp)
     sw      @epc, 136($sp)
     
-    ## renable interrupts
-    srl     @status, @status, 16
-    mtco    @status, 12
-    
     ## reset global pointer
     move($gp, $zero)
 
@@ -169,6 +165,14 @@ _routine_keyboard_int:
     @call keyboard_int_handler
 
 @def keyboard_int_handler
+    ## renables interrupts except keyboard itself
+    ## in case there are mutiple key strike in hardware buffer
+    mfco    @status, 12
+    srl     @status, @status, 16
+    andi    @status, @status, 0xfffd
+    mfto    @status, 12
+
+    ## load & compare pointers
     lw      @input_ptr, @_keyboard_in_ptr
     lw      @output_ptr, @_keyboard_out_ptr
     addi    @input_ptr, 1
@@ -176,7 +180,7 @@ _routine_keyboard_int:
     ## buffer not full, save code from keyboard
     addi    @input_ptr, -1
     ## read scan code from keyboard
-    lli(@addr, ADDR_KEYBOARD)
+    lui     @addr, ADDR_KEYBOARD
     lw      @scan_code, 0(@addr)
     ## save scan code to buffer
     sw      @scan_code, 0(@input_ptr)
@@ -189,10 +193,11 @@ _routine_keyboard_int:
 
 _routine_clock_syscall:
     @call clock_syscall_handler
-    sw      @retval, 0(@$a0)
+    ## TODO: dont use $a0, retrieve from stack
+    sw      @retval, 0($a0)
 
 @def clock_syscall_handler
-    lli(@addr, ADDR_CLOCK)
+    lui     @addr, ADDR_CLOCK
     lw      @time, 0(@addr)
     move(@retval, @time)
 @enddef
