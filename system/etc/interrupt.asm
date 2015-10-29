@@ -194,7 +194,7 @@ _routine_keyboard_int:
 _routine_clock_syscall:
     @call clock_syscall_handler
     ## TODO: dont use $a0, retrieve from stack
-    sw      @retval, 0($a0)
+    sw      $v0, 0($a0)
 
 @def clock_syscall_handler
     lui     @addr, ADDR_CLOCK
