@@ -43,6 +43,7 @@ _div_loop_start:
     slt @compare_result, @ta, @tb
     bne @compare_result, @zero, _div_end
     addi @retval, @retval, 1
+    sub @ta, @ta, @tb
     j _div_loop_start
 @enddef
 
@@ -69,5 +70,17 @@ _max_a_is_greater:
     @return
 _max_a_is_greater:
     move(@retval, @b)
+@enddef
+
+@def subabs
+    @param a
+    @param b
+
+    slt @compare_result, @a, @b
+    beq @compare_result, @zero, _subabs_a_is_greater
+    sub @retval, @b, @a
     @return
+
+_subabs_a_is_greater:
+    sub @retval, @a, @b
 @enddef

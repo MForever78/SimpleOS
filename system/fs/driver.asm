@@ -72,6 +72,7 @@ _read_blocks_loop_start:                    ## loop to read all blocks
 
     move(@ts, @retval)
     move(@tp, @ptr)
+    move(@tc, @count)
 
 _write_blocks_loop_start:
     @call _driver_write_block, @ts, @tp
@@ -89,8 +90,7 @@ _write_blocks_loop_start:
     @param index
     @param ptr
 
-    li(@one, 1)
-    @call read_blocks, @index, @one, @ptr
+    @call read_blocks, @index, 1, @ptr
 @enddef
 
 ## write a single block into driver
@@ -98,8 +98,7 @@ _write_blocks_loop_start:
     @param index
     @param ptr
 
-    li(@one, 1)
-    @call write_blocks, @index, @one, @ptr
+    @call write_blocks, @index, 1, @ptr
 @enddef
 
 ## calculate absolute block index

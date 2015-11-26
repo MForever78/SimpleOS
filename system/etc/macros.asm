@@ -42,7 +42,9 @@
 #define ENTRY_FILE_SIZE_D       28
 #define ENTRY_SIZE              32
 
-#define ENTRY_ATTR_DIR          2
-#define ENTRY_ATTR_SYSTEM       8
-#define ENTRY_ATTR_READ_ONLY    16
+#define ENTRY_ATTR_READ_ONLY    1
+#define ENTRY_ATTR_HIDDEN       2
+#define ENTRY_ATTR_SYSTEM       4
+#define ENTRY_ATTR_DIR          16
 #define ENTRY_ATTR_ARCHIVE      32
+

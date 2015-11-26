@@ -63,7 +63,8 @@ _strnchr_loop_begin:
     beq @c, @sc, _strnchr_end
     beq @zero, @sc, _strnchr_end
     addi @retval, @retval, 1
-    j _strnchr_loop_begin
+    addi @l, @l, -1
+    bne @l, @zero, _strnchr_loop_begin
 @enddef
 
 @def strncmp
@@ -74,7 +75,10 @@ _strnchr_loop_begin:
     move(@ta, @sa)
     move(@tb, @sb)
     move(@tl, @len)
+    move(@retval, @zero)
 _strncmp_loop_begin:
+    beq @tl, @zero, _strncmp_end
+    addi @tl, @tl, -1
     lb @a_content, 0(@ta)
     lb @b_content, 0(@tb)
     or @retval, @a_content, @b_content

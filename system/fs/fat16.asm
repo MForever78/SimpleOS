@@ -21,6 +21,9 @@
 @global FAT_ROOT_SECTOR             # sector for Root
     dd 0
 
+@global FAT_LAST_FLAG               # last cluster of a file
+    dd 0xfff7
+
 @global FAT_PATH_SEP                # path separator
     char '/'
 
@@ -81,11 +84,11 @@
     @local buffer
     @local ret
     
-    lh @cluster, FILE_ENTRY_CLUSTER_W(@fp)
+    lh @cluster, FILE_CLUSTER_W(@fp)
     beq @cluster, @zero, _fat16_file_size_root
 
     @call fat16_is_dir, @fp
-    beq @retval, @zero, _fat16_file_size_dir
+    bne @retval, @zero, _fat16_file_size_dir
 
     @call malloc, @DRIVER_BLOCK_SIZE
     move(@buffer, @retval)
@@ -136,9 +139,15 @@ _fat16_is_dir_root:
     @local sector
 
     lh @cluster, FILE_ENTRY_CLUSTER_W(@fp)
-    @call mul, @cluster, @FAT_SECTOR_PER_CLUSTER
-    move(@sector, @retval)
+    beq @cluster, @zero, _fat16_get_entry_of_file_root_parent
 
+    @call _fat16_sector_of_cluster, @cluster
+    move(@sector, @retval)
+    j _fat16_get_entry_of_file_read_sector
+_fat16_get_entry_of_file_root_parent:
+    move(@sector, @FAT_ROOT_SECTOR)
+
+_fat16_get_entry_of_file_read_sector:
     lh @offset, FILE_ENTRY_OFFSET_W(@fp)
     srl @offset, @offset, 9
     add @sector, @sector, @offset
@@ -175,10 +184,10 @@ _fat16_is_dir_root:
     @call fat16_get_root_fd
     move(@fp, @retval)
 
-_fat16_open_file_loop_begin:
     lb @ch, 0(@path)
     beq @ch, @zero, _fat16_open_file_found
 
+_fat16_open_file_loop_begin:
     @call fat16_is_dir, @fp
     beq @retval, @zero, _fat16_open_file_not_found_and_free_fp
 
@@ -190,8 +199,14 @@ _fat16_open_file_loop_begin:
     move(@fp_in_dir, @retval)
     @call free, @fp
     beq @fp_in_dir, @zero, _fat16_open_file_not_found
+    move(@fp, @fp_in_dir)
 
-    addi @path, @path_level_limit, 1
+    sw @path_level_limit, @&path
+    lb @ch, 0(@path)
+    beq @ch, @zero, _fat16_open_file_found
+
+    addi @path_level_limit, @path, 1
+    sw @path_level_limit, @&path
     j _fat16_open_file_loop_begin
 
 _fat16_open_file_not_found_and_free_fp:
@@ -222,7 +237,7 @@ _fat16_open_file_found:
     @local path_ext
     @local path_level_length
 
-    @call memset, @buffer, @zero, 11
+    @call memset, @buffer, 32, 11
 
     sub @path_level_length, @path_level_limit, @path_level
     
@@ -233,7 +248,7 @@ _fat16_open_file_found:
     @call strnuppercase, @buffer, @path_level, @retval
 
     lb @ch, 0(@path_ext)
-    beq @ch, @FAT_EXT_SEP, _fat16_normalize_path_level_end
+    bne @ch, @FAT_EXT_SEP, _fat16_normalize_path_level_end
     beq @ch, @zero, _fat16_normalize_path_level_end
 
     addi @path_ext, @path_ext, 1
@@ -276,20 +291,20 @@ _fat16_find_in_dir_loop_begin:
     bne @retval, @zero, _fat16_find_in_dir_loop_next
 
     ## found
-    @call malloc, ENTRY_SIZE
+    @call malloc, FILE_SIZE
     move(@ret, @retval)
 
-    lw @cluster, ENTRY_CLUSTER_W(@entry)
-    sw @cluster, FILE_CLUSTER_W(@ret)
+    lh @cluster, ENTRY_CLUSTER_W(@entry)
+    sh @cluster, FILE_CLUSTER_W(@ret)
 
-    sub @offset_in_dir, @entry, @buffer
-    @call div, @offset_in_dir, @FAT_CLUSTER_SIZE
-    sh @retval, FILE_ENTRY_CLUSTER_W(@ret)
+    lh @file_entry_cluster, FILE_CLUSTER_W(@fp)
+    sh @file_entry_cluster, FILE_ENTRY_CLUSTER_W(@ret)
 
     sub @offset_in_dir, @entry, @buffer
     @call mod, @offset_in_dir, @FAT_CLUSTER_SIZE
     sh @retval, FILE_ENTRY_OFFSET_W(@ret)
 
+    @call free, @buffer
     move(@retval, @ret)
     @return
     
@@ -345,7 +360,195 @@ _fat16_read_file_loop_begin:
     @call _fat16_next_sector, @sector
     move(@sector, @retval)
     bne @length, @zero, _fat16_read_file_loop_begin
+@enddef
 
+@def fat16_write_file
+    @param fp
+    @param start
+    @param length
+    @param ptr
+
+    @local sector
+    @local offset
+    @local write_length
+
+    @call fat16_file_size, @fp
+    move(@original_length, @retval)
+    add @expect_length, @length, @start
+    slt @compare_result, @original_length, @expect_length
+    beq @compare_result, @zero, _fat16_write_file_enough_space
+
+    @call fat16_resize_file, @fp, @expect_length
+_fat16_write_file_enough_space:
+    @call div, @start, @DRIVER_BLOCK_SIZE
+    @call _fat16_sector_in_file, @fp, @retval
+    move(@sector, @retval)
+
+    @call mod, @start, @DRIVER_BLOCK_SIZE
+    move(@offset, @retval)
+
+_fat16_write_file_loop_begin:
+    sub @write_length, @DRIVER_BLOCK_SIZE, @offset
+    @call min, @write_length, @length
+    move(@write_length, @retval)
+    @call _fat16_write_file_in_sector, @sector, @offset, @retval, @ptr
+
+    sub @left_length, @length, @write_length
+    sw @left_length, @&length
+    add @left_ptr, @ptr, @write_length
+    sw @left_ptr, @&ptr
+    move(@offset, @zero)
+    @call _fat16_next_sector, @sector
+    move(@sector, @retval)
+    bne @length, @zero, _fat16_write_file_loop_begin
+@enddef
+
+@def _fat16_write_file_in_sector
+    @param sector
+    @param offset
+    @param length
+    @param ptr
+
+    @local buffer
+    
+    bne @offset, @zero, _fat16_write_file_in_sector_use_buffer
+    bne @length, @DRIVER_BLOCK_SIZE, _fat16_write_file_in_sector_use_buffer
+
+    @call write_block @sector, @ptr
+    @return
+_fat16_write_file_in_sector_use_buffer:
+    @call malloc, @DRIVER_BLOCK_SIZE
+    move(@buffer, @retval)
+    @call read_block, @sector, @buffer      # read first
+
+    add @begin, @buffer, @offset
+    @call memcpy, @begin, @ptr, @length
+    @call write_block @sector, @buffer
+    @call free, @buffer
+@enddef
+
+@def fat16_resize_file
+    @param fp
+    @param new_size
+
+    @local original_size
+    @local original_cluster_number
+    @local new_cluster_number
+
+    @call fat16_file_size, @fp
+    move(@original_size, @retval)
+
+    @call _fat16_set_file_size, @fp, @new_size
+
+    slt @compare_result, @original_size, @new_size
+    beq @compare_result, @zero, _fat16_resize_file_end  # grow only currently
+
+    @call div, @original_size, @FAT_CLUSTER_SIZE
+    move(@original_cluster_number, @retval)
+
+    @call div, @new_size, @FAT_CLUSTER_SIZE
+    move(@new_cluster_number, @retval)
+
+    beq @new_cluster_number, @original_cluster_number, _fat16_resize_file_end
+
+_fat16_resize_file_loop_begin:
+    @call _fat16_alloc_fat
+    @call _fat16_append_cluster, @fp, @retval
+
+    addi @original_cluster_number, @original_cluster_number, 1
+    bne @original_cluster_number, @new_cluster_number, _fat16_resize_file_loop_begin
+@enddef
+
+@def _fat16_append_cluster
+    @param fp
+    @param cluster
+
+    @local current
+
+    lh @retval, FILE_CLUSTER_W(@fp)
+_fat16_append_cluster_loop_begin:
+    move(@current, @retval)
+    @call _fat16_get_fat, @current
+    slt @compare_result, @FAT_LAST_FLAG, @retval
+    bne @compare_result, @zero, _fat16_append_cluster_last_found
+    j _fat16_append_cluster_loop_begin
+
+_fat16_append_cluster_last_found:
+    @call _fat16_set_fat, @current, @cluster
+    addi @last_cluster, @FAT_LAST_FLAG, 1
+    @call _fat16_set_fat, @cluster, @last_cluster
+@enddef
+
+@def _fat16_alloc_fat
+    @local ret
+    li(@ret, 2)
+_fat16_alloc_fat_loop_begin:
+    @call _fat16_get_fat, @ret
+    beq @retval, @zero, _fat16_alloc_fat_found
+    addi @ret, @ret, 1
+    j _fat16_alloc_fat_loop_begin
+_fat16_alloc_fat_found:
+    move(@retval, @ret)
+@enddef
+
+@def _fat16_get_fat
+    @param cluster
+
+    sll @tc, @cluster, 1
+    add @address, @tc, @FAT_START_OF_FAT
+    lh @retval, 0(@address)
+@enddef
+
+@def _fat16_set_fat
+    @param cluster
+    @param value
+
+    @local sector_offset
+    @local sector
+    @local pointer
+
+    sll @tc, @cluster, 1
+    add @address, @tc, @FAT_START_OF_FAT
+    sh @retval, 0(@address)
+
+    srl @sector_offset, @tc, 9  # calculate dirty block of FAT
+    lh @fat_start_sector, FBR_RESERVED_SECTORS_W(@FAT_BOOT_RECORD)
+    add @sector, @fat_start_sector, @sector_offset
+
+    sll @pointer_offset, @sector_offset, 9
+    add @pointer, @FAT_START_OF_FAT, @pointer_offset
+    @call write_block, @sector, @pointer
+
+    lh @sector_per_fat, FBR_SECTOR_PER_FAT_W(@FAT_BOOT_RECORD)
+    add @sector, @sector, @sector_per_fat
+    @call write_block, @sector, @pointer
+@enddef
+
+@def _fat16_set_file_size
+    @param fp
+    @param new_size
+
+    @local buffer
+    @local entry
+    @local sector
+
+    @call malloc, @DRIVER_BLOCK_SIZE
+    move(@buffer, @retval)
+
+    @call _fat16_get_entry_of_file, @fp, @buffer
+    move(@entry, @retval)
+    sw @new_size, ENTRY_FILE_SIZE_D(@entry)
+
+    lh @cluster, FILE_ENTRY_CLUSTER_W(@fp)
+    @call _fat16_sector_of_cluster, @cluster
+    move(@sector, @retval)
+
+    lh @offset, FILE_ENTRY_OFFSET_W(@fp)
+    srl @offset, @offset, 9
+    add @sector, @sector, @offset
+
+    @call write_block, @sector, @buffer
+    @call free, @buffer
 @enddef
 
 ## calculate next sector in the file
@@ -399,8 +602,10 @@ _fat16_sector_in_file_loop_begin:
 
 _fat16_sector_in_file_find_cluster:
     ## locate the sector
+    addi @cluster, @cluster, -2      # start from cluster #2
     @call mul, @cluster, @FAT_SECTOR_PER_CLUSTER
     add @retval, @retval, @ti
+    add @retval, @retval, @FAT_OFFSET_OF_DATA
     @return
 _fat16_sector_in_file_root:
     add @retval, @index, @FAT_ROOT_SECTOR
@@ -420,7 +625,7 @@ _fat16_sector_in_file_root:
 @def _fat16_sector_of_cluster
     @param cluster
 
-    addi @tmp, @cluster, -1
+    addi @tmp, @cluster, -2
     @call mul, @tmp, @FAT_SECTOR_PER_CLUSTER
     add @retval, @retval, @FAT_OFFSET_OF_DATA
 @enddef
