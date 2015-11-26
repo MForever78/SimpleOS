@@ -61,3 +61,5 @@ _xmsgs/
 
 system/build
 .*.swp
+
+*.bin
