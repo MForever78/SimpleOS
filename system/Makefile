@@ -1,23 +1,20 @@
-# work only in make 3.81
-SHELL= /bin/bash -o pipefail
+.PHONY: clean TOOLCHAIN BASIC_LEVEL HIGH_LEVEL
 
-SOURCES=	\
-		etc/const.asm 	etc/init.asm 	etc/interrupt.asm 	etc/macros.asm	\
-		fs/fat16.asm														\
-		main/sys.asm	main/shell.asm 										\
-		stdlib/stdlib.asm
+core.bin: ./build/basic_level.o ./build/high_level.o
+	./c4/lk -o $@ $^
 
-build/sys.coe: build/sys.bin
-	./mips_as/bin2coe.sh $< > $@
+./build/basic_level.o: BASIC_LEVEL
 
-build/sys.bin: build/sys-bundle.asm
-	./mips_as/mas --def ./mips_as/res/defination.xml -l build/label -o $@ $< 
+./build/high_level.o: HIGH_LEVEL
 
-build/sys-bundle.asm: $(SOURCES)
-	cpp main/sys.asm | ./scripts/newline-sub.js | ./scripts/func-ext.js \
-		| ./scripts/string2as.js | ./scripts/reserve.js > $@
+TOOLCHAIN:
+	make -C c4
 
-.PHONY: clean
+BASIC_LEVEL: TOOLCHAIN
+	make -C basic_level
+
+HIGH_LEVEL: TOOLCHAIN
+	make -C high_level
 
 clean:
-	rm build/*
+	rm -f build/* core.bin

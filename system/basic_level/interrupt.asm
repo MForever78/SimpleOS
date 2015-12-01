@@ -1,3 +1,5 @@
+#include "macros.asm"
+
 int_reboot:
 int0:
     j _init

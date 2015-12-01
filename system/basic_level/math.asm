@@ -1,3 +1,4 @@
+#include "macros.asm"
 
 @def mul
     @param a
@@ -65,10 +66,10 @@ _max_a_is_greater:
     @param b
     
     slt @compare_result, @a, @b
-    beq @compare_result, @zero, _max_a_is_greater
+    beq @compare_result, @zero, _min_a_is_greater
     move(@retval, @a)
     @return
-_max_a_is_greater:
+_min_a_is_greater:
     move(@retval, @b)
 @enddef
 

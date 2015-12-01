@@ -217,9 +217,11 @@ process.stdin.on('end', function () {
         if (direct) {
             switch (direct[0]) {
                 case 'global':
+                    makeGlobal(direct[1]);
                     createLabel(direct[1]);
                     break;
                 case 'def':
+                    makeGlobal(direct[1]);
                     current_func = direct[1];
                     createLabel(direct[1]);
                     funcPrepareStack();
@@ -241,10 +243,7 @@ process.stdin.on('end', function () {
                         globalError('Invalid @call: ' + line);
                     }
                     var func = sym_table.findFunction(direct[1]);
-                    if (!func) {
-                        globalError('Function not found: ' + direct[1]);
-                    }
-                    if (direct.length != func.parameter.length + 2) {
+                    if (func && direct.length != func.parameter.length + 2) {
                         globalWarning('Param number not match: ' + line);
                     }
                     funcCall(direct.slice(1));
@@ -319,6 +318,10 @@ process.stdin.on('end', function () {
     output_buf.forEach(function (line) {
         console.log(line);
     });
+
+    function makeGlobal(label) {
+        Directive('global', label);
+    }
 
     function createLabel(label) {
         Label(label);
@@ -403,6 +406,10 @@ process.stdin.on('end', function () {
         }
         Pop('$ra');
         Pop('$fp');
+    }
+
+    function Directive(directive, arg) {
+        output_buf.push('.' + directive + ' ' + arg);
     }
 
     function Label(label) {

@@ -1,3 +1,5 @@
+#include "macros.asm"
+
 @def memset
     @param ptr
     @param value
@@ -152,10 +154,10 @@ _strnuppercase_loop_begin:
 @enddef
 
 @global LOWER_A
-    char 'a'
+    dd 'a'
 
 @global LOWER_Z
-    char 'z'
+    dd 'z'
 
 @def uppercase
     @param char

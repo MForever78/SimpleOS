@@ -1,3 +1,4 @@
+#include "macros.asm"
 
 @global _malloc_memory_pool_start
     dd 0x00100000   ## 1MB
