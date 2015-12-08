@@ -1,7 +1,7 @@
 .PHONY: clean TOOLCHAIN BASIC_LEVEL HIGH_LEVEL
 
 core.bin: ./build/basic_level.o ./build/high_level.o
-	./c4/lk -o $@ $^
+	../../c4/lk -l label -o $@ $^
 
 ./build/basic_level.o: BASIC_LEVEL
 

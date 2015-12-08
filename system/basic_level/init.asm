@@ -9,6 +9,7 @@ _init:
 
     @call driver_init
     @call fat16_init
+    @call console_init
 
     @call main
 __forever:
@@ -16,6 +17,15 @@ __forever:
 
 .global _init
 
+.extern fat16_open_file
+
+@global PATH
+    string "/testdir/test.txt"
+
 ## main function, a shell to be done
 @def main
+    @local path
+    la(@path, PATH)
+
+    @call disp_draw_line_unsafe, 10, 10, 10, 15
 @enddef
