@@ -26,14 +26,74 @@ _memset_loop_begin:
     move(@td, @dst)
     move(@ts, @src)
     move(@tc, @count)
-_memcpy_loop_begin:
+
     beq @tc, @zero, _memcpy_end
+
+    ## Duff's device
+
+    addi @tn, @tc, 7
+    srl @tn, @tn, 3
+    andi @label, @tc, 7 # @tc % 8
+
+    sll @label, @label, 2
+    addi @label, @label, _memcpy_jump_list
+    lw @label, 0(@label)
+    jr @label
+
+_memcpy_jump_list:
+    dd _memcpy_case_0
+    dd _memcpy_case_1
+    dd _memcpy_case_2
+    dd _memcpy_case_3
+    dd _memcpy_case_4
+    dd _memcpy_case_5
+    dd _memcpy_case_6
+    dd _memcpy_case_7
+
+_memcpy_case_0:
+_memcpy_loop_begin:
     lb @tmp, 0(@ts)
     sb @tmp, 0(@td)
     addi @ts, @ts, 1
     addi @td, @td, 1
-    addi @tc, @tc, -1
-    j _memcpy_loop_begin
+_memcpy_case_1:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_2:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_3:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_4:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_5:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_6:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_7:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+
+    addi @tn, @tn, -1
+    bne @tn, @zero, _memcpy_loop_begin
 
 @enddef # memcpy
 
