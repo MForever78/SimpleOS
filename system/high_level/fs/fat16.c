@@ -232,8 +232,9 @@ fat16_next_sector(int *fd, int sector)
         (fat_sector_per_cluster == 4) ? 
             ((sector - fat_start_of_data) >> 2) :
             ((sector - fat_start_of_data) / fat_sector_per_cluster);
-    cluster = fat16_next_cluster(cluster);
-    return cluster * fat_sector_per_cluster + fat_start_of_data;
+    cluster = fat16_next_cluster(cluster + 2);
+    if (cluster < 0) return cluster;
+    return (cluster - 2) * fat_sector_per_cluster + fat_start_of_data;
 }
 
 int

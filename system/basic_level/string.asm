@@ -3,18 +3,61 @@
 @def memset
     @param ptr
     @param value
-    @param num
+    @param count
 
-    move(@tptr, @ptr)
-    move(@tval, @value)
-    move(@tnum, @num)
+    move(@tp, @ptr)
+    move(@tv, @value)
+    move(@tc, @count)
 
+    beq @tc, @zero, _memset_end
+
+    addi @tn, @tc, 7
+    srl @tn, @tn, 3
+    andi @label, @tc, 7
+
+    sll @label, @label, 2
+    addi @label, @label, _memset_jump_list
+    lw @label, 0(@label)
+    jr @label
+
+_memset_jump_list:
+    dd _memset_case_0
+    dd _memset_case_1
+    dd _memset_case_2
+    dd _memset_case_3
+    dd _memset_case_4
+    dd _memset_case_5
+    dd _memset_case_6
+    dd _memset_case_7
+
+_memset_case_0:
 _memset_loop_begin:
-    beq @tnum, @zero, _memset_end
-    sb @tval, 0(@tptr)
-    addi @tptr, @tptr, 1
-    addi @tnum, @tnum, -1
-    j _memset_loop_begin
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+_memset_case_7:
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+_memset_case_6:
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+_memset_case_5:
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+_memset_case_4:
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+_memset_case_3:
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+_memset_case_2:
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+_memset_case_1:
+    sb @tv, 0(@tp)
+    addi @tp, @tp, 1
+
+    addi @tn, @tn, -1
+    bne @tn, @zero, _memset_loop_begin
     
 @enddef # memset
 
@@ -28,8 +71,6 @@ _memset_loop_begin:
     move(@tc, @count)
 
     beq @tc, @zero, _memcpy_end
-
-    ## Duff's device
 
     addi @tn, @tc, 7
     srl @tn, @tn, 3
@@ -56,27 +97,7 @@ _memcpy_loop_begin:
     sb @tmp, 0(@td)
     addi @ts, @ts, 1
     addi @td, @td, 1
-_memcpy_case_1:
-    lb @tmp, 0(@ts)
-    sb @tmp, 0(@td)
-    addi @ts, @ts, 1
-    addi @td, @td, 1
-_memcpy_case_2:
-    lb @tmp, 0(@ts)
-    sb @tmp, 0(@td)
-    addi @ts, @ts, 1
-    addi @td, @td, 1
-_memcpy_case_3:
-    lb @tmp, 0(@ts)
-    sb @tmp, 0(@td)
-    addi @ts, @ts, 1
-    addi @td, @td, 1
-_memcpy_case_4:
-    lb @tmp, 0(@ts)
-    sb @tmp, 0(@td)
-    addi @ts, @ts, 1
-    addi @td, @td, 1
-_memcpy_case_5:
+_memcpy_case_7:
     lb @tmp, 0(@ts)
     sb @tmp, 0(@td)
     addi @ts, @ts, 1
@@ -86,7 +107,27 @@ _memcpy_case_6:
     sb @tmp, 0(@td)
     addi @ts, @ts, 1
     addi @td, @td, 1
-_memcpy_case_7:
+_memcpy_case_5:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_4:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_3:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_2:
+    lb @tmp, 0(@ts)
+    sb @tmp, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+_memcpy_case_1:
     lb @tmp, 0(@ts)
     sb @tmp, 0(@td)
     addi @ts, @ts, 1
@@ -230,5 +271,25 @@ _strnuppercase_loop_begin:
     addi @retval, @char, -32
     @return
 _uppercase_not_changed:
+    move(@retval, @char)
+@enddef
+
+@global UPPER_A
+    dd 'A'
+
+@global UPPER_Z
+    dd 'Z'
+
+@def lowercase
+    @param char
+
+    slt @compare_result, @char, @UPPER_A
+    bne @compare_result, @zero, _lowercase_not_changed
+    slt @compare_result, @UPPER_Z, @char
+    bne @compare_result, @zero, _lowercase_not_changed
+
+    addi @retval, @char, 32
+    @return
+_lowercase_not_changed:
     move(@retval, @char)
 @enddef

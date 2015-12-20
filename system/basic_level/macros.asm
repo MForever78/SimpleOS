@@ -19,3 +19,6 @@
 #define la(dest, label)         \
     addi    dest,   $gp,    label
 
+#define CP0_STATUS  12
+#define CP0_CAUSE   13
+#define CP0_EPC     14

@@ -1,14 +1,11 @@
 int DRIVER_BLOCK_SIZE;
 int _driver_sector_start;
 int _driver_sector_count;
-int _disk_memory_offset;
 
 void
 driver_init()
 {
     char *mbr;
-
-    _disk_memory_offset = 0x0800 << 16;
 
     DRIVER_BLOCK_SIZE = 512;
 
@@ -57,8 +54,8 @@ _driver_calc_offset(int start)
 
 int
 _driver_read_block(int index, char *ptr)
-{ memcpy(ptr, (index << 9) + _disk_memory_offset, DRIVER_BLOCK_SIZE); }
+{ _platform_read_block(index, ptr); }
 
 int
 _driver_write_block(int index, char *ptr)
-{ memcpy((index << 9) + _disk_memory_offset, ptr, DRIVER_BLOCK_SIZE); }
+{ _platform_write_block(index, ptr); }

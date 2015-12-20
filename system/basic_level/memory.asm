@@ -37,13 +37,6 @@
     ## make size % 4 == 0
     @call _malloc_normalize_size @size
     sw @retval, @&size
-
-    ## initialize linked list if havent
-    bne @zero, @_malloc_linked_list_start, _malloc_initialized
-    @call malloc_init
-
-    ## loop started
-_malloc_initialized:
     move(@current_ptr, @_malloc_linked_list_start)
 
 _malloc_loop_start:

@@ -13,6 +13,15 @@ _mul_after_swap:
     move(@retval, @zero)
     move(@ta, @a)
     move(@tb, @b)
+
+    slt @compare_result, @tb, @zero
+    beq @compare_result, @zero, _mul_loop_start
+
+    sub @tb, @zero, @tb
+    @call mul, @ta, @tb
+    sub @retval, @zero, @retval
+    @return
+
 _mul_loop_start:
     beq @tb, @zero, _mul_end
     add @retval, @retval, @ta
