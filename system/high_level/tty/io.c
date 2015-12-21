@@ -70,11 +70,69 @@ _print_number(int num)  // for debug only
         console_print_str("0", 1);
         return;
     }
+    if (num < 0) {
+        console_print_str("-", 1);
+        num = -num;
+    }
     while (num) {
         *p-- = '0' + (num % 10);
         num = num / 10;
     }
 
-    console_print_str(p + 1, p - buffer);
+    console_print_str(p + 1, 12);
+}
+
+void
+_print_hex(int num)
+{
+    char *buffer;
+    char *p;
+    int ch;
+
+    buffer = "         ";
+    p = buffer + 8;
+    console_print_str("0x", 2);
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    ch = num & 0x0F;
+    if (ch > 9) *p-- = 'A' + (ch - 10);
+    else        *p-- = '0' + ch;
+    num = num >> 4;
+
+    console_print_str(p + 1, 8);
 }
 

@@ -169,6 +169,7 @@ int_universal_handler:
     sw      $t0, 124($sp)
 
     mfco    $t0, CP0_CAUSE
+    addi    $gp, $zero, 0
 
     ## re-enable interrupt
     mfco    $t1, CP0_STATUS

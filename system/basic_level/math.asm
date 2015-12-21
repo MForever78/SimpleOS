@@ -35,11 +35,24 @@ _mul_loop_start:
 
     move(@retval, @a)
     move(@tb, @b)
-_mod_loop_start:
+    move(@lb, @b)
+
+    j _mod_adjust_loop_cmp
+_mod_adjust_loop_begin:
+    sll @tb, @tb, 1
+_mod_adjust_loop_cmp:
     slt @compare_result, @retval, @tb
-    bne @compare_result, @zero, _mod_end
+    beq @compare_result, @zero, _mod_adjust_loop_begin
+
+    beq @tb, @lb, _mod_end
+
+_mod_loop_begin:
+    srl @tb, @tb, 1
+    slt @compare_result, @retval, @tb
+    bne @compare_result, @zero, _mod_dont_sub
     sub @retval, @retval, @tb
-    j _mod_loop_start
+_mod_dont_sub:
+    bne @tb, @lb, _mod_loop_begin
 @enddef
 
 @def div
@@ -49,12 +62,28 @@ _mod_loop_start:
     move(@retval, @zero)
     move(@ta, @a)
     move(@tb, @b)
-_div_loop_start:
+    move(@lb, @b)
+    li(@i, 1)
+
+    j _div_adjust_loop_cmp
+_div_adjust_loop_begin:
+    sll @tb, @tb, 1
+    sll @i, @i, 1
+_div_adjust_loop_cmp:
     slt @compare_result, @ta, @tb
-    bne @compare_result, @zero, _div_end
-    addi @retval, @retval, 1
+    beq @compare_result, @zero, _div_adjust_loop_begin
+
+    beq @tb, @lb, _div_end
+
+_div_loop_begin:
+    srl @tb, @tb, 1
+    srl @i, @i, 1
+    slt @compare_result, @ta, @tb
+    bne @compare_result, @zero, _div_dont_sub
     sub @ta, @ta, @tb
-    j _div_loop_start
+    or @retval, @retval, @i
+_div_dont_sub:
+    bne @tb, @lb, _div_loop_begin
 @enddef
 
 @def max
