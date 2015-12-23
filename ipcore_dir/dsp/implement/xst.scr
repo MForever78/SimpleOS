@@ -1,0 +1,9 @@
+run
+-ifmt MIXED
+-top dsp_exdes
+-p xc7k160t-fbg676-3
+-ifn xst.prj
+-ofn dsp_exdes
+-keep_hierarchy soft 
+-equivalent_register_removal no 
+-max_fanout 65535
