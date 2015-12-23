@@ -17,6 +17,7 @@
 
     sll @label, @label, 2
     addi @label, @label, _memset_jump_list
+    add @label, @label, $gp
     lw @label, 0(@label)
     jr @label
 
@@ -78,6 +79,7 @@ _memset_case_1:
 
     sll @label, @label, 2
     addi @label, @label, _memcpy_jump_list
+    add @label, @label, $gp
     lw @label, 0(@label)
     jr @label
 
@@ -135,8 +137,22 @@ _memcpy_case_1:
 
     addi @tn, @tn, -1
     bne @tn, @zero, _memcpy_loop_begin
-
 @enddef # memcpy
+
+@def memmove
+    @param dst
+    @param src
+    @param len
+
+    @local buf
+
+    @call malloc, @len
+    move(@buf, @retval)
+
+    @call memcpy, @buf, @src, @len
+    @call memcpy, @dst, @buf, @len
+    @call free, @buf
+@enddef
 
 @def strchr
     @param str
@@ -229,6 +245,43 @@ _strlen_loop_begin:
     addi @ts, @ts, 1
     j _strlen_loop_begin
 @enddef # strlen
+
+@def strcpy
+    @param dst
+    @param src
+
+    move(@ts, @src)
+    move(@td, @dst)
+
+_strcpy_loop_begin:
+    lb @ch, 0(@ts)
+    sb @ch, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+    bne @ch, @zero, _strcpy_loop_begin
+@enddef
+
+@def strncpy
+    @param dst
+    @param src
+    @param cnt
+
+    move(@ts, @src)
+    move(@td, @dst)
+    move(@tc, @cnt)
+
+    j _strncpy_loop_cmp
+_strncpy_loop_begin:
+    lb @ch, 0(@ts)
+    sb @ch, 0(@td)
+    addi @ts, @ts, 1
+    addi @td, @td, 1
+    addi @tc, @tc, -1
+    beq @ch, @zero, _strncpy_end
+_strncpy_loop_cmp:
+    bne @tc, @zero, _strncpy_loop_begin
+    sb @zero, 0(@td)
+@enddef
 
 @def strnuppercase
     @param dst

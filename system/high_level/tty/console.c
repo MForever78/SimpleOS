@@ -25,10 +25,10 @@ console_scroll_up_screen()
 
     // one reserved line for input method
     base_addr = disp_get_base_addr();
-    memcpy(base_addr, base_addr + (2048 << 4), 736 << 11);
-    disp_fill_rect_unsafe(0, 736, 1024, 752, console_bg_color);
+    memcpy(base_addr, base_addr + (640 << 5), (448 << 8) * 5);
+    disp_fill_rect_unsafe(0, 448, 640, 16, console_bg_color);
 
-    console_rows = 47;
+    console_rows = 46;
     console_cols = 0;
 }
 
@@ -62,7 +62,7 @@ void
 console_return_line()
 {
     // one reserved row for input method
-    if (++console_rows >= 47) {
+    if (++console_rows >= 29) {
         console_scroll_up_screen();
     }
     else {
@@ -93,7 +93,7 @@ console_backspace()
                 console_bg_color
             );
         --console_rows;
-        console_cols = 127;
+        console_cols = 79;
         console_draw_cursor();
     }
 }
@@ -131,7 +131,7 @@ console_print_str(char *str, int n)
                     16,
                     console_bg_color
                 );
-            if ((console_cols = tmp) >= 128) {
+            if ((console_cols = tmp) >= 80) {
                 console_return_line();
             }
         }
@@ -144,7 +144,7 @@ console_print_str(char *str, int n)
                     console_color,
                     console_bg_color
                 );
-            if ((console_cols = console_cols + 2) >= 128) {
+            if ((console_cols = console_cols + 2) >= 80) {
                 console_return_line();
             }
             ++count;
@@ -157,7 +157,7 @@ console_print_str(char *str, int n)
                     console_color,
                     console_bg_color
                 );
-            if ((++console_cols) >= 128) {
+            if ((++console_cols) >= 80) {
                 console_return_line();
             }
         }

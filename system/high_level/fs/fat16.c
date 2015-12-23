@@ -107,6 +107,34 @@ fat16_file_size(int *fd)
 { return fd[FAT_FD_SIZE]; }
 
 int
+fat16_file_attr(int *fd)
+{ return fd[FAT_FD_ATTR]; }
+
+int
+fat16_file_is_readonly(int *fd)
+{ return fat16_file_attr(fd) & FAT_ATTR_READONLY; }
+
+int
+fat16_file_is_hidden(int *fd)
+{ return fat16_file_attr(fd) & FAT_ATTR_HIDDEN; }
+
+int
+fat16_file_is_system(int *fd)
+{ return fat16_file_attr(fd) & FAT_ATTR_SYSTEM; }
+
+int
+fat16_file_is_volume(int *fd)
+{ return fat16_file_attr(fd) & FAT_ATTR_VOLUME; }
+
+int
+fat16_file_is_dir(int *fd)
+{ return fat16_file_attr(fd) & FAT_ATTR_DIR; }
+
+int
+fat16_file_is_archive(int *fd)
+{ return fat16_file_attr(fd) & FAT_ATTR_ARCHIVE; }
+
+int
 fat16_next_cluster(int cluster)
 {
     if (!cluster) return 0;
@@ -140,8 +168,8 @@ fat16_sector_by_first_cluster(int cluster, int index)
 {
     if (!cluster) { return index + fat_root_sector; }
     while (index >= fat_sector_per_cluster) {
+        if (cluster & ((0xFF << 8) | 0x80) == ((0xFF << 8) | 0x80)) return 0;   // end of fat list
         cluster = fat16_next_cluster(cluster);
-        if (cluster & ((0xFF << 8) | 0x80)) return 0;   // end of fat list
         index = index - fat_sector_per_cluster;
     }
     return (cluster - 2) * fat_sector_per_cluster + index + fat_start_of_data;
@@ -174,6 +202,8 @@ fat16_find_in_dir(int *fd, char *name)
     int dir_size, cluster, *ret;
     char *buf, *entry;
 
+    if (!fat16_file_is_dir(fd)) return 0;
+
     dir_size    = fat16_file_size(fd);
     buf         = (char*)malloc(dir_size);
     fat16_read_file(fd, 0, dir_size, buf);
@@ -201,6 +231,7 @@ fat16_open_file(char *path)
     char *name;
 
     if (*path != '/') return 0;   // must start on root
+    if (!*(path + 1)) return fat16_get_root_fd();
 
     fd = fat16_get_root_fd();
     name = (char*)malloc(11);       // 8 + 3
@@ -243,6 +274,7 @@ fat16_read_file(int *fd, int start, int length, char *buf)
     int sector;
     int offset;
     int l_bound;
+    int rlen;
     char *buffer;
 
     if (!fd) return 0;
@@ -263,10 +295,10 @@ fat16_read_file(int *fd, int start, int length, char *buf)
         }
         else {
             read_block(sector, buffer);
-            l_bound = min(512, length - offset) - l_bound;  // use as temp variable
-            memcpy(buf + offset, buffer, l_bound);
-            offset = l_bound + offset;
-            start  = l_bound + start;
+            rlen = min(512 - l_bound, length - offset);
+            memcpy(buf + offset, buffer, rlen);
+            offset = rlen + offset;
+            start  = rlen + start;
         }
         sector = fat16_next_sector(fd, sector);
     }
@@ -295,7 +327,7 @@ fat16_last_cluster(int *fd)
     if (!fd[FAT_FD_CLUSTER]) return 0;
 
     last_cluster = cluster = fd[FAT_FD_CLUSTER];
-    while ((cluster & ((0xFF << 8) | 0x80)) == 0) {
+    while ((cluster & ((0xFF << 8) | 0x80)) != ((0xFF << 8) | 0x80)) {
         last_cluster = cluster;
         cluster = fat16_next_cluster(cluster);
     }
@@ -315,7 +347,7 @@ fat16_resize_file(int *fd, int new_size)
     char *buff, *entry;
 
     if (!fd[FAT_FD_CLUSTER]) return;            // root dir
-    if (fd[FAT_FD_SIZE] >= new_size) return;    // grow only
+    if (fat16_file_is_dir(fd)) return;
 
     size = fd[FAT_FD_SIZE];
     expect_cluster = new_size / fat_cluster_size;
@@ -323,8 +355,11 @@ fat16_resize_file(int *fd, int new_size)
     cluster = fat16_last_cluster(fd);
 
     if (cluster == ((1 << 16) - 1)) {           // empty file
-        new_cluster = cluster = fat16_alloc_fat();
+        fd[FAT_FD_CLUSTER] = new_cluster = cluster = fat16_alloc_fat();
         cluster_nr ++;
+    }
+    else {
+        new_cluster = fd[FAT_FD_CLUSTER];
     }
 
     while (cluster_nr < expect_cluster) {
@@ -355,6 +390,7 @@ fat16_write_file(int *fd, int start, int length, char *buf)
     int sector;
     int offset;
     int l_bound;
+    int wlen;
     char *buffer;
 
     if (!fd) return 0;
@@ -374,10 +410,10 @@ fat16_write_file(int *fd, int start, int length, char *buf)
         }
         else {
             read_block(sector, buffer);
-            l_bound = min(512, length - offset) - l_bound;
-            memcpy(buffer, buf + offset, l_bound);
-            offset = l_bound + offset;
-            start  = l_bound + start;
+            wlen = min(512 - l_bound, length - offset);
+            memcpy(buffer + l_bound, buf + offset, wlen);
+            offset = wlen + offset;
+            start  = wlen + start;
             write_block(sector, buffer);
         }
         sector = fat16_next_sector(fd, sector);
@@ -388,7 +424,7 @@ fat16_write_file(int *fd, int start, int length, char *buf)
 }
 
 int *
-fat16_create_file_in_dir(int *fd, char *path)
+fat16_create_file_in_dir(int *fd, char *name)
 {
     int dir_size, *ret;
     char *buf, *entry;
@@ -400,8 +436,8 @@ fat16_create_file_in_dir(int *fd, char *path)
     while (*entry) entry = entry + FAT_ENTRY_SIZE_;
     memset(entry, 0, FAT_ENTRY_SIZE_);
 
-    memcpy(entry, path, 11);
-    *(int*)(entry + 24) = ((1 << 16) - 1) << 16;
+    memcpy(entry, name, 11);
+    *(int*)(entry + 24) = ((1 << 16) - 1) << 16;    // set first cluster
 
     fat16_write_file(fd, entry - buf, FAT_ENTRY_SIZE_, entry);
 
@@ -431,7 +467,7 @@ fat16_create_file(char *path)
         path = fat16_normalize_filename(path, name);
         nfd = fat16_find_in_dir(fd, name);
         if (!nfd && !*path) {
-            nfd = fat16_create_file_in_dir(fd, path);
+            nfd = fat16_create_file_in_dir(fd, name);
             free(fd);
             free(path);
             return nfd;
@@ -445,6 +481,7 @@ fat16_create_file(char *path)
         fd = nfd;
     }
     free(name);
+    if (fat16_file_size(fd)) { fat16_resize_file(fd, 0); }
     return fd;
 }
 

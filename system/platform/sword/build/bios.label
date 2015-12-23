@@ -1,0 +1,7 @@
+2097264 disk_int_handler
+2097272 disk_syscall_handler
+2097320 memcpy_syscall_handler
+2097352 strlen_syscall_handler
+2097380 strncmp_syscall_handler
+2097428 draw_bitmap_syscall_handler
+2097468 load_dword_unaligned_syscall_handler

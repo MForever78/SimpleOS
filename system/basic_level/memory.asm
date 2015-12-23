@@ -65,6 +65,8 @@ _malloc_not_enough_space_continue:
     j _malloc_loop_start
 
 _malloc_continue:
+    and @compare_result, @current_header, @MALLOC_LAST_FLAG
+    bne @compare_result, @zero, _malloc_not_found
     add @next_ptr, @current_ptr, @current_length
     addi @current_ptr, @next_ptr, 4
     j _malloc_loop_start
@@ -100,7 +102,16 @@ _malloc_block_size_fit:
     or @current_header, @current_header, @MALLOC_USED_FLAG
     sw @current_header, -4(@current_ptr)
     move(@retval, @current_ptr)
+    @return
+_malloc_not_found:
+    addi @str, @gp, MALLOC_OOM
+    @call console_print_str, @str
+    li(@retval, 0)
+    @return
 @enddef # malloc
+
+MALLOC_OOM:
+    string "OOM\n"
 
 @def calloc
     @param num

@@ -1,139 +1,41 @@
 #include "macros.asm"
 
-int_reboot:
-int0:
     j _init
-
-int_clock:
-int1:
-    dd int_nop
-
-int_keyboard:
-int2:
-    dd int_nop
-
-int3:
-    dd int_nop
-
-int4:
-    dd int_nop
-
-int5:
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
+    dd int_universal_handler
     dd int_universal_handler
 
-int6:
-    dd int_nop
-
-int7:
-    dd int_nop
-
-int8:
-    dd int_nop
-
-int9:
-    dd int_nop
-
-int10:
-    dd int_nop
-
-int11:
-    dd int_nop
-
-int12:
-    dd int_nop
-
-int13:
-    dd int_nop
-
-int14:
-    dd int_nop
-
-int15:
-    dd int_nop
-
-int16:
-    dd int_nop
-
-int17:
-    dd int_nop
-
-int18:
-    dd int_nop
-
-int19:
-    dd int_nop
-
-int20:
-    dd int_nop
-
-int21:
-    dd int_nop
-
-int22:
-    dd int_nop
-
-int23:
-    dd int_nop
-
-int24:
-    dd int_nop
-
-int25:
-    dd int_nop
-
-int26:
-    dd int_nop
-
-int27:
-    dd int_nop
-
-int28:
-    dd int_nop
-
-int29:
-    dd int_nop
-
-int30:
-    dd int_nop
-
-int31:
-    dd int_nop
-
-int32:
-    dd int_nop
-
-int33:
-    dd int_nop
-
-int34:
-    dd int_nop
-
-int35:
-    dd int_nop
-
-int36:
-    dd int_nop
-
-int37:
-    dd int_nop
-
-int38:
-    dd int_nop
-
-int39:
-    dd int_nop
-
-int40:
-    dd int_nop
-
-int_nop:
-    mfco $k0, 12
-    srl $k0, $k0, 16
-    mtco $k0, 12
-    eret
-
 int_universal_handler:
-    addi    $sp, $sp, -128
+    addi    $sp, $sp, -132
     sw      $1, 0($sp)
     sw      $2, 4($sp)
     sw      $3, 8($sp)
@@ -167,6 +69,8 @@ int_universal_handler:
     sw      $31, 120($sp)
     mfco    $t0, CP0_EPC
     sw      $t0, 124($sp)
+    mfco    $t0, CP0_CAUSE
+    sw      $t0, 128($sp)
 
     mfco    $t0, CP0_CAUSE
     addi    $gp, $zero, 0
@@ -180,6 +84,16 @@ int_universal_handler:
     addi    $t0, $t0, INTERRUPT_TABLE
     lw      $t0, 0($t0)
     jalr    $t0, $ra
+
+    lw      $t0, 128($sp)
+    slti    $t0, $t0, 8
+    bne     $t0, $zero, _int_dont_set_v0
+    sw      $v0, 4($sp)
+
+_int_dont_set_v0:
+    mfco    $t1, CP0_STATUS
+    sll     $t1, $t1, 16
+    mtco    $t1, CP0_STATUS
 
     lw      $t0, 124($sp)
     mtco    $t0, CP0_EPC
@@ -214,42 +128,222 @@ int_universal_handler:
     lw      $29, 112($sp)
     lw      $30, 116($sp)
     lw      $31, 120($sp)
-    addi    $sp, $sp, 128
+    addi    $sp, $sp, 132
     eret
 
 INTERRUPT_TABLE:
 I0:     dd  int_handler_nop
-I1:     dd  int_handler_nop
+I1:     dd  disk_int_handler
 I2:     dd  int_handler_nop
-I3:     dd  int_handler_nop
+I3:     dd  keyboard_int_handler
 I4:     dd  int_handler_nop
-I5:     dd  keyboard_int_handler
+I5:     dd  int_handler_nop
 I6:     dd  int_handler_nop
 I7:     dd  int_handler_nop
-I8:     dd  int_handler_nop
-I9:     dd  int_handler_nop
-I10:    dd  int_handler_nop
-I11:    dd  int_handler_nop
-I12:    dd  int_handler_nop
-I13:    dd  int_handler_nop
-I14:    dd  int_handler_nop
-I15:    dd  int_handler_nop
-I16:    dd  int_handler_nop
-I17:    dd  int_handler_nop
-I18:    dd  int_handler_nop
-I19:    dd  int_handler_nop
-I20:    dd  int_handler_nop
-I21:    dd  int_handler_nop
-I22:    dd  int_handler_nop
-I23:    dd  int_handler_nop
-I24:    dd  int_handler_nop
-I25:    dd  int_handler_nop
-I26:    dd  int_handler_nop
+I8:     dd  reboot_int_handler
+I9:     dd  sleep_int_handler
+I10:    dd  print_str_handler
+I11:    dd  get_char_handler
+I12:    dd  get_line_handler
+I13:    dd  open_file_handler
+I14:    dd  create_file_handler
+I15:    dd  read_file_handler
+I16:    dd  write_file_handler
+I17:    dd  close_file_handler
+I18:    dd  mkdir_handler
+I19:    dd  unlink_handler
+I20:    dd  system_handler
+I21:    dd  malloc_handler
+I22:    dd  free_handler
+I23:    dd  get_cwd_handler
+I24:    dd  change_dir_handler
+I25:    dd  get_cmd_handler
+I26:    dd  get_env_error_handler
 I27:    dd  int_handler_nop
 I28:    dd  int_handler_nop
 I29:    dd  int_handler_nop
 I30:    dd  int_handler_nop
+I31:    dd  int_handler_nop
 
 int_handler_nop:
     jr $ra
 
+@def disk_int_handler
+    sw      $zero, _platform_driver_waiting($gp)
+@enddef
+
+reboot_int_handler:
+    ## disable interrupt
+    mfco    $t1, CP0_STATUS
+    sll     $t1, $t1, 16
+    mtco    $t1, CP0_STATUS
+
+    addi    $1, $0, 0
+    addi    $2, $0, 0
+    addi    $3, $0, 0
+    addi    $4, $0, 0
+    addi    $5, $0, 0
+    addi    $6, $0, 0
+    addi    $7, $0, 0
+    addi    $8, $0, 0
+    addi    $9, $0, 0
+    addi    $10, $0, 0
+    addi    $11, $0, 0
+    addi    $12, $0, 0
+    addi    $13, $0, 0
+    addi    $14, $0, 0
+    addi    $15, $0, 0
+    addi    $16, $0, 0
+    addi    $17, $0, 0
+    addi    $18, $0, 0
+    addi    $19, $0, 0
+    addi    $20, $0, 0
+    addi    $21, $0, 0
+    addi    $22, $0, 0
+    addi    $23, $0, 0
+    addi    $24, $0, 0
+    addi    $25, $0, 0
+    addi    $26, $0, 0
+    addi    $27, $0, 0
+    addi    $28, $0, 0
+    addi    $29, $0, 0
+    addi    $30, $0, 0
+    addi    $31, $0, 0
+    jr      $0
+
+sleep_int_handler:
+    ## TODO
+    jr $ra
+
+@def print_str_handler
+    @local str
+    @local len
+    move(@str, $a0)
+    move(@len, $a1)
+
+    @call console_print_str, @str, @len
+@enddef
+
+@def get_char_handler
+    jal     getchar
+@enddef
+
+@def get_line_handler
+    addi    $sp, $sp, -4
+    sw      $a1, 0($sp)
+    addi    $sp, $sp, -4
+    sw      $a0, 0($sp)
+    jal     getline
+    addi    $sp, $sp, 8
+@enddef
+
+@def open_file_handler
+    @local path
+    @local buf
+
+    move(@path, $a0)
+    @call malloc, 256
+    move(@buf, @retval)
+
+    @call get_cwd
+    @call strcpy, @buf, @retval
+    @call resolve_relative_path, @buf, @path
+    @call fat16_open_file, @buf
+@enddef
+
+@def create_file_handler
+    @local path
+    @local buf
+
+    move(@path, $a0)
+    @call malloc, 256
+    move(@buf, @retval)
+
+    @call get_cwd
+    @call strcpy, @buf, @retval
+    @call resolve_relative_path, @buf, @path
+    @call fat16_create_file, @buf
+@enddef
+
+@def read_file_handler
+    @local fd
+    @local buf
+    @local start
+    @local length
+
+    move(@fd, $a0)
+    move(@buf, $a1)
+    move(@start, $a2)
+    move(@length, $a3)
+    @call fat16_read_file, @fd, @start, @length, @buf
+@enddef
+
+@def write_file_handler
+    @local fd
+    @local buf
+    @local start
+    @local length
+
+    move(@fd, $a0)
+    move(@buf, $a1)
+    move(@start, $a2)
+    move(@length, $a3)
+    @call fat16_write_file, @fd, @start, @length, @buf
+@enddef
+
+@def close_file_handler
+    @local fd
+
+    move(@fd, $a0)
+    @call fat16_close_file, @fd
+@enddef
+
+mkdir_handler:
+    jr      $ra
+
+unlink_handler:
+    jr      $ra
+
+system_handler:
+    jr      $ra
+
+@def malloc_handler
+    addi    $sp, $sp, -4
+    sw      $a0, 0($sp)
+    jal     malloc
+    addi    $sp, $sp, 4
+@enddef
+
+@def free_handler
+    addi    $sp, $sp, -4
+    sw      $a0, 0($sp)
+    jal     free
+    addi    $sp, $sp, 4
+@enddef
+
+@def get_cwd_handler
+    @local buf
+    move(@buf, $a0)
+    
+    @call get_cwd
+    @call strcpy, @buf, @retval
+@enddef
+
+@def change_dir_handler
+    @local rel
+    move(@rel, $a0)
+
+    @call change_dir, @rel
+@enddef
+
+@def get_cmd_handler
+    @local buf
+    move(@buf, $a0)
+
+    @call get_cmd
+    @call strcpy, @buf, @retval
+@enddef
+
+@def get_env_error_handler
+    @call get_env_error
+@enddef

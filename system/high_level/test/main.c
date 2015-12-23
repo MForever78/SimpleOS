@@ -10,13 +10,10 @@ main()
             0x7FFF
         );
 
-    _print_number(12345 / 123);
-
-    buffer = malloc(256);
-
-    res = exec("/test.mrl");
+    res = system("test");
     _print_number(res);
 
+    buffer = (char*)malloc(256);
     while (1) {
         getline(buffer, 256);
         console_print_str(buffer, 256);

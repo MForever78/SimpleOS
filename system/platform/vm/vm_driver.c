@@ -1,4 +1,6 @@
 
+int _platform_driver_waiting;
+
 int
 _platform_read_block(int index, char *ptr)
 { memcpy(ptr, (index << 9) + (0x0800 << 16), DRIVER_BLOCK_SIZE); }

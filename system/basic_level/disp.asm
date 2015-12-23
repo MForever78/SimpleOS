@@ -11,7 +11,8 @@
     @param x
     @param y
 
-    sll @retval, @y, 10     # multiply y by 1024
+    sll @retval, @y, 7
+    @call mul, @retval, 5
     add @retval, @retval, @x
     sll @retval, @retval, 1
     add @retval, @retval, @DISP_BASE_ADDR
