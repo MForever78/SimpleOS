@@ -120,16 +120,16 @@ module SRAM(
 	always @(posedge clk_50mhz)    
 	begin
 		if (wea) begin
-			if (~sel_vram_scan & write_flag == 1'b1) write_flag <= 1'b0;		
-			if (sel_vram_scan & write_flag == 1'b0) write_record <= douta;
-			if (~sel_vram_scan & write_flag == 1'b0) write_flag <= 1'b1;
+			if (sel_vram_scan & write_flag == 1'b1) write_flag <= 1'b0;		
+			if (~sel_vram_scan & write_flag == 1'b0) write_record <= douta;
+			if (sel_vram_scan & write_flag == 1'b0) write_flag <= 1'b1;
 		end	
 	end
 	/*Ð´²Ù×÷*/
 	 
 	assign sram_wea =   init_flag ? 1'b1                     : (sel_vram_scan ? 1'b0 : ram_wea);
 	assign sram_addra = init_flag ? init_addra               : (sel_vram_scan ? vram_scan_addr : ram_addra);
-	assign sram_dina =  init_flag ? init_dina[47:0] 			: (sel_vram_scan ? {48{1'bz}} : ram_dina);
+	assign sram_dina =  init_flag ? init_dina[47:0] 	     : (sel_vram_scan ? {48{1'bz}} : ram_dina);
 	assign MIO_ready = ~init_flag & write_flag; 
 	
 	

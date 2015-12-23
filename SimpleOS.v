@@ -74,7 +74,8 @@ module SimpleOS(
     wire [31: 0] CPU_ADDR;
 
     // Slave Signal
-    wire [16: 0] slave_ACK, slave_STB, slave_WE;
+    wire [16: 0] slave_ACK, slave_STB;
+    wire slave_WE;
     wire [31: 0] slave_DAT_I, slave_ADDR;
     wire [511: 0] slave_DAT_O;
 
@@ -90,11 +91,11 @@ module SimpleOS(
     wire Keyboard_STB = slave_STB[3];
     wire Counter_STB = slave_STB[4];
     
-    wire Ram_WE = slave_WE[0];
-    wire Disk_WE = slave_WE[1];
-    wire VRam_WE = slave_WE[2];
-    wire Keyboard_WE = slave_WE[3];
-    wire Counter_WE = slave_WE[4];
+    wire Ram_WE = slave_WE;
+    wire Disk_WE = slave_WE;
+    wire VRam_WE = slave_WE;
+    wire Keyboard_WE = slave_WE;
+    wire Counter_WE = slave_WE;
 
     
     
@@ -122,6 +123,17 @@ module SimpleOS(
         .CLK_OUT2(clk50),
         .CLK_OUT3(clk25));
         
+        
+     initial begin
+       vram_stb_reg = 1'b0;
+     end
+     
+     always @(posedge clk50)
+     begin
+        if (VRam_STB) vram_stb_reg <= 1'b1;
+     end
+     
+    reg vram_stb_reg;
     wire [31:0] pc;
     wire [31:0] ins;
     wire [31:0] state;
@@ -134,7 +146,7 @@ module SimpleOS(
             .INT(1'b0), 
             .inst_out(ins), 
             .Data_in(CPU_DAT_I[31:0]),
-            .MIO_ready(CPU_ACK),
+            .MIO_ready(Ram_ACK),
             .mem_w(mem_w),
             .mem_r(mem_r),
             .PC_out(pc),
@@ -194,18 +206,18 @@ module SimpleOS(
     assign Blue[3] = Blue[1];
     assign Blue[2] = Blue[1];
 
-    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   //ÁÁ   MIO_ready = 0;
-    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Ram_ACK}};  
+    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{VRam_STB}};   //Ram_STB == 1
+    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{VRam_WE}};   //Ram_ACK == 0
     
     
     board_disp_sword(
         .clk(clk100),
         .rst(),
         .en(8'hff),
-        .data(pc),
+        .data(slave_ADDR),   //slave_ADDR == 0x14, VRAM_STB == 0,  VRam_WE == 0,
         .dot(8'h0),
         .led(16'b0),
-        .led_clk(LED_CLK),
+        .led_clk(LED_CLK), 
         .led_en(LED_PEN),
         .led_clr_n(LED_CLR),
         .led_do(LED_DO),

@@ -64,19 +64,22 @@ module test_cpu;
     	initial forever
 	begin  
 		#10;
-		clk = 1; 
+		clk = 1;  
 		#10; 
 		clk = 0;
 	end
 
+    always @*begin
+    MIO_ready = ~(mem_w & ~mem_r);
+    end
 
 	initial begin
-		// Initialize Inputs
+		// Initialize Inputs 
 		clk = 0;
-		Data_in = 32'h3c084000;
+		Data_in = 32'had090000; 
 		INT = 1'b0;
 		MIO_ready = 1;
-		reset = 0;
+		reset = 0; 
 		Cause_in = 0;
 
 		// Wait 100 ns for global reset to finish
