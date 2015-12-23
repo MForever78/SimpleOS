@@ -29,7 +29,7 @@ module RAM_B(addra, clka, dina, wea, douta);
     reg [31:0] mem[0:127];
 
     initial begin
-        $readmemh("hex/scomf.hex", mem);
+        $readmemh("hex/demo1.hex", mem);
     end
 
     always @(posedge clka) begin 
@@ -37,7 +37,7 @@ module RAM_B(addra, clka, dina, wea, douta);
             douta <= {48{1'bz}};
             mem[addra] <= dina;
         end else begin
-            douta <=  (addra <= 11'd127) ? {12'hFF37, mem[addra]} : 48'b0;
+            douta <=  (addra <= 12'd127) ? {16'hFF37, mem[addra]} : 48'b0;
         end
     end
 

@@ -18,15 +18,25 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module SRAM(
-				input [19:0] addra,
-				input clk_25mhz,
+module SRAM(    
+                input clk_25mhz,
 				input clk_50mhz,
-				input [47:0] dina,
-				input wea,
-				output [47:0] douta, 
-				output MIO_ready,
-				
+                
+                input r_stb,
+				input [19:0] r_addra,
+				input [47:0] r_dina,
+				input r_we,
+				output [47:0] r_douta, 
+				output r_ACK,
+                
+                input v_stb,
+				input [19:0] v_addra,
+				input [47:0] v_dina,
+				input v_we,
+				output [47:0] v_douta, 
+				output v_ACK,
+                
+                
 				output [19:0] SRAM_ADDR,
 				output SRAM_CE,
 				output SRAM_OEN,
@@ -34,10 +44,27 @@ module SRAM(
 				inout [47:0] SRAM_DQ,
     
 				input [19:0] vram_scan_addr,
-				output reg [15:0] vram_scan_data,
+				output reg [15:0] vram_scan_data
 				
-				input sel_ram
 	 );
+     
+     
+    wire [19:0] addra;
+	wire [47:0] dina;
+	wire wea;
+	wire [47:0] douta; 
+	wire MIO_ready;
+     
+    assign sel_ram = r_stb;
+    assign dina = sel_ram ? r_dina : v_dina;
+    assign addra = sel_ram ? r_addra : v_addra;
+    assign wea = (r_stb | v_stb) ? (sel_ram ? r_we : v_we) : 1'b0;
+    
+    assign r_douta = douta;
+    assign v_douta = douta;
+    assign r_ACK = MIO_ready;
+    assign v_ACK = MIO_ready;
+     
 	
 	wire [19:0] sram_addra;
 	wire [47:0] sram_dina;
@@ -86,7 +113,7 @@ module SRAM(
 								 
 	assign ram_douta = wea ? sram_douta[47:0] 									//写操作也要读出来后续使用
 								  : (sel_ram ? {16'b0, sram_douta[31:0]} 			//读的是ram那么输出低32位 
-												 : {32'b0, sram_douta[47:32]});  	//读的是vram那么就输出高16位 
+										     : {32'b0, sram_douta[47:32]});  	//读的是vram那么就输出高16位 
 	assign douta = ram_douta; 
 
 	/*写操作*/ 
