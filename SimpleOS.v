@@ -21,9 +21,9 @@
 module SimpleOS(
         input clk_100mhz,
         input RSTN,
+        input RSTN,
         input PS2C,
         input PS2D,
-        
         
         output [3:0] Red,
         output [3:0] Green,
@@ -54,12 +54,17 @@ module SimpleOS(
         output LED_CLR,
         output LED_DO,
         output LED_PEN
+
+        // UART
+        input UART_RXD,
+        output UART_TXD
     );
 
 
     wire [15:0] addr_read;
     wire [15:0] vram_scan_data; 
     wire clk100, clk50, clk25;
+    wire RST = ~RSTN;
     
     //////////////////////////////////////////////////
     // Wishbone bus IO                              //
@@ -95,8 +100,6 @@ module SimpleOS(
     wire VRam_WE = slave_WE[2];
     wire Keyboard_WE = slave_WE[3];
     wire Counter_WE = slave_WE[4];
-
-    
     
     WB_intercon intercon(
         .master_STB(CPU_STB),
@@ -112,9 +115,6 @@ module SimpleOS(
         .slave_DAT_O(slave_DAT_I),
         .slave_ADDR(slave_ADDR)
     );
-    
-    
-    
     
     dsp timer(
         .CLK_IN1(clk_100mhz),
@@ -197,10 +197,9 @@ module SimpleOS(
     assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   //¡¡   MIO_ready = 0;
     assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Ram_ACK}};  
     
-    
     board_disp_sword(
         .clk(clk100),
-        .rst(),
+        .rst(RST),
         .en(8'hff),
         .data(pc),
         .dot(8'h0),
@@ -214,4 +213,47 @@ module SimpleOS(
         .seg_clr_n(SEGLED_CLR),
         .seg_do(SEGLED_DO)
     );
+
+    counter counter(
+        .clk(clk100),
+        .rst(RST),
+        .WE(Counter_WE),
+        .ACK(Counter_ACK),
+        .STB(Counter_STB),
+        .DAT_I(slave_DAT_I),
+        .DAT_O(Counter_DAT_O)
+    );
+
+    disk disk(
+        .clk(clk100),
+        .rst(RST),
+
+        // bus IO
+        .WE(Disk_WE),
+        .ACK(Disk_ACK),
+        .STB(Disk_STB),
+        .ADDR(slave_ADDR),
+        .DAT_I(slave_DAT_I),
+        .DAT_O(Disk_DAT_O)
+
+        // UART IO
+        .dev_data_in(UART_DAT_O),
+        .dev_data_out(UART_DAT_I),
+        .dev_reading(UART_RX_busy),
+        .dev_writing(UART_TX_busy),
+        .dev_we(UART_WE)
+    );
+
+    uart uart(
+        .clk(clk100),
+        .rst(RST),
+        .rx(UART_RXD),
+        .tx(UART_TXD),
+        .we(UART_WE),
+        .rx_busy(UART_RX_busy),
+        .tx_busy(UART_TX_busy),
+        .data_in(UART_DAT_I),
+        .data_out(UART_DAT_O)
+    );
+
 endmodule                                                           
