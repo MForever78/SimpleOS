@@ -42,7 +42,7 @@ module Muliti_CPU(clk,
    output [31:0] Addr_out;
    output CPU_MIO;
    output [31:0] Data_out;
-   output [31:0] inst_out;
+   output [31:0] inst_out; 
    output mem_w;
 	output mem_r;
    output [31:0] PC_out;

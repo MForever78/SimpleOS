@@ -79,7 +79,8 @@ module SimpleOS(
     wire [31: 0] CPU_ADDR;
 
     // Slave Signal
-    wire [16: 0] slave_ACK, slave_STB, slave_WE;
+    wire [16: 0] slave_ACK, slave_STB;
+    wire slave_WE;
     wire [31: 0] slave_DAT_I, slave_ADDR;
     wire [511: 0] slave_DAT_O;
 
@@ -88,6 +89,11 @@ module SimpleOS(
     wire [31: 0] Ram_DAT_O, Disk_DAT_O, VRam_DAT_O, Keyboard_DAT_O, Counter_DAT_O;
 
     assign slave_DAT_O = {320'b0, Counter_DAT_O, Keyboard_DAT_O, VRam_DAT_O, Disk_DAT_O, Ram_DAT_O};
+    assign slave_ACK[0] = Ram_ACK;
+    assign slave_ACK[1] = Disk_ACK;
+    assign slave_ACK[2] = VRam_ACK;
+    assign slave_ACK[3] = Keyboard_ACK;
+    assign slave_ACK[4] = Counter_ACK;
 
     wire Ram_STB = slave_STB[0];
     wire Disk_STB = slave_STB[1];
@@ -95,11 +101,11 @@ module SimpleOS(
     wire Keyboard_STB = slave_STB[3];
     wire Counter_STB = slave_STB[4];
     
-    wire Ram_WE = slave_WE[0];
-    wire Disk_WE = slave_WE[1];
-    wire VRam_WE = slave_WE[2];
-    wire Keyboard_WE = slave_WE[3];
-    wire Counter_WE = slave_WE[4];
+    wire Ram_WE = slave_WE;
+    wire Disk_WE = slave_WE;
+    wire VRam_WE = slave_WE;
+    wire Keyboard_WE = slave_WE;
+    wire Counter_WE = slave_WE;
     
     WB_intercon intercon(
         .master_STB(CPU_STB),
@@ -122,9 +128,7 @@ module SimpleOS(
         .CLK_OUT2(clk50),
         .CLK_OUT3(clk25));
         
-    wire [31:0] pc;
-    wire [31:0] ins;
-    wire [31:0] state;
+        
     wire mem_w, mem_r;
     assign CPU_WE = mem_w & ~mem_r;
     assign CPU_STB = mem_w ^ mem_r;
@@ -132,13 +136,13 @@ module SimpleOS(
             .clk(clk25),
             .reset(),
             .INT(1'b0), 
-            .inst_out(ins), 
+            .inst_out(), 
             .Data_in(CPU_DAT_I[31:0]),
             .MIO_ready(CPU_ACK),
             .mem_w(mem_w),
             .mem_r(mem_r),
-            .PC_out(pc),
-            .state(state),
+            .PC_out(),
+            .state(),
             .Addr_out(CPU_ADDR[31:0]),
             .Data_out(CPU_DAT_O[31:0]),
             .CPU_MIO(),
@@ -194,17 +198,17 @@ module SimpleOS(
     assign Blue[3] = Blue[1];
     assign Blue[2] = Blue[1];
 
-    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   //¡¡   MIO_ready = 0;
+    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   
     assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Ram_ACK}};  
     
     board_disp_sword(
         .clk(clk100),
         .rst(RST),
         .en(8'hff),
-        .data(pc),
+        .data(slave_ADDR),   
         .dot(8'h0),
         .led(16'b0),
-        .led_clk(LED_CLK),
+        .led_clk(LED_CLK), 
         .led_en(LED_PEN),
         .led_clr_n(LED_CLR),
         .led_do(LED_DO),
@@ -224,6 +228,12 @@ module SimpleOS(
         .DAT_O(Counter_DAT_O)
     );
 
+    // UART
+    wire [7: 0] UART_DAT_I, UART_DAT_O;
+    wire UART_RX_busy, UART_RX_done;
+    wire UART_TX_busy, UART_TX_done;
+    wire UART_WE;
+
     disk disk(
         .clk(clk100),
         .rst(RST),
@@ -240,7 +250,9 @@ module SimpleOS(
         .dev_data_in(UART_DAT_O),
         .dev_data_out(UART_DAT_I),
         .dev_reading(UART_RX_busy),
+        .dev_read_done(UART_RX_done),
         .dev_writing(UART_TX_busy),
+        .dev_write_done(UART_TX_done),
         .dev_we(UART_WE)
     );
 
@@ -252,6 +264,8 @@ module SimpleOS(
         .we(UART_WE),
         .rx_busy(UART_RX_busy),
         .tx_busy(UART_TX_busy),
+        .rx_done(UART_RX_done),
+        .tx_done(UART_TX_done),
         .data_in(UART_DAT_I),
         .data_out(UART_DAT_O)
     );

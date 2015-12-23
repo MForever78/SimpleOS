@@ -133,6 +133,7 @@ module ctrl(input  clk,
 	begin
 		if (reset) begin `CPU_ctrl_signals <= SIG_IF; state_out <= IF; end
 		else 
+            if (MIO_ready)
 			case (state_out) 
 				IF: if (~MIO_ready) begin `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL; state_out <= IF; end
 					 else if (INT) begin `CPU_ctrl_signals <= SIG_ST_CP0;	`CP0_ctrl_signals <= CP0_ST_HARD; state_out <= STORE_CP0; end  //hardware int
