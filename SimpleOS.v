@@ -100,16 +100,16 @@ module SimpleOS(
     
     WB_intercon intercon(
         .master_STB(CPU_STB),
-        .master_DAT_I(CPU_DAT_I),
-        .master_DAT_O(CPU_DAT_O),
+        .master_DAT_I(CPU_DAT_O),
+        .master_DAT_O(CPU_DAT_I),
         .master_ACK(CPU_ACK),
         .master_WE(CPU_WE),
         .master_ADDR(CPU_ADDR),
         .slave_STB(slave_STB),
         .slave_ACK(slave_ACK),
         .slave_WE(slave_WE),
-        .slave_DAT_I(slave_DAT_I),
-        .slave_DAT_O(slave_DAT_O),
+        .slave_DAT_I(slave_DAT_O),
+        .slave_DAT_O(slave_DAT_I),
         .slave_ADDR(slave_ADDR)
     );
     
@@ -122,20 +122,23 @@ module SimpleOS(
         .CLK_OUT2(clk50),
         .CLK_OUT3(clk25));
         
+    wire [31:0] pc;
+    wire [31:0] ins;
+    wire [31:0] state;
     wire mem_w, mem_r;
     assign CPU_WE = mem_w & ~mem_r;
     assign CPU_STB = mem_w ^ mem_r;
     Muliti_CPU U1 (
             .clk(clk25),
             .reset(),
-            .INT(), 
-            .inst_out(), 
+            .INT(1'b0), 
+            .inst_out(ins), 
             .Data_in(CPU_DAT_I[31:0]),
             .MIO_ready(CPU_ACK),
             .mem_w(mem_w),
             .mem_r(mem_r),
-            .PC_out(),
-            .state(),
+            .PC_out(pc),
+            .state(state),
             .Addr_out(CPU_ADDR[31:0]),
             .Data_out(CPU_DAT_O[31:0]),
             .CPU_MIO(),
@@ -147,7 +150,7 @@ module SimpleOS(
         .clk_25mhz(clk25), 
         
         .r_stb(Ram_STB),
-        .r_addra(slave_ADDR),
+        .r_addra(slave_ADDR[31:2]),
         .r_dina(slave_DAT_I),
         .r_we(Ram_WE),
         .r_douta(Ram_DAT_O), 
@@ -191,15 +194,15 @@ module SimpleOS(
     assign Blue[3] = Blue[1];
     assign Blue[2] = Blue[1];
 
-    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = 3'b111;   //¡¡   MIO_ready = 0;
-    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = 3'b111;  
+    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   //¡¡   MIO_ready = 0;
+    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Ram_ACK}};  
     
     
     board_disp_sword(
         .clk(clk100),
         .rst(),
         .en(8'hff),
-        .data(32'h12345678),
+        .data(pc),
         .dot(8'h0),
         .led(16'b0),
         .led_clk(LED_CLK),

@@ -1,0 +1,10 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7 (64-bit)
+# Build 321239 by xbuild on Fri Sep 27 19:29:51 MDT 2013
+# Start of session at: Thu Dec 24 00:37:47 2015
+# Process ID: 2404
+# Log file: D:/project/ISE/project/SimpleOS/planAhead_run_2/planAhead.log
+# Journal file: D:/project/ISE/project/SimpleOS/planAhead_run_2/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source D:/project/ISE/project/SimpleOS/pa.fromNcd.tcl

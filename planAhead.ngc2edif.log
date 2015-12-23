@@ -1,0 +1,46 @@
+Release 14.7 - ngc2edif P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+Reading design SimpleOS.ngc ...
+WARNING:NetListWriters:298 - No output is written to SimpleOS.xncf, ignored.
+Processing design ...
+   Preping design's networks ...
+   Preping design's macros ...
+WARNING:NetListWriters:306 - Signal bus U3/sram_dina<32 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/U3/douta<32 : 0> on block SimpleOS is
+   not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/U3/_n0064<31 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_h_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_v_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+  finished :Prep
+Writing EDIF netlist file SimpleOS.edif ...
+ngc2edif: Total memory usage is 85632 kilobytes
+
+Release 14.7 - ngc2edif P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+Reading design SimpleOS.ngc ...
+WARNING:NetListWriters:298 - No output is written to SimpleOS.xncf, ignored.
+Processing design ...
+   Preping design's networks ...
+   Preping design's macros ...
+WARNING:NetListWriters:306 - Signal bus U3/sram_dina<32 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/U3/douta<32 : 0> on block SimpleOS is
+   not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/U3/_n0064<31 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_h_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_v_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+  finished :Prep
+Writing EDIF netlist file SimpleOS.edif ...
+ngc2edif: Total memory usage is 85152 kilobytes
+

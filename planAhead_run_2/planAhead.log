@@ -1,0 +1,104 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7 (64-bit)
+# Build 321239 by xbuild on Fri Sep 27 19:29:51 MDT 2013
+# Start of session at: Thu Dec 24 00:37:47 2015
+# Process ID: 2404
+# Log file: D:/project/ISE/project/SimpleOS/planAhead_run_2/planAhead.log
+# Journal file: D:/project/ISE/project/SimpleOS/planAhead_run_2/planAhead.jou
+#-----------------------------------------------------------
+INFO: [Common 17-78] Attempting to get a license: PlanAhead
+INFO: [Common 17-290] Got license for PlanAhead
+INFO: [Device 21-36] Loading parts and site information from D:/program/ISE/14.7/ISE_DS/PlanAhead/data/parts/arch.xml
+Parsing RTL primitives file [D:/program/ISE/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+Finished parsing RTL primitives file [D:/program/ISE/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+start_gui
+source D:/project/ISE/project/SimpleOS/pa.fromNcd.tcl
+# create_project -name SimpleOS -dir "D:/project/ISE/project/SimpleOS/planAhead_run_2" -part xc7k160tfbg676-3
+# set srcset [get_property srcset [current_run -impl]]
+# set_property design_mode GateLvl $srcset
+# set_property edif_top_file "D:/project/ISE/project/SimpleOS/SimpleOS.ngc" [ get_property srcset [ current_run ] ]
+# add_files -norecurse { {D:/project/ISE/project/SimpleOS} {ipcore_dir} }
+# set_property target_constrs_file "Sword_Original.ucf" [current_fileset -constrset]
+Adding file 'D:/project/ISE/project/SimpleOS/Sword_Original.ucf' to fileset 'constrs_1'
+# add_files [list {Sword_Original.ucf}] -fileset [get_property constrset [current_run]]
+# link_design
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+Design is defaulting to project part: xc7k160tfbg676-3
+Release 14.7 - ngc2edif P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+Reading design SimpleOS.ngc ...
+WARNING:NetListWriters:298 - No output is written to SimpleOS.xncf, ignored.
+Processing design ...
+   Preping design's networks ...
+   Preping design's macros ...
+WARNING:NetListWriters:306 - Signal bus U3/sram_dina<32 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/U3/douta<32 : 0> on block SimpleOS is
+   not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/U3/_n0064<31 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_h_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_v_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+  finished :Prep
+Writing EDIF netlist file SimpleOS.edif ...
+ngc2edif: Total memory usage is 85152 kilobytes
+
+Parsing EDIF File [./planAhead_run_2/SimpleOS.data/cache/SimpleOS_ngc_zx.edif]
+Finished Parsing EDIF File [./planAhead_run_2/SimpleOS.data/cache/SimpleOS_ngc_zx.edif]
+INFO: [Netlist 29-17] Analyzing 276 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+WARNING: [Netlist 29-43] Netlist 'SimpleOS' is not ideal for floorplanning, since the cellview 'SimpleOS' defined in file 'SimpleOS.ngc' contains large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+Loading clock regions from D:/program/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/kintex7/kintex7/xc7k160t/ClockRegion.xml
+Loading clock buffers from D:/program/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/kintex7/kintex7/xc7k160t/ClockBuffers.xml
+Loading clock placement rules from D:/program/ISE/14.7/ISE_DS/PlanAhead/data/parts/xilinx/kintex7/ClockPlacerRules.xml
+Loading package pin functions from D:/program/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/kintex7/PinFunctions.xml...
+Loading package from D:/program/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/kintex7/kintex7/xc7k160t/fbg676/Package.xml
+Loading io standards from D:/program/ISE/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/kintex7/IOStandards.xml
+Loading device configuration modes from D:/program/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/kintex7/ConfigModes.xml
+Loading list of drcs for the architecture : D:/program/ISE/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/kintex7/drc.xml
+Parsing UCF File [D:/project/ISE/project/SimpleOS/Sword_Original.ucf]
+Finished Parsing UCF File [D:/project/ISE/project/SimpleOS/Sword_Original.ucf]
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 275 instances were transformed.
+  FD => FDCE: 77 instances
+  FDE => FDCE: 140 instances
+  FDR => FDRE: 28 instances
+  IBUFG => IBUF: 1 instances
+  IOBUF => IOBUF (OBUFT, IBUF): 16 instances
+  RAM128X1S => RAM128X1S (RAMS64E, RAMS64E, MUXF7): 13 instances
+
+Phase 0 | Netlist Checksum: 2df8a69d
+link_design: Time (s): elapsed = 00:00:26 . Memory (MB): peak = 887.762 ; gain = 404.176
+# read_xdl -file "D:/project/ISE/project/SimpleOS/SimpleOS.ncd"
+Release 14.7 - xdl P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+WARNING:XDL:213 - The resulting xdl output will not have LUT equation strings or RAM INIT strings.
+Loading device for application Rf_Device from file '7k160t.nph' in environment D:\program\ISE\14.7\ISE_DS\ISE\.
+   "SimpleOS" is an NCD, version 3.2, device xc7k160t, package fbg676, speed -3
+Successfully converted design 'D:\project\ISE\project\SimpleOS\SimpleOS.ncd' to 'D:\project\ISE\project\SimpleOS\SimpleOS.xdl'.
+INFO: [Designutils 20-669] Parsing Placement File : D:/project/ISE/project/SimpleOS/SimpleOS.ncd
+WARNING: [Designutils 20-665] Net Name: RSTN. Found in file: D:/project/ISE/project/SimpleOS/SimpleOS.ncd. Not Recognizable in the Context
+WARNING: [Designutils 20-665] Net Name: PS2C. Found in file: D:/project/ISE/project/SimpleOS/SimpleOS.ncd. Not Recognizable in the Context
+WARNING: [Designutils 20-665] Net Name: PS2D. Found in file: D:/project/ISE/project/SimpleOS/SimpleOS.ncd. Not Recognizable in the Context
+INFO: [Designutils 20-658] Finished Parsing Placement File : D:/project/ISE/project/SimpleOS/SimpleOS.ncd
+INFO: [Designutils 20-671] Placed 1378 instances
+read_xdl: Time (s): elapsed = 00:00:16 . Memory (MB): peak = 889.273 ; gain = 0.297
+# if {[catch {read_twx -name results_1 -file "D:/project/ISE/project/SimpleOS/SimpleOS.twx"} eInfo]} {
+#    puts "WARNING: there was a problem importing \"D:/project/ISE/project/SimpleOS/SimpleOS.twx\": $eInfo"
+# }
+exit
+ERROR: [PlanAhead 12-106] *** Exception: ui.h.b: Found deleted key in HTclEventBroker. Verify if the classes listed here call cleanup()
+HTclEvent: DEBUG_CORE_CONFIG_CHANGE   Classes: ui.views.aR 
+HTclEvent: SIGNAL_MODIFY   Classes: ui.views.aR 
+HTclEvent: SIGNAL_BUS_MODIFY   Classes: ui.views.aR 
+HTclEvent: DEBUG_PORT_CONFIG_CHANGE   Classes: ui.views.aR 
+ (See D:/project/ISE/project/SimpleOS\planAhead_pid2404.debug)
+ERROR: [Common 17-39] 'stop_gui' failed due to earlier errors.
+INFO: [Common 17-206] Exiting PlanAhead at Thu Dec 24 00:39:14 2015...
+INFO: [Common 17-83] Releasing license: PlanAhead

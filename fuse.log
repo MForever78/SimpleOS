@@ -1,0 +1,74 @@
+Running: D:\program\ISE\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o D:/project/ISE/project/SimpleOS/test_cpu_isim_beh.exe -prj D:/project/ISE/project/SimpleOS/test_cpu_beh.prj work.test_cpu work.glbl 
+ISim P.20131013 (signature 0x7708f090)
+Number of CPUs detected in this system: 8
+Turning on mult-threading, number of parallel sub-compilation jobs: 16 
+Determining compilation order of HDL files
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/xor32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/srlv32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/srl32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/sllv32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/sll32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/SignalExt_32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/or_bit_32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/or32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/nor32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/mux16to1_32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/and32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/ADC32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/Regs.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/REG32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/mux4to1_5.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/mux4to1_32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/mux2to1_32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/MDR_HALF.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/MDR_BYTE.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/MdrHalfStore.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/MdrByteSotre.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/Ext_32.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/ALU.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/dec4to16.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/data_path.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/ctrl.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/CP0.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/muliti_cpu.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/test_cpu.v" into library work
+Analyzing Verilog file "D:/program/ISE/14.7/ISE_DS/ISE//verilog/src/glbl.v" into library work
+Starting static elaboration
+Completed static elaboration
+Compiling module dec4to16
+Compiling module ctrl
+Compiling module VCC
+Compiling module GND
+Compiling module REG32
+Compiling module MDR_BYTE
+Compiling module MDR_HALF
+Compiling module MdrByteStore
+Compiling module MdrHalfStore
+Compiling module mux4to1_32
+Compiling module mux4to1_5
+Compiling module mux2to1_32
+Compiling module Regs
+Compiling module ADC32
+Compiling module mux16to1_32
+Compiling module and32
+Compiling module or32
+Compiling module xor32
+Compiling module nor32
+Compiling module srl32
+Compiling module sll32
+Compiling module srlv32
+Compiling module sllv32
+Compiling module or_bit_32
+Compiling module SignalExt_32
+Compiling module ALU
+Compiling module Ext_32
+Compiling module data_path
+Compiling module CP0
+Compiling module Muliti_CPU
+Compiling module test_cpu
+Compiling module glbl
+Time Resolution for simulation is 1ps.
+Compiled 32 Verilog Units
+Built simulation executable D:/project/ISE/project/SimpleOS/test_cpu_isim_beh.exe
+Fuse Memory Usage: 29964 KB
+Fuse CPU Usage: 671 ms
