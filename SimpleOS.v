@@ -84,6 +84,11 @@ module SimpleOS(
     wire [31: 0] Ram_DAT_O, Disk_DAT_O, VRam_DAT_O, Keyboard_DAT_O, Counter_DAT_O;
 
     assign slave_DAT_O = {320'b0, Counter_DAT_O, Keyboard_DAT_O, VRam_DAT_O, Disk_DAT_O, Ram_DAT_O};
+    assign slave_ACK[0] = Ram_ACK;
+    assign slave_ACK[1] = Disk_ACK;
+    assign slave_ACK[2] = VRam_ACK;
+    assign slave_ACK[3] = Keyboard_ACK;
+    assign slave_ACK[4] = Counter_ACK;
 
     wire Ram_STB = slave_STB[0];
     wire Disk_STB = slave_STB[1];
@@ -124,19 +129,6 @@ module SimpleOS(
         .CLK_OUT3(clk25));
         
         
-     initial begin
-       vram_stb_reg = 1'b0;
-     end
-     
-     always @(posedge clk50)
-     begin
-        if (VRam_STB) vram_stb_reg <= 1'b1;
-     end
-     
-    reg vram_stb_reg;
-    wire [31:0] pc;
-    wire [31:0] ins;
-    wire [31:0] state;
     wire mem_w, mem_r;
     assign CPU_WE = mem_w & ~mem_r;
     assign CPU_STB = mem_w ^ mem_r;
@@ -144,13 +136,13 @@ module SimpleOS(
             .clk(clk25),
             .reset(),
             .INT(1'b0), 
-            .inst_out(ins), 
+            .inst_out(), 
             .Data_in(CPU_DAT_I[31:0]),
-            .MIO_ready(Ram_ACK),
+            .MIO_ready(CPU_ACK),
             .mem_w(mem_w),
             .mem_r(mem_r),
-            .PC_out(pc),
-            .state(state),
+            .PC_out(),
+            .state(),
             .Addr_out(CPU_ADDR[31:0]),
             .Data_out(CPU_DAT_O[31:0]),
             .CPU_MIO(),
@@ -206,15 +198,15 @@ module SimpleOS(
     assign Blue[3] = Blue[1];
     assign Blue[2] = Blue[1];
 
-    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{VRam_STB}};   //Ram_STB == 1
-    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{VRam_WE}};   //Ram_ACK == 0
+    assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   
+    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Ram_ACK}};  
     
     
     board_disp_sword(
         .clk(clk100),
         .rst(),
         .en(8'hff),
-        .data(slave_ADDR),   //slave_ADDR == 0x14, VRAM_STB == 0,  VRam_WE == 0,
+        .data(slave_ADDR),   
         .dot(8'h0),
         .led(16'b0),
         .led_clk(LED_CLK), 
