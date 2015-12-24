@@ -77,7 +77,7 @@
 #    NET "BTN_Y3"                                   LOC = V14       | IOSTANDARD = LVCMOS18 ;
 #    NET "BTN_Y4"                                   LOC = W14       | IOSTANDARD = LVCMOS18 ;
 #
-#    NET "SW[0]"                                    LOC = AA10      | IOSTANDARD = LVCMOS15 ;
+    NET "SW[0]"                                    LOC = AA10      | IOSTANDARD = LVCMOS15 ;
 #    NET "SW[1]"                                    LOC = AB10      | IOSTANDARD = LVCMOS15 ;
 #    NET "SW[2]"                                    LOC = AA13      | IOSTANDARD = LVCMOS15 ;
 #    NET "SW[3]"                                    LOC = AA12      | IOSTANDARD = LVCMOS15 ;

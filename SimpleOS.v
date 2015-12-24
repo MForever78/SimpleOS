@@ -24,6 +24,7 @@ module SimpleOS(
         input PS2C,
         input PS2D,
         
+        input [0:0] SW,
         
         output [3:0] Red,
         output [3:0] Green,
@@ -60,6 +61,41 @@ module SimpleOS(
     wire [19:0] addr_read;
     wire [15:0] vram_scan_data; 
     wire clk100, clk50, clk25;
+    
+    //////////////////////////////////////////////////
+    // Wishbone bus IO                              //
+    //////////////////////////////////////////////////
+    wire Ram_INT;
+    wire Disk_INT;
+    wire VRam_INT;
+    wire Keyboard_INT;
+    wire Counter_INT;
+    wire Switch_INT;
+    
+    wire [31:0] Ram_CAUSE = 32'h0;
+    wire [31:0] Disk_CAUSE = 32'h1;
+    wire [31:0] VRam_CAUSE = 32'h2;
+    wire [31:0] Keyboard_CAUSE = 32'h3;
+    wire [31:0] Counter_CAUSE = 32'h4;
+    wire [31:0] Switch_CAUSE = 32'h5;
+    
+    wire CPU_INT = 
+       // Ram_INT | 
+       // Disk_INT |
+       // VRam_INT |
+       // Keyboard_INT |
+       // Counter_INT |
+        Switch_INT ;
+    
+    
+    wire [31:0] CPU_CAUSE = 
+       // Ram_INT ? Ram_CAUSE :
+       // Disk_INT ? Disk_CAUSE :
+       // VRam_INT ? VRam_CAUSE :
+       // Keyboard_INT ? Keyboard_CAUSE :
+       // Counter_INT ? Counter_CAUSE :
+        Switch_INT ? Switch_CAUSE :
+        32'h0;
     
     //////////////////////////////////////////////////
     // Wishbone bus IO                              //
@@ -121,6 +157,8 @@ module SimpleOS(
     
     
     
+    assign Switch_INT = SW[0];
+    
     
     dsp timer(
         .CLK_IN1(clk_100mhz),
@@ -135,7 +173,7 @@ module SimpleOS(
     Muliti_CPU U1 (
             .clk(clk25),
             .reset(),
-            .INT(1'b0), 
+            .INT(CPU_INT), 
             .inst_out(), 
             .Data_in(CPU_DAT_I[31:0]),
             .MIO_ready(CPU_ACK),
@@ -146,7 +184,7 @@ module SimpleOS(
             .Addr_out(CPU_ADDR[31:0]),
             .Data_out(CPU_DAT_O[31:0]),
             .CPU_MIO(),
-            .Cause_in({32'b0}));
+            .Cause_in(CPU_CAUSE));
         
     
     SRAM  U3 (
