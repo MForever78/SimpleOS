@@ -153,7 +153,7 @@ module ctrl(input  clk,
 								6'b000000: begin `CPU_ctrl_signals <= {SIG_EX_R_SHAMT[25:4], 4'b1000}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sll 
 								6'b000100: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b1010}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sllv
 								6'b100110: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0011}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //xor
-								6'hc		: begin `CPU_ctrl_signals <= SIG_ST_CP0;					 `CP0_ctrl_signals <= CP0_ST_SYS; state_out <= STORE_CP0; end  //syscall
+								6'hc		: begin `CPU_ctrl_signals <= SIG_ST_CP0;		     `CP0_ctrl_signals <= CP0_ST_SYS; state_out <= STORE_CP0; end  //syscall
 								//default: begin `CPU_ctrl_signals <= 21'b0; state_out <= Error; end
 							endcase
 						end

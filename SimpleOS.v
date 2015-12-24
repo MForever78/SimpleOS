@@ -57,7 +57,7 @@ module SimpleOS(
     );
 
 
-    wire [15:0] addr_read;
+    wire [19:0] addr_read;
     wire [15:0] vram_scan_data; 
     wire clk100, clk50, clk25;
     
@@ -161,13 +161,13 @@ module SimpleOS(
         .r_ACK(Ram_ACK),
         
         .v_stb(VRam_STB),
-        .v_addra(slave_ADDR),
+        .v_addra(slave_ADDR[31:2]),
         .v_dina(slave_DAT_I),
         .v_we(VRam_WE),
         .v_douta(VRam_DAT_O), 
         .v_ACK(VRam_ACK),
             
-        .vram_scan_addr({4'b0, addr_read[15:0]}),
+        .vram_scan_addr(addr_read[19:0]),
         .vram_scan_data(vram_scan_data),    
             
         .SRAM_ADDR(SRAM_ADDR[19:0]),
@@ -179,24 +179,16 @@ module SimpleOS(
    vga_display vga_dev(
         .clk_25mhz(clk25),
         .reset(1'b0),
-        .cursor_wea(1'b0),
-        .cursor_in(),
 
-        .vga_status(),
-        .cursor(),
-        .Red(Red[2:0]),
-        .Green(Green[2:0]),
-        .Blue(Blue[1:0]),
+        .Red(Red[3:0]),
+        .Green(Green[3:0]),
+        .Blue(Blue[3:0]),
         .hsync(hsync),
         .vsync(vsync),
         
         .addr_read(addr_read),
-        .vram_scan_data(vram_scan_data));
-    
-    assign Red[3] = Red[2];
-    assign Green[3] = Green[2];
-    assign Blue[3] = Blue[1];
-    assign Blue[2] = Blue[1];
+        .vram_scan_data(vram_scan_data));  
+        
 
     assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   
     assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Ram_ACK}};  

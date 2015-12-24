@@ -1,4 +1,4 @@
-Running: D:\program\ISE\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o D:/project/ISE/project/SimpleOS/test_cpu_isim_beh.exe -prj D:/project/ISE/project/SimpleOS/test_cpu_beh.prj work.test_cpu work.glbl 
+Running: D:\program\ISE\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o D:/project/ISE/project/SimpleOS/testMuliti_CPU_isim_beh.exe -prj D:/project/ISE/project/SimpleOS/testMuliti_CPU_beh.prj work.testMuliti_CPU work.glbl 
 ISim P.20131013 (signature 0x7708f090)
 Number of CPUs detected in this system: 8
 Turning on mult-threading, number of parallel sub-compilation jobs: 16 
@@ -31,9 +31,11 @@ Analyzing Verilog file "D:/project/ISE/project/SimpleOS/data_path.v" into librar
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/ctrl.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/CP0.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/muliti_cpu.v" into library work
-Analyzing Verilog file "D:/project/ISE/project/SimpleOS/test_cpu.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/testMuliti_CPU.v" into library work
 Analyzing Verilog file "D:/program/ISE/14.7/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
+WARNING:HDLCompiler:1016 - "D:/project/ISE/project/SimpleOS/testMuliti_CPU.v" Line 46: Port Cause_in is not connected to this instance
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/testMuliti_CPU.v" Line 59: Size mismatch in connection of port <state>. Formal port size is 6-bit while actual signal size is 5-bit.
 Completed static elaboration
 Compiling module dec4to16
 Compiling module ctrl
@@ -65,10 +67,10 @@ Compiling module Ext_32
 Compiling module data_path
 Compiling module CP0
 Compiling module Muliti_CPU
-Compiling module test_cpu
+Compiling module testMuliti_CPU
 Compiling module glbl
 Time Resolution for simulation is 1ps.
 Compiled 32 Verilog Units
-Built simulation executable D:/project/ISE/project/SimpleOS/test_cpu_isim_beh.exe
-Fuse Memory Usage: 29276 KB
-Fuse CPU Usage: 671 ms
+Built simulation executable D:/project/ISE/project/SimpleOS/testMuliti_CPU_isim_beh.exe
+Fuse Memory Usage: 29232 KB
+Fuse CPU Usage: 749 ms
