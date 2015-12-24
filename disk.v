@@ -4,10 +4,10 @@ module disk(
 
     input WE,
     input STB,
-    output reg ACK,
+    output ACK,
     input [31: 0] ADDR,
     input [31: 0] DAT_I,
-    output [31: 0] DAT_O
+    output [31: 0] DAT_O,
 
     input [7: 0] dev_data_in,
     output [7: 0] dev_data_out,
@@ -21,14 +21,15 @@ module disk(
     localparam
         WRITE_IDLE = 0,
         DEV_WRITE = 1,
-        CPU_WRITE = 2;
+        CPU_WRITE = 2,
+        DEV_WRITE_DONE = 3;
     localparam
         READ_IDLE = 0,
-        DEV_READ = 1;
+        DEV_READ = 1,
+        DEV_READ_DONE = 2;
 
     reg [7: 0] buffer[0: 511];
     reg [31: 0] status;
-    reg [8: 0] dev_addr;
     wire [7: 0] din_0, din_1, din_2, din_3;
     wire [7: 0] dout_0, dout_1, dout_2, dout_3;
 
@@ -50,11 +51,13 @@ module disk(
     wire dev_buffer_read = STB & WE & ADDR[9] & DAT_I[31];
 
     // buffer write state machine
+    reg [3: 0] buffer_state, buffer_state_next;
+    reg [8: 0] dev_addr, dev_addr_next;
     always @(*) begin
         buffer_state_next = buffer_state;
         dev_addr_next = dev_addr;
         case(buffer_state)
-            IDLE: begin
+            WRITE_IDLE: begin
                 if (dev_buffer_write)
                     buffer_state_next = DEV_WRITE;
                 else if (CPU_buffer_write)
@@ -68,10 +71,10 @@ module disk(
                     dev_addr_next = dev_addr + 1;
             end
             CPU_WRITE: begin
-                buffer_state_next = IDLE;
+                buffer_state_next = WRITE_IDLE;
             end
             DEV_WRITE_DONE: begin
-                buffer_state_next = IDLE;
+                buffer_state_next = WRITE_IDLE;
             end
         endcase
     end
@@ -80,7 +83,7 @@ module disk(
     always @(posedge clk) begin
         if (rst) begin
             dev_addr <= 0;
-            buffer_state <= IDLE;
+            buffer_state <= WRITE_IDLE;
         end else begin
             case (buffer_state)
                 DEV_WRITE: begin
@@ -96,7 +99,7 @@ module disk(
 
     // buffer write
     always @(posedge clk) begin
-        case(buffer_state) begin
+        case(buffer_state)
             DEV_WRITE: begin
                 buffer[dev_addr] <= dev_data_in;
             end
@@ -106,7 +109,7 @@ module disk(
                 buffer[ADDR[8: 2] + 2] <= din_2;
                 buffer[ADDR[8: 2] + 3] <= din_3;
             end
-        end
+        endcase
     end
 
     reg [1: 0] buffer_read_state, buffer_read_state_next;

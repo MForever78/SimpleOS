@@ -21,7 +21,6 @@
 module SimpleOS(
         input clk_100mhz,
         input RSTN,
-        input RSTN,
         input PS2C,
         input PS2D,
         
@@ -53,7 +52,7 @@ module SimpleOS(
         output LED_CLK,
         output LED_CLR,
         output LED_DO,
-        output LED_PEN
+        output LED_PEN,
 
         // UART
         input UART_RXD,
@@ -244,7 +243,7 @@ module SimpleOS(
         .STB(Disk_STB),
         .ADDR(slave_ADDR),
         .DAT_I(slave_DAT_I),
-        .DAT_O(Disk_DAT_O)
+        .DAT_O(Disk_DAT_O),
 
         // UART IO
         .dev_data_in(UART_DAT_O),
