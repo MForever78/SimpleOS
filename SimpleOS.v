@@ -259,11 +259,18 @@ module SimpleOS(
         .DAT_O(Counter_DAT_O)
     );
 
+    // Disk
+    wire[31: 0] disk_instruction;
+    wire disk_write_pause, disk_read_pause;
+    wire [8: 0] disk_addr;
+    wire [31: 0] disk_data_in, disk_data_out;
+    wire disk_operate_done;
+
     // UART
-    wire [7: 0] UART_DAT_I, UART_DAT_O;
+    wire [7: 0] UART_data_in, UART_data_out;
     wire UART_RX_busy, UART_RX_done;
     wire UART_TX_busy, UART_TX_done;
-    wire UART_WE;
+    wire UART_dev_en, UART_dev_we;
 
     disk disk(
         .clk(clk100),
@@ -277,14 +284,33 @@ module SimpleOS(
         .DAT_I(slave_DAT_I),
         .DAT_O(Disk_DAT_O),
 
-        // UART IO
-        .dev_data_in(UART_DAT_O),
-        .dev_data_out(UART_DAT_I),
-        .dev_reading(UART_RX_busy),
+        // disk dev IO
+        .instruction(disk_instruction),
+        .write_pause(disk_write_pause),
+        .read_pause(disk_read_pause),
+        .disk_addr(disk_addr),
+        .disk_data_in(disk_data_out),
+        .disk_data_out(disk_data_in),
+        .disk_operate_done(disk_operate_done)
+    );
+
+    disk_dev disk_dev(
+        .clk(clk100),
+        .rst(RST),
+        .addr(disk_addr),
+        .data_in(disk_data_in),
+        .data_out(disk_data_out),
+        .instruction(disk_instruction),
+        .write_pause(disk_write_pause),
+        .read_pause(disk_read_pause),
+        .operate_done(disk_operate_done),
+
         .dev_read_done(UART_RX_done),
-        .dev_writing(UART_TX_busy),
         .dev_write_done(UART_TX_done),
-        .dev_we(UART_WE)
+        .dev_enable(UART_dev_en),
+        .dev_we(UART_dev_we),
+        .dev_data_out(UART_data_in),
+        .dev_data_in(UART_data_out)
     );
 
     uart uart(
@@ -292,13 +318,14 @@ module SimpleOS(
         .rst(RST),
         .rx(UART_RXD),
         .tx(UART_TXD),
-        .we(UART_WE),
+        .en(UART_dev_en),
+        .we(UART_dev_we),
         .rx_busy(UART_RX_busy),
-        .tx_busy(UART_TX_busy),
         .rx_done(UART_RX_done),
+        .tx_busy(UART_TX_busy),
         .tx_done(UART_TX_done),
-        .data_in(UART_DAT_I),
-        .data_out(UART_DAT_O)
+        .data_in(UART_data_in),
+        .data_out(UART_data_out)
     );
 
 endmodule                                                           

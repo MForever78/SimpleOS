@@ -4,8 +4,9 @@ module uart(
     input rx,
     output reg tx,
     input we,
-    output rx_busy,
-    output tx_busy,
+    input en,
+    output reg rx_busy,
+    output reg tx_busy,
     output reg rx_done,
     output reg tx_done,
     input [7: 0] data_in,
@@ -73,17 +74,14 @@ module uart(
     reg[7: 0] rx_data;
     reg[1: 0] rx_state, rx_state_next;
     reg[2: 0] rx_data_cnt, rx_data_cnt_next;
-    reg rx_stop, rx_stop_next;
 
     // Receive state machine
     always @(*) begin
         rx_state_next = rx_state;
         rx_data_cnt_next = rx_data_cnt;
-        rx_stop_next = rx_stop;
-        rx_done = 0;
         case(rx_state)
             RX_IDLE: begin
-                if (rx_d2 == 0)
+                if (rx_d2 == 0 && en)
                     rx_state_next = RX_START;
             end
             RX_START: begin
@@ -100,12 +98,7 @@ module uart(
                     rx_data_cnt_next = rx_data_cnt + 1;
             end 
             RX_STOP: begin
-                if (rx_stop == 1) begin
-                    rx_state_next = RX_IDLE;
-                    rx_stop_next = 0;
-                    rx_done = 1;
-                end else
-                    rx_stop_next = rx_stop + 1;
+                rx_state_next = RX_IDLE;
             end
         endcase
     end
@@ -115,7 +108,6 @@ module uart(
         if (rst) begin
             rx_state <= 0;
             rx_data_cnt <= 0;
-            rx_stop <= 0;
         end else begin
             if (sample_pause)
                 case(rx_state)
@@ -133,7 +125,6 @@ module uart(
                     RX_STOP: begin
                         if (rx_shift_bit) begin
                             rx_state <= rx_state_next;
-                            rx_stop <= rx_stop_next;
                         end
                     end
                 endcase
@@ -147,12 +138,14 @@ module uart(
             rx_data <= 0;
         end else begin
             case (rx_state)
-                RX_IDLE: begin
-                    data_out <= rx_data;
-                end
                 RX_DATA: begin
                     if (rx_shift_bit & sample_pause)
                         rx_data <= {rx, rx_data[7: 1]};
+                end
+                RX_STOP: begin
+                    if (rx_shift_bit) begin
+                        data_out <= rx_data;
+                    end
                 end
                 default: begin
                     data_out <= data_out;
@@ -162,7 +155,29 @@ module uart(
     end
 
     // Receive signal
-    assign rx_busy = rx_state != RX_IDLE;
+    always @(posedge clk) begin
+        if (rst) begin
+            rx_busy <= 0;
+            rx_done <= 0;
+        end else begin
+            case (rx_state)
+                RX_IDLE: begin
+                    rx_busy <= 0;
+                    rx_done <= 0;
+                end
+                RX_STOP: begin
+                    if (rx_shift_bit & sample_pause)
+                        rx_done <= 1;
+                    else
+                        rx_done <= 0;
+                end
+                default: begin
+                    rx_busy <= 1;
+                    rx_done <= 0;
+                end
+            endcase
+        end
+    end
 
     // Generate shift bit pause
     reg[3: 0] tx_bit_spacing;
@@ -180,15 +195,12 @@ module uart(
     // Transmit state machine
     reg [2: 0] tx_state, tx_state_next;
     reg [3: 0] tx_data_cnt, tx_data_cnt_next;
-    reg tx_stop, tx_stop_next;
     always @(*) begin
         tx_state_next = tx_state;
         tx_data_cnt_next = tx_data_cnt;
-        tx_done = 0;
-
         case(tx_state)
             TX_IDLE: begin
-                if (we) 
+                if (we & en)
                     tx_state_next = TX_START;
             end
             TX_START: begin
@@ -202,12 +214,7 @@ module uart(
                     tx_data_cnt_next = tx_data_cnt + 1;
             end
             TX_STOP: begin
-                if (tx_stop == 1) begin
-                    tx_stop_next = 0;
-                    tx_state_next = TX_IDLE;
-                    tx_done = 1;
-                end else
-                    tx_stop_next = tx_stop + 1;
+                tx_state_next = TX_IDLE;
             end
         endcase
     end
@@ -217,7 +224,6 @@ module uart(
         if (rst) begin
             tx_state <= 0;
             tx_data_cnt <= 0;
-            tx_stop <= 0;
         end else begin
             if (sample_pause)
                 case(tx_state)
@@ -235,7 +241,6 @@ module uart(
                     TX_STOP: begin
                         if (tx_shift_bit) begin
                             tx_state <= tx_state_next;
-                            tx_stop <= tx_stop_next;
                         end
                     end
                 endcase
@@ -273,6 +278,28 @@ module uart(
     end
 
     // Transmit signal
-    assign tx_busy = tx_state != TX_IDLE;
+    always @(posedge clk) begin
+        if (rst) begin
+            tx_busy <= 0;
+            tx_done <= 0;
+        end else begin
+            case (tx_state)
+                TX_IDLE: begin
+                    tx_done <= 0;
+                    tx_busy <= 0;
+                end
+                TX_STOP: begin
+                    if (tx_shift_bit & sample_pause)
+                        tx_done <= 1;
+                    else
+                        tx_done <= 0;
+                end
+                default: begin
+                    tx_busy <= 1;
+                    tx_done <= 0;
+                end
+            endcase
+        end
+    end
 
 endmodule

@@ -2,12 +2,15 @@ module disk_dev(
     input clk,
     input rst,
 
+    // addr's last two bit should always be 0
     input[8: 0] addr,
-    output[7: 0] data,
+    input[31: 0] data_in,
+    output[31: 0] data_out,
     
     input[31: 0] instruction,
     input write_pause,
     input read_pause,
+    output operate_done,
 
     input dev_read_done,
     input dev_write_done,
@@ -63,12 +66,26 @@ module disk_dev(
     assign byte_instruction[2] = instruction[23: 16];
     assign byte_instruction[3] = instruction[31: 24];
 
-    assign data = buffer[addr];
+    wire [7: 0] din_0, din_1, din_2, din_3;
+    wire [7: 0] dout_0, dout_1, dout_2, dout_3;
+
+    assign dout_0 = buffer[addr];
+    assign dout_1 = buffer[addr + 1];
+    assign dout_2 = buffer[addr + 2];
+    assign dout_3 = buffer[addr + 3];
+
+    assign data_out = {dout_3, dout_2, dout_1, dout_0};
+    
+    assign din_0 = data_in[7: 0];
+    assign din_1 = data_in[15: 8];
+    assign din_2 = data_in[23: 16];
+    assign din_3 = data_in[31: 24];
     
     // Read state machine
     reg read_data_done;
     reg[2: 0] read_state, read_state_next;
     reg[9: 0] read_data_cnt, read_data_cnt_next;
+    reg read_operate_done;
     always @(*) begin
         if (rst) begin
             read_state_next = READ_IDLE;
@@ -131,6 +148,7 @@ module disk_dev(
                 READ_IDLE: begin
                     read_state <= read_state_next;
                     read_data_cnt <= read_data_cnt_next;
+                    read_operate_done <= 0;
                 end
                 READ_REQUEST: begin
                     if (dev_write_done)
@@ -152,8 +170,10 @@ module disk_dev(
                     end
                 end
                 READ_GOODBYE: begin
-                    if (dev_write_done)
+                    if (dev_write_done) begin
                         read_state <= read_state_next;
+                        read_operate_done <= 1;
+                    end
                     read_data_cnt <= read_data_cnt_next;
                 end
             endcase
@@ -164,6 +184,7 @@ module disk_dev(
     reg write_data_done;
     reg[2: 0] write_state, write_state_next;
     reg[9: 0] write_data_cnt, write_data_cnt_next;
+    reg write_operate_done;
     always @(*) begin
         if (rst) begin
             write_state_next = WRITE_IDLE;
@@ -226,6 +247,7 @@ module disk_dev(
                 WRITE_IDLE: begin
                     write_state <= write_state_next;
                     write_data_cnt <= write_data_cnt_next;
+                    write_operate_done <= 0;
                 end
                 WRITE_REQUEST: begin
                     if (dev_write_done)
@@ -247,8 +269,10 @@ module disk_dev(
                     end
                 end
                 WRITE_GOODBYE: begin
-                    if (dev_write_done)
+                    if (dev_write_done) begin
                         write_state <= write_state_next;
+                        write_operate_done <= 1;
+                    end
                     write_data_cnt <= write_data_cnt_next;
                 end
             endcase
@@ -263,79 +287,91 @@ module disk_dev(
             dev_we <= 0;
             dev_data_out <= 0;
         end else begin
-            case(instruction[31])
-                0: begin
-                    case(state)
-                        READ_IDLE: begin
-                            dev_enable <= 0;
-                        end
-                        READ_REQUEST: begin
-                            dev_enable <= 1;
-                            dev_we <= 1;
-                            dev_data_out <= byte_instruction[read_data_cnt];
-                        end
-                        READ_HELLO: begin
-                            dev_enable <= 1;
-                            dev_we <= 0;
-                        end
-                        READ_WAIT: begin
-                            dev_enable <= 1;
-                            dev_we <= dev_we;
-                        end
-                        READ_DATA: begin
-                            dev_enable <= 1;
-                            dev_we <= 0;
-                            if (dev_read_done)
-                                buffer[read_data_cnt] <= dev_data_in;
-                        end
-                        READ_GOODBYE: begin
-                            dev_enable <= 1;
-                            dev_we <= 1;
-                            dev_data_out <= 8'hff;
-                        end
-                        default: begin
-                            dev_enable <= 0;
-                            dev_we <= 0;
-                        end
-                    endcase
+            if (instruction[30]) begin
+                case(instruction[31])
+                    0: begin
+                        case(state)
+                            READ_IDLE: begin
+                                dev_enable <= 0;
+                            end
+                            READ_REQUEST: begin
+                                dev_enable <= 1;
+                                dev_we <= 1;
+                                dev_data_out <= byte_instruction[read_data_cnt];
+                            end
+                            READ_HELLO: begin
+                                dev_enable <= 1;
+                                dev_we <= 0;
+                            end
+                            READ_WAIT: begin
+                                dev_enable <= 1;
+                                dev_we <= dev_we;
+                            end
+                            READ_DATA: begin
+                                dev_enable <= 1;
+                                dev_we <= 0;
+                                if (dev_read_done)
+                                    buffer[read_data_cnt] <= dev_data_in;
+                            end
+                            READ_GOODBYE: begin
+                                dev_enable <= 1;
+                                dev_we <= 1;
+                                dev_data_out <= 8'hff;
+                            end
+                            default: begin
+                                dev_enable <= 0;
+                                dev_we <= 0;
+                            end
+                        endcase
+                    end
+                    1: begin
+                        case(state)
+                            WRITE_IDLE: begin
+                                dev_enable <= 0;
+                            end
+                            WRITE_REQUEST: begin
+                                dev_enable <= 1;
+                                dev_we <= 1;
+                                dev_data_out <= byte_instruction[write_data_cnt];
+                            end
+                            WRITE_HELLO: begin
+                                dev_enable <= 1;
+                                dev_we <= 0;
+                            end
+                            WRITE_WAIT: begin
+                                dev_enable <= 1;
+                                dev_we <= dev_we;
+                            end
+                            WRITE_DATA: begin
+                                dev_enable <= 1;
+                                dev_we <= 1;
+                                if (dev_write_done)
+                                    dev_data_out <= buffer[write_data_cnt];
+                            end
+                            WRITE_GOODBYE: begin
+                                dev_enable <= 1;
+                                dev_we <= 1;
+                                dev_data_out <= 8'hff;
+                            end
+                            default: begin
+                                dev_enable <= 0;
+                                dev_we <= 0;
+                            end
+                        endcase
+                    end
+                endcase
+            end else begin
+                // read or write from buffer
+                if (instruction[31]) begin
+                    buffer[addr] <= din_0;
+                    buffer[addr + 1] <= din_1;
+                    buffer[addr + 2] <= din_2;
+                    buffer[addr + 3] <= din_3;
                 end
-                1: begin
-                    case(state)
-                        WRITE_IDLE: begin
-                            dev_enable <= 0;
-                        end
-                        WRITE_REQUEST: begin
-                            dev_enable <= 1;
-                            dev_we <= 1;
-                            dev_data_out <= byte_instruction[write_data_cnt];
-                        end
-                        WRITE_HELLO: begin
-                            dev_enable <= 1;
-                            dev_we <= 0;
-                        end
-                        WRITE_WAIT: begin
-                            dev_enable <= 1;
-                            dev_we <= dev_we;
-                        end
-                        WRITE_DATA: begin
-                            dev_enable <= 1;
-                            dev_we <= 1;
-                            if (dev_write_done)
-                                dev_data_out <= buffer[write_data_cnt];
-                        end
-                        WRITE_GOODBYE: begin
-                            dev_enable <= 1;
-                            dev_we <= 1;
-                            dev_data_out <= 8'hff;
-                        end
-                        default: begin
-                            dev_enable <= 0;
-                            dev_we <= 0;
-                        end
-                    endcase
-                end
-            endcase
+            end
         end
     end
+
+    assign operate_done = instruction[30] & ((instruction[31] & write_operate_done) | (instruction[31] & read_operate_done));
 
 endmodule
