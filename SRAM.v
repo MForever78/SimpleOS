@@ -128,21 +128,21 @@ module SRAM(
 	/*写操作*/
 	 
 	assign sram_wea =   init_flag ? 1'b1                     : (sel_vram_scan ? 1'b0 : ram_wea);
-	assign sram_addra = init_flag ? init_addra               : (sel_vram_scan ? vram_scan_addr : ram_addra);
-	assign sram_dina =  init_flag ? init_dina[47:0] 	     : (sel_vram_scan ? {48{1'bz}} : ram_dina);
+	assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                : (sel_vram_scan ? vram_scan_addr : ram_addra);
+	assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h80800000)    : (sel_vram_scan ? {48{1'bz}} : ram_dina);
 	assign MIO_ready = ~init_flag & write_flag; 
 	
 	
 	
+    reg [9:0] timer;
 	/*SRAM 初始化*/
 	initial begin
-		write_flag = 1'b1;
-		init_flag = 1'b1;
-		init_addra[19:0] = 20'b0;
-		rom_addra[19:0] = 20'b0;
-		copy_flag = 1'b0;
-		#200;
-		copy_flag = 1'b1;						//开始初始化
+		write_flag <= 1'b1;
+		init_flag <= 1'b1;
+		init_addra[19:0] <= 20'h200000;
+		rom_addra[19:0] <= 20'h200000;
+		copy_flag <= 1'b0;
+        timer <= 10'h0;
 	end
 	 
 	 RAM_B  U3 (.addra(rom_addra[19:0]), 
@@ -151,21 +151,28 @@ module SRAM(
 		 .wea(1'b0), 
 		 .douta(init_dina[47:0]));
 		 
-	 
+	
+     
 	always @(posedge clk_50mhz)
 	begin
-		if (copy_flag)	
-		begin
-			if (init_addra > 20'd307200) 		//初始化结束
-			begin
-				init_flag <= 1'b0;
-				copy_flag <= 1'b0;
-			end
-			else begin
-				rom_addra <= rom_addra + 20'b1;	//地址增加
-				if (rom_addra >= 20'b1) init_addra <= init_addra + 20'b1;
-			end
-		end
+        if (init_flag) begin
+            if (copy_flag)	
+            begin
+                if (init_addra > 20'd307200) 		//初始化结束
+                begin
+                    init_flag <= 1'b0;
+                    copy_flag <= 1'b0;
+                end
+                else begin
+                    rom_addra <= rom_addra + 20'h1;	//地址增加
+                    if (rom_addra >= 20'h200001) init_addra <= init_addra + 20'b1;
+                end
+            end
+            else begin
+                timer <= timer + 10'h1;
+                if (timer >= 10'ha) copy_flag <= 1'b1; 
+            end
+         end
 	end
 	/*SRAM 初始化结束*/
 	 
