@@ -29,7 +29,7 @@ module RAM_B(addra, clka, dina, wea, douta);
     reg [31:0] mem[0:127];
 
     initial begin
-        $readmemh("hex/demo2.hex", mem);
+        $readmemh("hex/demo3.hex", mem);
     end
 
     always @(posedge clka) begin 

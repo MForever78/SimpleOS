@@ -56,10 +56,10 @@ module disk_dev(
         WRITE_GOODBYE = 5;
 
     // device internal buffer
-    reg[7: 0] buffer [0: 511];
+    reg[7: 0] buffer [511: 0];
     reg[8: 0] buffer_addr;
 
-    wire[7: 0] byte_instruction [0: 3];
+    wire[7: 0] byte_instruction [3: 0];
 
     assign byte_instruction[0] = instruction[7: 0];
     assign byte_instruction[1] = instruction[15: 8];

@@ -54,11 +54,11 @@ module SimpleOS(
         output LED_CLK,
         output LED_CLR,
         output LED_DO,
-        output LED_PEN,
+        output LED_PEN
 
         // UART
-        input UART_RXD,
-        output UART_TXD
+       // input UART_RXD,
+       // output UART_TXD
     );
 
 
@@ -88,7 +88,7 @@ module SimpleOS(
        // Ram_INT | 
        // Disk_INT |
        // VRam_INT |
-       // Keyboard_INT |
+        Keyboard_INT |
        // Counter_INT |
         Switch_INT ;
     
@@ -97,7 +97,7 @@ module SimpleOS(
        // Ram_INT ? Ram_CAUSE :
        // Disk_INT ? Disk_CAUSE :
        // VRam_INT ? VRam_CAUSE :
-       // Keyboard_INT ? Keyboard_CAUSE :
+        Keyboard_INT ? Keyboard_CAUSE :
        // Counter_INT ? Counter_CAUSE :
         Switch_INT ? Switch_CAUSE :
         32'h0;
@@ -230,7 +230,7 @@ module SimpleOS(
         
 
     assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   
-    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Ram_ACK}};  
+    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{~Keyboard_INT}};  
     
     board_disp_sword(
         .clk(clk100),
@@ -271,7 +271,7 @@ module SimpleOS(
     wire UART_RX_busy, UART_RX_done;
     wire UART_TX_busy, UART_TX_done;
     wire UART_dev_en, UART_dev_we;
-
+/*
     disk disk(
         .clk(clk100),
         .rst(RST),
@@ -326,6 +326,20 @@ module SimpleOS(
         .tx_done(UART_TX_done),
         .data_in(UART_data_in),
         .data_out(UART_data_out)
+    );*/
+
+    keyboard keyboard_dev(
+        .STB(Keyboard_STB),
+        .ACK(Keyboard_ACK),
+        
+		.clk_cpu(clk25),
+        .reset(1'b0),
+		.WE(Keyboard_WE),
+		.PS2C(PS2C),
+		.PS2D(PS2D),
+		
+		.key_data(Keyboard_DAT_O),
+        .INT(Keyboard_INT)
     );
 
 endmodule                                                           

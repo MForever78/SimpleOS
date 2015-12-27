@@ -1,8 +1,7 @@
 ISim log file
-Running: D:\project\ISE\project\SimpleOS\testMuliti_CPU_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb D:/project/ISE/project/SimpleOS/testMuliti_CPU_isim_beh.wdb 
+Running: D:\project\ISE\project\SimpleOS\test_sram_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb D:/project/ISE/project/SimpleOS/test_sram_isim_beh.wdb 
 ISim P.20131013 (signature 0x7708f090)
 This is a Full version of ISim.
-WARNING: File "D:/project/ISE/project/SimpleOS/testMuliti_CPU.v" Line 42.  For instance testMuliti_CPU/uut/, width 6 of formal port state is not equal to width 5 of actual signal state.
 Time resolution is 1 ps
 # onerror resume
 # wave add /
