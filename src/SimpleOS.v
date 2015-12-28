@@ -57,8 +57,8 @@ module SimpleOS(
         output LED_PEN
 
         // UART
-       // input UART_RXD,
-       // output UART_TXD
+        //input UART_RXD,
+        //output UART_TXD
     );
 
 
@@ -230,13 +230,13 @@ module SimpleOS(
         
 
     assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   
-    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{~Keyboard_INT}};  
+    assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{Keyboard_STB}};  
     
     board_disp_sword(
         .clk(clk100),
         .rst(RST),
         .en(8'hff),
-        .data(slave_ADDR),   
+        .data(CPU_ADDR),   
         .dot(8'h0),
         .led(16'b0),
         .led_clk(LED_CLK), 
@@ -271,6 +271,15 @@ module SimpleOS(
     wire UART_RX_busy, UART_RX_done;
     wire UART_TX_busy, UART_TX_done;
     wire UART_dev_en, UART_dev_we;
+
+    reg tmp;
+    initial begin
+        tmp = 1'b0;
+    end
+    
+    always @*begin
+        if (Keyboard_ACK) tmp = 1'b1;
+    end
 /*
     disk disk(
         .clk(clk100),

@@ -44,3 +44,49 @@ WARNING:NetListWriters:306 - Signal bus
 Writing EDIF netlist file SimpleOS.edif ...
 ngc2edif: Total memory usage is 85152 kilobytes
 
+Release 14.7 - ngc2edif P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+Reading design SimpleOS.ngc ...
+WARNING:NetListWriters:298 - No output is written to SimpleOS.xncf, ignored.
+Processing design ...
+   Preping design's networks ...
+   Preping design's macros ...
+WARNING:NetListWriters:306 - Signal bus n0037<4 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/init_addra<19 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U1/U12/wt_data<28 : 15> on block
+   SimpleOS is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   U1/U12/U2/R_addr_A[4]_register[31][31]_wide_mux_1_OUT<31 : 0> on block
+   SimpleOS is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_h_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+  finished :Prep
+Writing EDIF netlist file SimpleOS.edif ...
+ngc2edif: Total memory usage is 110016 kilobytes
+
+Release 14.7 - ngc2edif P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+Reading design SimpleOS.ngc ...
+WARNING:NetListWriters:298 - No output is written to SimpleOS.xncf, ignored.
+Processing design ...
+   Preping design's networks ...
+   Preping design's macros ...
+WARNING:NetListWriters:306 - Signal bus n0037<4 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U3/init_addra<19 : 0> on block SimpleOS
+   is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus U1/U12/wt_data<28 : 15> on block
+   SimpleOS is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   U1/U12/U2/R_addr_A[4]_register[31][31]_wide_mux_1_OUT<31 : 0> on block
+   SimpleOS is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus
+   vga_dev/vga_controller/Mcount_h_count_lut<9 : 0> on block SimpleOS is not
+   reconstructed, because there are some missing bus signals.
+  finished :Prep
+Writing EDIF netlist file SimpleOS.edif ...
+ngc2edif: Total memory usage is 110016 kilobytes
+
