@@ -5,10 +5,40 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"D:/project/ISE/project/SimpleOS/testMuliti_CPU.v" Line 46: Port <arg fmt="%s" index="1">Cause_in</arg> is not connected to this instance
+<msg type="warning" file="HDLCompiler" num="604" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 235: Module instantiation should have an instance name
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/testMuliti_CPU.v" Line 59: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">state</arg>&gt;. Formal port size is <arg fmt="%d" index="2">6</arg>-bit while actual signal size is <arg fmt="%d" index="1">5</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 164: Port <arg fmt="%s" index="1">RESET</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 153: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_STB</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 154: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_ACK</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 156: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_DAT_I</arg>&gt;. Formal port size is <arg fmt="%d" index="2">256</arg>-bit while actual signal size is <arg fmt="%d" index="1">512</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 196: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">20</arg>-bit while actual signal size is <arg fmt="%d" index="1">30</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 197: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_dina</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 199: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_douta</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 203: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">20</arg>-bit while actual signal size is <arg fmt="%d" index="1">30</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 204: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_dina</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/SimpleOS.v" Line 206: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_douta</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+</msg>
+
+<msg type="error" file="Simulator" num="793" delta="unknown" >Unable to elaborate instantiated module <arg fmt="%s" index="1">board_disp_sword</arg>
 </msg>
 
 </messages>
