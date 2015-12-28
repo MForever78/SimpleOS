@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh1.wdb" id="1" type="auto">
+      <db_ref path="/home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="glbl" />
             <top_module name="test_top" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="22" />
+   <WVObjectSize size="24" />
    <wvobject fp_name="/test_top/SRAM_ADDR" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">SRAM_ADDR[19:0]</obj_property>
       <obj_property name="ObjectShortName">SRAM_ADDR[19:0]</obj_property>
@@ -263,5 +263,13 @@
       <obj_property name="ElementShortName">CPU_DAT_O[31:0]</obj_property>
       <obj_property name="ObjectShortName">CPU_DAT_O[31:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_top/uut/U3/sw_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sw_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sw_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_top/uut/U3/write_wait" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">write_wait</obj_property>
+      <obj_property name="ObjectShortName">write_wait</obj_property>
    </wvobject>
 </wave_config>

@@ -63,7 +63,7 @@ WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v
 WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 219: Size mismatch in connection of port <v_douta>. Formal port size is 48-bit while actual signal size is 32-bit.
 WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 357: Size mismatch in connection of port <data3>. Formal port size is 32-bit while actual signal size is 6-bit.
 Completed static elaboration
-Fuse Memory Usage: 100352 KB
+Fuse Memory Usage: 100368 KB
 Fuse CPU Usage: 1000 ms
 Compiling module WB_intercon
 Compiling module IBUFG
@@ -122,6 +122,6 @@ Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
 Compiled 53 Verilog Units
 Built simulation executable /home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.exe
-Fuse Memory Usage: 1197700 KB
-Fuse CPU Usage: 1170 ms
-GCC CPU Usage: 140 ms
+Fuse Memory Usage: 1197704 KB
+Fuse CPU Usage: 1180 ms
+GCC CPU Usage: 240 ms

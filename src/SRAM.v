@@ -111,7 +111,7 @@ module SRAM(
 	reg [47:0] write_record;
 
 	assign ram_addra = addra;
-	assign ram_wea = wea ? write_flag & ~write_wait : 1'b0;
+	assign ram_wea = wea ? write_flag & (sw_state <= 3) : 1'b0;
 	assign ram_dina = wea ? (write_flag ? (sel_ram ? {write_record[47:32], dina[31:0]} 		//写的是ram那么输入低32位
 																  : {dina[15:0], write_record[31:0]})		//写的是vram那么输入高16位 
 													: {48{1'bz}}) 							//写操作的读状态也不用考虑输入
@@ -125,16 +125,16 @@ module SRAM(
     always @(posedge clk_50mhz) begin
         if (wea) begin
             case (sw_state[2:0])
-                0:begin sw_state <= 2'h1; write_flag <= 1'b0; write_wait <= 1'b0; end
-                1:begin sw_state <= 2'h2; write_record <= douta; end
-                2:begin sw_state <= 2'h3; write_flag <= 1'b1; end
-                3:begin sw_state <= 2'h4; write_wait <= 1'b1; end
-                4:begin sw_state <= 2'h5; write_wait <= 1'b0; end
-                5:begin sw_state <= 2'h0; end
-                default : begin sw_state <= 2'b0; write_flag <= 1'b1; write_wait <= 1'b0; end
+                0:begin sw_state <= 3'h1; write_flag <= 1'b0; write_wait <= 1'b0; end
+                1:begin sw_state <= 3'h2; write_record <= douta; end
+                2:begin sw_state <= 3'h3; write_flag <= 1'b1; write_wait <= 1'b1; end
+                3:begin sw_state <= 3'h4; write_wait <= 1'b0; end
+                4:begin sw_state <= 3'h5; write_wait <= 1'b0; end
+                5:begin sw_state <= 3'h0; end
+                default : begin sw_state <= 3'b0; write_flag <= 1'b1; write_wait <= 1'b0; end
             endcase
         end 
-        else begin sw_state <= 2'b0; write_flag <= 1'b1; write_wait <= 1'b0; end
+        else begin sw_state <= 3'b0; write_flag <= 1'b1; write_wait <= 1'b0; end
     end
 
 	/*写操作*/
