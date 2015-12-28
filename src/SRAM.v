@@ -109,8 +109,9 @@ module SRAM(
 	reg write_flag;
     reg write_wait;
 	reg [47:0] write_record;
+    reg [47:0] cpu_addra;
 
-	assign ram_addra = addra;
+	assign ram_addra = MIO_ready ? addra : cpu_addra;
 	assign ram_wea = wea ? write_flag & (sw_state <= 3) : 1'b0;
 	assign ram_dina = wea ? (write_flag ? (sel_ram ? {write_record[47:32], dina[31:0]} 		//写的是ram那么输入低32位
 																  : {dina[15:0], write_record[31:0]})		//写的是vram那么输入高16位 
@@ -125,7 +126,7 @@ module SRAM(
     always @(posedge clk_50mhz) begin
         if (wea) begin
             case (sw_state[2:0])
-                0:begin sw_state <= 3'h1; write_flag <= 1'b0; write_wait <= 1'b0; end
+                0:begin sw_state <= 3'h1; write_flag <= 1'b0; write_wait <= 1'b0; cpu_addra <= addra;end
                 1:begin sw_state <= 3'h2; write_record <= douta; end
                 2:begin sw_state <= 3'h3; write_flag <= 1'b1; write_wait <= 1'b1; end
                 3:begin sw_state <= 3'h4; write_wait <= 1'b0; end
@@ -149,6 +150,7 @@ module SRAM(
     reg [9:0] timer;
 	/*SRAM 初始化*/
 	initial begin
+        cpu_addra <= 48'h0;
         write_wait <= 1'b0;
 		write_flag <= 1'b1;
 		init_flag <= 1'b1;
