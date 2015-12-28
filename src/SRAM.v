@@ -130,7 +130,7 @@ module SRAM(
                 3:begin sw_state <= 2'h0; end
             endcase
         end 
-        else if (sw_state == 2'h3) begin sw_state <= 2'b0; write_flag <= 1'b1; end
+        else begin sw_state <= 2'b0; write_flag <= 1'b1; end
     end
 
 	/*Ð´²Ù×÷*/
