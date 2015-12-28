@@ -24,7 +24,7 @@ module SimpleOS(
         input PS2C,
         input PS2D,
         
-        input [0:0] SW,
+        input [15:0] SW,
         
         output [3:0] Red,
         output [3:0] Green,
@@ -113,6 +113,7 @@ module SimpleOS(
     wire [31: 0] CPU_DAT_I;
     wire [31: 0] CPU_DAT_O;
     wire [31: 0] CPU_ADDR;
+    wire [5: 0] CPU_state;
 
     // Slave Signal
     wire [16: 0] slave_ACK, slave_STB;
@@ -181,7 +182,7 @@ module SimpleOS(
             .mem_w(mem_w),
             .mem_r(mem_r),
             .PC_out(),
-            .state(),
+            .state(CPU_state),
             .Addr_out(CPU_ADDR[31:0]),
             .Data_out(CPU_DAT_O[31:0]),
             .CPU_MIO(),
@@ -337,7 +338,7 @@ module SimpleOS(
         .clk(clk100),
         .rst(RST),
         .en(8'hff),
-        .data(CPU_ADDR),   
+        .data(SW[0] ? CPU_ADDR : CPU_state),   
         .dot(8'h0),
         .led({14'b0, UART_TX_busy, UART_RX_busy}),
         .led_clk(LED_CLK), 
