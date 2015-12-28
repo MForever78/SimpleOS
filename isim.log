@@ -394,3 +394,4 @@ Finished circuit initialization process.
 Warning : input CLKIN1 period and attribute CLKIN1_PERIOD on MMCME2_ADV instance test_top.uut.timer.mmcm_adv_inst are not same.
 # run 50.00us
 # run 50.00us
+# exit 0
