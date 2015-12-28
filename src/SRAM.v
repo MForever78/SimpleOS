@@ -85,7 +85,12 @@ module SRAM(
 	reg init_flag;
 	reg [19:0] init_addra;
 	reg [19:0] rom_addra;
+    reg [1: 0] sw_state;
 	wire [47:0] init_dina;
+
+    initial begin
+        sw_state = 0;
+    end
 	
 	/*vga 扫描信号输出*/
 	wire sel_vram_scan;
@@ -116,15 +121,18 @@ module SRAM(
 										     : {32'b0, sram_douta[47:32]});  	//读的是vram那么就输出高16位 
 	assign douta = ram_douta; 
 
-	/*写操作*/ 
-	always @(posedge clk_50mhz)    
-	begin
-		if (wea) begin
-			if (sel_vram_scan & write_flag == 1'b1) write_flag <= 1'b0;		
-			if (~sel_vram_scan & write_flag == 1'b0) write_record <= douta;
-			if (sel_vram_scan & write_flag == 1'b0) write_flag <= 1'b1;
-		end	
-	end
+    always @(posedge clk_50mhz) begin
+        if (wea) begin
+            case (sw_state[1:0])
+                0:begin sw_state <= 2'h1; write_flag <= 1'b0; end
+                1:begin sw_state <= 2'h2; write_record <= douta; end
+                2:begin sw_state <= 2'h3; write_flag <= 1'b1; end
+                3:begin sw_state <= 2'h0; end
+            endcase
+        end 
+        else if (sw_state == 2'h3) begin sw_state <= 2'b0; write_flag <= 1'b1; end
+    end
+
 	/*写操作*/
 	 
 	assign sram_wea =   init_flag ? 1'b1                                            : (sel_vram_scan ? 1'b0 : ram_wea);
@@ -146,7 +154,7 @@ module SRAM(
 	end
 	 
 	 RAM_B  U3 (.addra(rom_addra[19:0]), 
-		 .clka(clk_50mhz), 
+		 .clka(clk_25mhz), 
 		 .dina(32'b0), 
 		 .wea(1'b0), 
 		 .douta(init_dina[47:0]));
