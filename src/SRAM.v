@@ -85,7 +85,7 @@ module SRAM(
 	reg init_flag;
 	reg [19:0] init_addra;
 	reg [19:0] rom_addra;
-    reg [1: 0] sw_state;
+    reg [2: 0] sw_state;
 	wire [47:0] init_dina;
 
     initial begin
@@ -107,10 +107,11 @@ module SRAM(
 	wire [47:0] ram_dina;
 	wire [47:0] ram_douta;
 	reg write_flag;
+    reg write_wait;
 	reg [47:0] write_record;
 
 	assign ram_addra = addra;
-	assign ram_wea = wea ? write_flag : 1'b0;
+	assign ram_wea = wea ? write_flag & ~write_wait : 1'b0;
 	assign ram_dina = wea ? (write_flag ? (sel_ram ? {write_record[47:32], dina[31:0]} 		//写的是ram那么输入低32位
 																  : {dina[15:0], write_record[31:0]})		//写的是vram那么输入高16位 
 													: {48{1'bz}}) 							//写操作的读状态也不用考虑输入
@@ -123,14 +124,17 @@ module SRAM(
 
     always @(posedge clk_50mhz) begin
         if (wea) begin
-            case (sw_state[1:0])
-                0:begin sw_state <= 2'h1; write_flag <= 1'b0; end
+            case (sw_state[2:0])
+                0:begin sw_state <= 2'h1; write_flag <= 1'b0; write_wait <= 1'b0; end
                 1:begin sw_state <= 2'h2; write_record <= douta; end
                 2:begin sw_state <= 2'h3; write_flag <= 1'b1; end
-                3:begin sw_state <= 2'h0; end
+                3:begin sw_state <= 2'h4; write_wait <= 1'b1; end
+                4:begin sw_state <= 2'h5; write_wait <= 1'b0; end
+                5:begin sw_state <= 2'h0; end
+                default : begin sw_state <= 2'b0; write_flag <= 1'b1; write_wait <= 1'b0; end
             endcase
         end 
-        else begin sw_state <= 2'b0; write_flag <= 1'b1; end
+        else begin sw_state <= 2'b0; write_flag <= 1'b1; write_wait <= 1'b0; end
     end
 
 	/*写操作*/
@@ -138,13 +142,14 @@ module SRAM(
 	assign sram_wea =   init_flag ? 1'b1                                                : (sel_vram_scan ? 1'b0 : ram_wea);
 	assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                    : (sel_vram_scan ? vram_scan_addr : ram_addra);
 	assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h000008080000)    : (sel_vram_scan ? {48{1'bz}} : ram_dina);
-	assign MIO_ready = ~init_flag & write_flag; 
+	assign MIO_ready = ~init_flag & write_flag & ~write_wait; 
 	
 	
 	
     reg [9:0] timer;
 	/*SRAM 初始化*/
 	initial begin
+        write_wait <= 1'b0;
 		write_flag <= 1'b1;
 		init_flag <= 1'b1;
 		init_addra[19:0] <= 20'h80000;
