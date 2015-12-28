@@ -21,7 +21,7 @@ module disk(
     reg [31: 0] status;
     
     assign instruction = {DAT_I[31], ADDR[9], DAT_I[29: 0]};
-    assign disk_addr = ADDR[8: 0];
+    assign disk_addr = {ADDR[8: 2], 2'b0};
     assign DAT_O = disk_data_in;
     assign disk_data_out = DAT_I;
 
@@ -46,22 +46,20 @@ module disk(
     assign ACK = ack_cnt != 0;
 
     // handle read && write with disk
-    reg write_pause_last, read_pause_last;
+    reg stb_last;
     always @(posedge clk) begin
         if (rst) begin
             write_pause <= 0;
-            write_pause_last <= 0;
             read_pause <= 0;
-            read_pause_last <= 0;
+            stb_last <= 0;
         end else begin
-            write_pause_last <= write_pause;
-            read_pause_last <= read_pause;
-            if (STB) begin
-                if (ADDR[9] & DAT_I[31] & ~write_pause_last)
+            stb_last <= STB;
+            if (STB & ~stb_last) begin
+                if (ADDR[9] & DAT_I[31])
                     write_pause <= 1;
                 else
                     write_pause <= 0;
-                if (ADDR[9] & ~DAT_I[31] & ~read_pause_last)
+                if (ADDR[9] & ~DAT_I[31])
                     read_pause <= 1;
                 else
                     read_pause <= 0;
