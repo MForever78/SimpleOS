@@ -319,8 +319,8 @@
 #    NET "TMDS_TXD_N[2]"                            LOC = AF17      | IOSTANDARD = LVDS ;
 #    NET "TMDS_TXD_P[2]"                            LOC = AE17      | IOSTANDARD = LVDS ;
 #
-#    NET "UART_RXD"                                 LOC = L25       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
-#    NET "UART_TXD"                                 LOC = P24       | IOSTANDARD = LVCMOS33 | SLEW = FAST | DRIVE = 16 | PULLUP ;
+    NET "UART_RXD"                                 LOC = L25       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
+    NET "UART_TXD"                                 LOC = P24       | IOSTANDARD = LVCMOS33 | SLEW = FAST | DRIVE = 16 | PULLUP ;
 #
     NET "PS2D"                                 		LOC = N18       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
     NET "PS2C"                                  	LOC = M19       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;

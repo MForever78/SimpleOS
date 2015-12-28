@@ -54,11 +54,11 @@ module SimpleOS(
         output LED_CLK,
         output LED_CLR,
         output LED_DO,
-        output LED_PEN
+        output LED_PEN,
 
         // UART
-       // input UART_RXD,
-       // output UART_TXD
+        input UART_RXD,
+        output UART_TXD
     );
 
 
@@ -186,7 +186,6 @@ module SimpleOS(
             .Data_out(CPU_DAT_O[31:0]),
             .CPU_MIO(),
             .Cause_in(CPU_CAUSE));
-        
     
     SRAM  U3 (
         .clk_50mhz(clk50), 
@@ -231,23 +230,7 @@ module SimpleOS(
 
     assign {TRI_LED0_B, TRI_LED0_G, TRI_LED0_R} = {3{CPU_ACK}};   
     assign {TRI_LED1_B, TRI_LED1_G, TRI_LED1_R} = {3{~Keyboard_INT}};  
-    
-    board_disp_sword(
-        .clk(clk100),
-        .rst(RST),
-        .en(8'hff),
-        .data(slave_ADDR),   
-        .dot(8'h0),
-        .led(16'b0),
-        .led_clk(LED_CLK), 
-        .led_en(LED_PEN),
-        .led_clr_n(LED_CLR),
-        .led_do(LED_DO),
-        .seg_clk(SEGLED_CLK),
-        .seg_en(SEGLED_PEN),
-        .seg_clr_n(SEGLED_CLR),
-        .seg_do(SEGLED_DO)
-    );
+
 
     counter counter(
         .clk(clk100),
@@ -271,7 +254,7 @@ module SimpleOS(
     wire UART_RX_busy, UART_RX_done;
     wire UART_TX_busy, UART_TX_done;
     wire UART_dev_en, UART_dev_we;
-/*
+
     disk disk(
         .clk(clk100),
         .rst(RST),
@@ -326,7 +309,7 @@ module SimpleOS(
         .tx_done(UART_TX_done),
         .data_in(UART_data_in),
         .data_out(UART_data_out)
-    );*/
+    );
 
     keyboard keyboard_dev(
         .STB(Keyboard_STB),
@@ -340,6 +323,23 @@ module SimpleOS(
 		
 		.key_data(Keyboard_DAT_O),
         .INT(Keyboard_INT)
+    );
+        
+    board_disp_sword(
+        .clk(clk100),
+        .rst(RST),
+        .en(8'hff),
+        .data(slave_ADDR),   
+        .dot(8'h0),
+        .led({14'b0, UART_TX_busy, UART_RX_busy}),
+        .led_clk(LED_CLK), 
+        .led_en(LED_PEN),
+        .led_clr_n(LED_CLR),
+        .led_do(LED_DO),
+        .seg_clk(SEGLED_CLK),
+        .seg_en(SEGLED_PEN),
+        .seg_clr_n(SEGLED_CLR),
+        .seg_do(SEGLED_DO)
     );
 
 endmodule                                                           
