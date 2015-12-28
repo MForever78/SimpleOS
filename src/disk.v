@@ -20,7 +20,13 @@ module disk(
 
     reg [31: 0] status;
     
-    assign instruction = {DAT_I[31], ADDR[9], DAT_I[29: 0]};
+    wire dev_we = ADDR[9] ? DAT_I[31] : WE;
+    
+    // instruction format:
+    // 31th bit: we
+    // 30th bit: 1: select disk, 0: select buffer
+    // 29-0 bits: if select disk, they are block offset, otherwise no meaning
+    assign instruction = {dev_we, ADDR[9], DAT_I[29: 0]};
     assign disk_addr = {ADDR[8: 2], 2'b0};
     assign DAT_O = disk_data_in;
     assign disk_data_out = DAT_I;
