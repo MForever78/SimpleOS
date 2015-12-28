@@ -88,7 +88,7 @@ module SimpleOS(
        // Ram_INT | 
        // Disk_INT |
        // VRam_INT |
-        Keyboard_INT |
+       // Keyboard_INT |
        // Counter_INT |
         Switch_INT ;
     
@@ -338,7 +338,7 @@ module SimpleOS(
         .ACK(Keyboard_ACK),
         
 		.clk_cpu(clk25),
-        .reset(1'b0),
+        .reset(RST),
 		.WE(Keyboard_WE),
 		.PS2C(PS2C),
 		.PS2D(PS2D),
