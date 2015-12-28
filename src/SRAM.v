@@ -76,7 +76,7 @@ module SRAM(
 	assign SRAM_CE = 1'b0;				
 	assign SRAM_OEN = sram_wea;			
 	assign SRAM_WEN = ~sram_wea;
-	assign SRAM_DQ[47:0] = sram_wea ? sram_dina[47:0] : {48{1'bz}};
+	assign SRAM_DQ[47:0] = (sw_state > 0 && sw_state <= 5) ? (sram_wea ? sram_dina[47:0] : {48{1'bz}}) : cpu_addra;
 	assign sram_douta = SRAM_DQ[47:0];
 	 /*SRAM 核心操作结束*/
 	
@@ -111,7 +111,7 @@ module SRAM(
 	reg [47:0] write_record;
     reg [47:0] cpu_addra;
 
-	assign ram_addra = MIO_ready ? addra : cpu_addra;
+	assign ram_addra = addra;
 	assign ram_wea = wea ? write_flag & (sw_state <= 3) : 1'b0;
 	assign ram_dina = wea ? (write_flag ? (sel_ram ? {write_record[47:32], dina[31:0]} 		//写的是ram那么输入低32位
 																  : {dina[15:0], write_record[31:0]})		//写的是vram那么输入高16位 
