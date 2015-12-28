@@ -113,6 +113,8 @@ module SimpleOS(
     wire [31: 0] CPU_DAT_I;
     wire [31: 0] CPU_DAT_O;
     wire [31: 0] CPU_ADDR;
+    wire [31: 0] CPU_inst;
+    wire [31: 0] CPU_pc;
     wire [5: 0] CPU_state;
 
     // Slave Signal
@@ -167,21 +169,32 @@ module SimpleOS(
         .CLK_OUT1(clk100),
         .CLK_OUT2(clk50),
         .CLK_OUT3(clk25));
+
+    wire clk1s, clk2s;
+
+    slower slower(
+        .clk(clk100),
+        .rst(RST),
+        .clk1s(clk1s),
+        .clk2s(clk2s)
+    );
         
+    wire clk_slow = SW[15] ? (SW[14] ? clk25 : clk2s) : 0;
+    wire clk_fast = SW[15] ? (SW[14] ? clk50 : clk1s) : 0;
         
     wire mem_w, mem_r;
     assign CPU_WE = mem_w & ~mem_r;
     assign CPU_STB = mem_w ^ mem_r;
     Muliti_CPU U1 (
-            .clk(clk25),
-            .reset(),
+            .clk(clk_slow),
+            .reset(RST),
             .INT(CPU_INT), 
-            .inst_out(), 
+            .inst_out(CPU_inst), 
             .Data_in(CPU_DAT_I[31:0]),
             .MIO_ready(CPU_ACK),
             .mem_w(mem_w),
             .mem_r(mem_r),
-            .PC_out(),
+            .PC_out(CPU_pc),
             .state(CPU_state),
             .Addr_out(CPU_ADDR[31:0]),
             .Data_out(CPU_DAT_O[31:0]),
@@ -189,8 +202,8 @@ module SimpleOS(
             .Cause_in(CPU_CAUSE));
     
     SRAM  U3 (
-        .clk_50mhz(clk50), 
-        .clk_25mhz(clk25), 
+        .clk_50mhz(clk_fast), 
+        .clk_25mhz(clk_slow), 
         
         .r_stb(Ram_STB),
         .r_addra(slave_ADDR[31:2]),
@@ -333,12 +346,27 @@ module SimpleOS(
 		.key_data(Keyboard_DAT_O),
         .INT(Keyboard_INT)
     );
+
+    wire [31: 0] display_data;
+
+    display_select display_select(
+        .sel(SW[2: 0]),
+        .data0(CPU_pc),
+        .data1(CPU_inst),
+        .data2(CPU_ADDR),
+        .data3(CPU_state),
+        .data4(CPU_DAT_I),
+        .data5(CPU_DAT_O),
+        .data6(),
+        .data7(),
+        .data_out(display_data)
+    );
         
     board_disp_sword board_disp_sword(
         .clk(clk100),
         .rst(RST),
         .en(8'hff),
-        .data(SW[0] ? CPU_ADDR : CPU_state),   
+        .data(display_data),   
         .dot(8'h0),
         .led({14'b0, UART_TX_busy, UART_RX_busy}),
         .led_clk(LED_CLK), 

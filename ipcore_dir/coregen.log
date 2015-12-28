@@ -1,5 +1,49 @@
 INFO:sim:172 - Generating IP...
 Applying current project options...
 Finished applying current project options.
-Cancelled executing Tcl generator.
+WARNING:sim - A core named 'dsp' already exists in the project. Output products
+   for this core may be overwritten.
+Resolving generics for 'dsp'...
+WARNING:sim - A core named 'dsp' already exists in the project. Output products
+   for this core may be overwritten.
+Applying external generics to 'dsp'...
+Delivering associated files for 'dsp'...
+WARNING:sim - Component clk_wiz_v3_6 does not have a valid model name for
+   Verilog synthesis
+Delivering EJava files for 'dsp'...
+Delivered 3 files into directory
+/home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/tmp/_cg/dsp
+Delivered 1 file into directory
+/home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/tmp/_cg/dsp
+Generating ASY schematic symbol...
+Loading device for application Rf_Device from file '7k160t.nph' in environment
+/opt/Xilinx/14.7/ISE_DS/ISE/.
+INFO:sim:949 - Finished generation of ASY schematic symbol.
+Generating SYM schematic symbol for 'dsp'...
+Generating ISE project...
+XCO file found: dsp.xco
+XMDF file found: dsp_xmdf.tcl
+Adding /home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/tmp/_cg/dsp.asy -view
+all -origin_type imported
+Adding /home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/tmp/_cg/dsp.ucf -view
+all -origin_type created
+Adding /home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/tmp/_cg/dsp.v -view all
+-origin_type created
+INFO:HDLCompiler:1845 - Analyzing Verilog file
+   "/home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/tmp/_cg/dsp.v" into
+   library work
+INFO:ProjectMgmt - Parsing design hierarchy completed successfully.
+Adding /home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/tmp/_cg/dsp.veo -view
+all -origin_type imported
+INFO:TclTasksC:2116 - The automatic calculation of top has been turned-off.
+   Please set the new top explicitly by running the "project set top" command.
+   To re-calculate the new top automatically, set the "Auto Implementation Top"
+   property to true.
+Top level has been set to "/dsp"
+Generating README file...
+Generating FLIST file...
+INFO:sim:948 - Finished FLIST file generation.
+Launching README viewer...
+Moving files to output directory...
+Finished moving files to output directory
 Wrote CGP file for project 'dsp'.

@@ -88,15 +88,15 @@ wire [3:1] CLK_OUT;
 //Freq Check using the M & D values setting and actual Frequency generated 
 real period1;
 real ref_period1;
-localparam  ref_period1_clkin1 = (10.000*1*10.000*1000/10.000);
+localparam  ref_period1_clkin1 = (10.000*1*8.000*1000/8.000);
 time prev_rise1;
 real period2;
 real ref_period2;
-localparam  ref_period2_clkin1 = (10.000*1*20*1000/10.000);
+localparam  ref_period2_clkin1 = (10.000*1*64*1000/8.000);
 time prev_rise2;
 real period3;
 real ref_period3;
-localparam  ref_period3_clkin1 = (10.000*1*40*1000/10.000);
+localparam  ref_period3_clkin1 = (10.000*1*128*1000/8.000);
 time prev_rise3;
 
   reg [13:0]  timeout_counter = 14'b00000000000000;
