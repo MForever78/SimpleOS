@@ -23,9 +23,9 @@
 #endif
 static const char *ng0 = "/home/mforever78/Share/Xilinx/SimpleOS/src/slower.v";
 static int ng1[] = {0, 0};
-static int ng2[] = {49999999, 0};
+static int ng2[] = {24999999, 0};
 static int ng3[] = {1, 0};
-static int ng4[] = {99999999, 0};
+static int ng4[] = {49999999, 0};
 
 
 

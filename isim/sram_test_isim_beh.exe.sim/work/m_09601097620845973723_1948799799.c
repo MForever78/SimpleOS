@@ -22,7 +22,7 @@
 #define alloca _alloca
 #endif
 static const char *ng0 = "/home/mforever78/Share/Xilinx/SimpleOS/src/RAM_B.v";
-static const char *ng1 = "src/hex/test_uart.hex";
+static const char *ng1 = "src/hex/bios.hex";
 static unsigned int ng2[] = {0U, 4294967295U, 0U, 65535U};
 static unsigned int ng3[] = {127U, 0U};
 static unsigned int ng4[] = {0U, 0U};

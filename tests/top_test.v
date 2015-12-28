@@ -103,30 +103,31 @@ module test_top;
         PS2C = 0;
         PS2D = 0;
         SW = 0;
+        SW[15] = 1;
+        SW[14] = 1;
         UART_RXD = 0;
 
         // Wait 100 ns for global reset to finish
         #100;
         
         // Add stimulus here
-        SW[15] = 1;
-        SW[14] = 1;
+        RSTN = 1;
     end
       
     always begin
         #2 clk_100mhz = ~clk_100mhz;
     end
       
-    reg [47:0] mem1[31:0];
-    reg [47:0] mem2[31:0]; 
+    reg [47:0] mem1[255:0];
+    reg [47:0] mem2[255:0]; 
 
     
-    assign SRAM_DQ = SRAM_WEN == 0? 47'hzzzzzzzzzzzz : (SRAM_ADDR < 20'h80000 ? mem1[SRAM_ADDR[7:0]] : mem2[SRAM_ADDR[7:0]]);
+    assign SRAM_DQ = SRAM_WEN == 0? 47'hzzzzzzzzzzzz : (SRAM_ADDR < 20'h80000 ? mem1[SRAM_ADDR[8:0]] : mem2[SRAM_ADDR[8:0]]);
     
     always @(posedge clk_100mhz) begin
         if (SRAM_WEN == 0) begin
-            if (SRAM_ADDR < 20'h80000) mem1[SRAM_ADDR[6:0]] = SRAM_DQ[47:0];
-            else mem2[SRAM_ADDR[6:0]] = SRAM_DQ[47:0];
+            if (SRAM_ADDR < 20'h80000) mem1[SRAM_ADDR[8:0]] = SRAM_DQ[47:0];
+            else mem2[SRAM_ADDR[8:0]] = SRAM_DQ[47:0];
         end
     end
     
