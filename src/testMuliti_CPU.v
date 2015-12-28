@@ -73,9 +73,9 @@ module testMuliti_CPU;
 	always @*
 	begin
 		case(Addr_out[31:2])
-			0: Data_in = 32'h08000002;
-			1: Data_in = 32'h00000024;
-			2: Data_in = 32'h2008000f; 
+			0: Data_in = 32'h20020008;
+			1: Data_in = 32'h00021080;
+			2: Data_in = 32'hffffffff; 
 			3: Data_in = 32'h20020001;			
             4: Data_in = 32'h0002000c;
 			5: Data_in = 32'h3c094000;

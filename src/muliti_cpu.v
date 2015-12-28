@@ -51,7 +51,7 @@ module Muliti_CPU(clk,
    wire IorD;
    wire IRWrite;
    wire RegWrite;
-   wire ALUSrcA;
+   wire [1:0] ALUSrcA;
    wire PCWrite;
    wire PCWriteCond;
    wire Branch;

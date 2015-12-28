@@ -38,7 +38,7 @@ module ctrl(input  clk,
 				output reg [1:0] RegDst,
 				output reg RegWrite,
 				output reg [1:0] MemtoReg,
-				output reg ALUSrcA,
+				output reg [1:0] ALUSrcA,
 				output reg [1:0] ALUSrcB,
 				output reg [1:0] PCSource,
 				output reg PCWrite,
@@ -77,40 +77,40 @@ module ctrl(input  clk,
 				 lh=6'h21, lb=6'h20, sh=6'h29, sb=6'h28,
 				 cp0 = 6'h10;
 				
-				//PCWrite,PCWriteCond,IorD,MemRead,MemWrite,IRWrite,MemtoReg[1:0],PCSource[1:0], ALUSrcB[1:0],ALUSrcA,RegWrite,RegDst[1:0],Branch,CPU_MIO,MDRSrc,Data_sel,ALU_operation[3:0]
+				//PCWrite,PCWriteCond,IorD,MemRead,MemWrite,IRWrite,MemtoReg[1:0],PCSource[1:0], ALUSrcB[1:0],ALUSrcA[1:0],RegWrite,RegDst[1:0],Branch,CPU_MIO,MDRSrc,Data_sel,ALU_operation[3:0]
 	localparam 
-			    SIG_IF =     			26'b1_0_0_1_0_1_00_00_01_0_0_00_0_1_00_00_0010,
-				 SIG_ID =     			26'b0_0_0_0_0_0_00_00_11_0_0_00_0_0_00_00_0010,
-				 SIG_EX_Mem = 			26'b0_0_0_0_0_0_00_00_10_1_0_00_0_0_00_00_0010,
-				 SIG_MEM_RD = 			26'b0_0_1_1_0_0_00_00_10_1_0_00_0_1_00_00_0010,
-				 SIG_WB_LW =  			26'b0_0_0_0_0_0_01_00_00_0_1_00_0_0_00_00_0010,
-				 SIG_MEM_WD = 			26'b0_0_1_0_1_0_00_00_10_1_0_00_0_1_00_00_0010,
-				 SIG_EX_R =   		  	26'b0_0_0_0_0_0_00_00_00_1_0_00_0_0_00_00_0010,
-				 SIG_EX_R_SHAMT =   	26'b0_0_0_0_0_0_00_00_10_1_0_00_0_0_00_00_0010,
-				 SIG_WB_R =   			26'b0_0_0_0_0_0_00_00_00_1_1_01_0_0_00_00_0010,
-				 SIG_EX_beq = 			26'b0_1_0_0_0_0_00_01_00_1_0_00_1_0_00_00_0110,
-				 SIG_EX_J =   			26'b1_0_0_0_0_0_00_10_11_0_0_00_0_0_00_00_0010,
-				 SIG_EX_I =   			26'b0_0_0_0_0_0_00_00_10_1_0_00_0_0_00_00_0010,
-				 SIG_WB_I =   			26'b0_0_0_0_0_0_00_00_10_1_1_00_0_0_00_00_0010,
-				 SIG_EX_LUI = 			26'b0_0_0_0_0_0_10_00_11_0_1_00_0_0_00_00_0010,
-				 SIG_EX_bne = 			26'b0_1_0_0_0_0_00_01_00_1_0_00_0_0_00_00_0110,
-				 SIG_EX_jr =  			26'b1_0_0_0_0_0_00_00_00_1_0_00_0_0_00_00_0010,
-				 SIG_EX_JAL = 			26'b1_0_0_0_0_0_11_10_11_0_1_10_0_0_00_00_0010,
+			    SIG_IF =     			27'b1_0_0_1_0_1_00_00_01_00_0_00_0_1_00_00_0010,
+				 SIG_ID =     			27'b0_0_0_0_0_0_00_00_11_00_0_00_0_0_00_00_0010,
+				 SIG_EX_Mem = 			27'b0_0_0_0_0_0_00_00_10_01_0_00_0_0_00_00_0010,
+				 SIG_MEM_RD = 			27'b0_0_1_1_0_0_00_00_10_01_0_00_0_1_00_00_0010,
+				 SIG_WB_LW =  			27'b0_0_0_0_0_0_01_00_00_00_1_00_0_0_00_00_0010,
+				 SIG_MEM_WD = 			27'b0_0_1_0_1_0_00_00_10_01_0_00_0_1_00_00_0010,
+				 SIG_EX_R =   		  	27'b0_0_0_0_0_0_00_00_00_01_0_00_0_0_00_00_0010,
+				 SIG_EX_R_SHAMT =   	27'b0_0_0_0_0_0_00_00_00_10_0_00_0_0_00_00_0010,
+				 SIG_WB_R =   			27'b0_0_0_0_0_0_00_00_00_01_1_01_0_0_00_00_0010,
+				 SIG_EX_beq = 			27'b0_1_0_0_0_0_00_01_00_01_0_00_1_0_00_00_0110,
+				 SIG_EX_J =   			27'b1_0_0_0_0_0_00_10_11_00_0_00_0_0_00_00_0010,
+				 SIG_EX_I =   			27'b0_0_0_0_0_0_00_00_10_01_0_00_0_0_00_00_0010,
+				 SIG_WB_I =   			27'b0_0_0_0_0_0_00_00_10_01_1_00_0_0_00_00_0010,
+				 SIG_EX_LUI = 			27'b0_0_0_0_0_0_10_00_11_00_1_00_0_0_00_00_0010,
+				 SIG_EX_bne = 			27'b0_1_0_0_0_0_00_01_00_01_0_00_0_0_00_00_0110,
+				 SIG_EX_jr =  			27'b1_0_0_0_0_0_00_00_00_01_0_00_0_0_00_00_0010,
+				 SIG_EX_JAL = 			27'b1_0_0_0_0_0_11_10_11_00_1_10_0_0_00_00_0010,
 				 
-				 SIG_WB_LB = 			26'b0_0_1_0_0_0_01_00_00_0_1_00_0_0_01_00_0010,
-				 SIG_WB_LH = 			26'b0_0_1_0_0_0_01_00_00_0_1_00_0_0_10_00_0010,
-				 SIG_MEM_RD_SHB = 	26'b0_0_1_1_0_0_00_00_10_1_0_00_0_1_00_00_0010,
-				 SIG_MEM_WD_BYTE = 	26'b0_0_1_0_1_0_00_00_10_1_0_00_0_1_00_01_0010,
-				 SIG_MEM_WD_HALF = 	26'b0_0_1_0_1_0_00_00_10_1_0_00_0_1_00_10_0010,
+				 SIG_WB_LB = 			27'b0_0_1_0_0_0_01_00_00_00_1_00_0_0_01_00_0010,
+				 SIG_WB_LH = 			27'b0_0_1_0_0_0_01_00_00_00_1_00_0_0_10_00_0010,
+				 SIG_MEM_RD_SHB = 	    27'b0_0_1_1_0_0_00_00_10_01_0_00_0_1_00_00_0010,
+				 SIG_MEM_WD_BYTE = 	    27'b0_0_1_0_1_0_00_00_10_01_0_00_0_1_00_01_0010,
+				 SIG_MEM_WD_HALF = 	    27'b0_0_1_0_1_0_00_00_10_01_0_00_0_1_00_10_0010,
 				 
 				 
 				 
-				 SIG_MFC0 =   			26'b0_0_0_0_0_0_00_00_00_0_1_00_0_0_00_00_0010,
-				 SIG_MTC0 =   		  	26'b0_0_0_0_0_0_00_00_00_0_0_00_0_0_00_00_0010,
-				 SIG_ST_CP0 = 		  	26'b0_0_0_0_0_0_00_00_00_0_0_00_0_0_00_00_0010,
-				 SIG_INT_MEM_READ = 	26'b0_0_0_1_0_0_00_00_00_0_0_00_0_1_00_00_0010,
-				 SIG_INT_WB = 		  	26'b1_0_0_0_0_0_00_00_00_0_0_00_0_0_00_00_0010,
-				 SIG_ERET =			  	26'b1_0_0_0_0_0_00_00_00_0_0_00_0_0_00_00_0010;
+				 SIG_MFC0 =   			27'b0_0_0_0_0_0_00_00_00_00_1_00_0_0_00_00_0010,
+				 SIG_MTC0 =   		  	27'b0_0_0_0_0_0_00_00_00_00_0_00_0_0_00_00_0010,
+				 SIG_ST_CP0 = 		  	27'b0_0_0_0_0_0_00_00_00_00_0_00_0_0_00_00_0010,
+				 SIG_INT_MEM_READ = 	27'b0_0_0_1_0_0_00_00_00_00_0_00_0_1_00_00_0010,
+				 SIG_INT_WB = 		  	27'b1_0_0_0_0_0_00_00_00_00_0_00_0_0_00_00_0010,
+				 SIG_ERET =			  	27'b1_0_0_0_0_0_00_00_00_00_0_00_0_0_00_00_0010;
 				 
 	localparam
 				CP0_NULL = 				11'b00000000000,
@@ -142,17 +142,17 @@ module ctrl(input  clk,
 						alu:begin
 							case (Inst_in[5:0])
 								6'b001000: begin `CPU_ctrl_signals <= SIG_EX_jr; `CP0_ctrl_signals <= CP0_NULL; state_out <= EX_jr; end //jr
-								6'b100000: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0010}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //add 
-								6'b100010: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0110}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sub 
-								6'b100100: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0000}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //and 
-								6'b100101: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0001}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //or 
-								6'b101010: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0111}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //slt 
-								6'b100111: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0100}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //nor
-								6'b000010: begin `CPU_ctrl_signals <= {SIG_EX_R_SHAMT[25:4], 4'b0101}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //srl 
-								6'b000110: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b1001}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //srlv
-								6'b000000: begin `CPU_ctrl_signals <= {SIG_EX_R_SHAMT[25:4], 4'b1000}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sll 
-								6'b000100: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b1010}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sllv
-								6'b100110: begin `CPU_ctrl_signals <= {SIG_EX_R[25:4], 4'b0011}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //xor
+								6'b100000: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0010}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //add 
+								6'b100010: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0110}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sub 
+								6'b100100: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0000}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //and 
+								6'b100101: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0001}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //or 
+								6'b101010: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0111}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //slt 
+								6'b100111: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0100}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //nor
+								6'b000010: begin `CPU_ctrl_signals <= {SIG_EX_R_SHAMT[26:4], 4'b0101}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //srl 
+								6'b000110: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b1001}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //srlv
+								6'b000000: begin `CPU_ctrl_signals <= {SIG_EX_R_SHAMT[26:4], 4'b1000}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sll 
+								6'b000100: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b1010}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sllv
+								6'b100110: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0011}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //xor
 								6'hc		: begin `CPU_ctrl_signals <= SIG_ST_CP0;		     `CP0_ctrl_signals <= CP0_ST_SYS; state_out <= STORE_CP0; end  //syscall
 								//default: begin `CPU_ctrl_signals <= 21'b0; state_out <= Error; end
 							endcase
@@ -170,11 +170,11 @@ module ctrl(input  clk,
 						sw: begin `CPU_ctrl_signals <= SIG_EX_Mem;`CP0_ctrl_signals <= CP0_NULL;   state_out <= EX_Mem; end
 						sb: begin `CPU_ctrl_signals <= SIG_EX_Mem;`CP0_ctrl_signals <= CP0_NULL;   state_out <= EX_Mem; end
 						sh: begin `CPU_ctrl_signals <= SIG_EX_Mem;`CP0_ctrl_signals <= CP0_NULL;   state_out <= EX_Mem; end
-						slti:begin `CPU_ctrl_signals <= {SIG_EX_I[25:4], 4'b0111};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //slti
-						addi:begin `CPU_ctrl_signals <= {SIG_EX_I[25:4], 4'b0010};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //addi
-					   andi:begin `CPU_ctrl_signals <= {SIG_EX_I[25:4], 4'b0000};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //andi
-						ori: begin `CPU_ctrl_signals <= {SIG_EX_I[25:4], 4'b0001};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //ori
-						xori:begin `CPU_ctrl_signals <= {SIG_EX_I[25:4], 4'b0011};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //xori
+						slti:begin `CPU_ctrl_signals <= {SIG_EX_I[26:4], 4'b0111};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //slti
+						addi:begin `CPU_ctrl_signals <= {SIG_EX_I[26:4], 4'b0010};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //addi
+					   andi:begin `CPU_ctrl_signals <= {SIG_EX_I[26:4], 4'b0000};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //andi
+						ori: begin `CPU_ctrl_signals <= {SIG_EX_I[26:4], 4'b0001};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //ori
+						xori:begin `CPU_ctrl_signals <= {SIG_EX_I[26:4], 4'b0011};`CP0_ctrl_signals <= CP0_NULL; state_out <= EX_I; end //xori
 					   lui: begin `CPU_ctrl_signals <= SIG_EX_LUI;`CP0_ctrl_signals <= CP0_NULL;	state_out <= EX_LUI; end
 						bne: begin `CPU_ctrl_signals <= SIG_EX_bne;`CP0_ctrl_signals <= CP0_NULL;  state_out <= EX_bne; end 
 						beq: begin `CPU_ctrl_signals <= SIG_EX_beq;`CP0_ctrl_signals <= CP0_NULL;  state_out <= EX_beq; end
@@ -235,7 +235,7 @@ module ctrl(input  clk,
 				MTC0:				begin `CPU_ctrl_signals <= SIG_IF;  		 	`CP0_ctrl_signals <= CP0_NULL;  				state_out <= IF;     end 
 				ERET: 			begin `CPU_ctrl_signals <= SIG_IF;  		 	`CP0_ctrl_signals <= CP0_NULL;  				state_out <= IF;     end 
 				
-				default: begin `CPU_ctrl_signals <= 26'b0;      `CP0_ctrl_signals <= CP0_NULL;   state_out <= Error; end
+				default: begin `CPU_ctrl_signals <= 27'b0;      `CP0_ctrl_signals <= CP0_NULL;   state_out <= Error; end
 		endcase
 	end	
 endmodule 

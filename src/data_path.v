@@ -7,7 +7,7 @@ module data_path(input clk,
 					  input[1:0] RegDst,
 					  input RegWrite,
 					  input[1:0]MemtoReg,
-					  input ALUSrcA,
+					  input [1:0] ALUSrcA,
 					  input [1:0] MDRSrc,
 					  input [1:0] Data_sel,
 					  
@@ -156,9 +156,11 @@ module data_path(input clk,
 							  .x3({Imm_32[29:0], N0, N0}),   //Imm_32<<2
 							  .o(ALUdata_B[31:0]));
 							  
-		mux2to1_32 mux4 (.sel(ALUSrcA),
-							  .a(rdata_A[31:0]),
-							  .b(JR[31:0]),
+		mux4to1_32 mux4 (.sel(ALUSrcA),
+							  .x0(JR[31:0]),
+							  .x1(rdata_A[31:0]),
+                              .x2(Imm_32[31:0]),
+                              .x3(32'b0),
 							  .o(ALUdata_A[31:0]));
 							  
 		ALU alu_dev(.ALU_operation(ALU_operation[3:0]),
