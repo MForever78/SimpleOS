@@ -361,7 +361,7 @@ module disk_dev(
                     end
                 endcase
             end else begin
-                // read or write from buffer
+                // write to buffer
                 if (instruction[31]) begin
                     buffer[addr] <= din_0;
                     buffer[addr + 1] <= din_1;

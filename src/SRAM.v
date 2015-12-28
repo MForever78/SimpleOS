@@ -135,9 +135,9 @@ module SRAM(
 
 	/*写操作*/
 	 
-	assign sram_wea =   init_flag ? 1'b1                                            : (sel_vram_scan ? 1'b0 : ram_wea);
-	assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                : (sel_vram_scan ? vram_scan_addr : ram_addra);
-	assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h08080000)    : (sel_vram_scan ? {48{1'bz}} : ram_dina);
+	assign sram_wea =   init_flag ? 1'b1                                                : (sel_vram_scan ? 1'b0 : ram_wea);
+	assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                    : (sel_vram_scan ? vram_scan_addr : ram_addra);
+	assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h000008080000)    : (sel_vram_scan ? {48{1'bz}} : ram_dina);
 	assign MIO_ready = ~init_flag & write_flag; 
 	
 	
@@ -159,14 +159,11 @@ module SRAM(
 		 .wea(1'b0), 
 		 .douta(init_dina[47:0]));
 		 
-	
-     
-	always @(posedge clk_25mhz)
-	begin
+	always @(posedge clk_25mhz) begin
         if (init_flag) begin
             if (copy_flag)	
             begin
-                if (init_addra > 20'h800FF) 		//初始化结束
+                if (init_addra > 20'h8007F) 		//初始化结束
                 begin
                     init_flag <= 1'b0;
                     copy_flag <= 1'b0;
