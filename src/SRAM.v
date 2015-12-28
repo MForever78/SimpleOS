@@ -153,7 +153,7 @@ module SRAM(
 		 
 	
      
-	always @(posedge clk_50mhz)
+	always @(posedge clk_25mhz)
 	begin
         if (init_flag) begin
             if (copy_flag)	

@@ -1,10 +1,51 @@
 ISim log file
-Running: D:\project\ISE\project\SimpleOS\test_sram_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb D:/project/ISE/project/SimpleOS/test_sram_isim_beh.wdb 
-ISim P.20131013 (signature 0x7708f090)
+Running: /home/mforever78/Share/Xilinx/SimpleOS/top_test_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /home/mforever78/Share/Xilinx/SimpleOS/top_test_isim_beh.wdb 
+ISim P.20131013 (signature 0xfbc00daa)
 This is a Full version of ISim.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 118.  For instance uut/intercon/, width 8 of formal port slave_STB is not equal to width 17 of actual signal slave_STB.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 118.  For instance uut/intercon/, width 8 of formal port slave_ACK is not equal to width 17 of actual signal slave_ACK.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 121.  For instance uut/intercon/, width 256 of formal port slave_DAT_I is not equal to width 512 of actual signal slave_DAT_O.
+WARNING: For instance uut/U3/, width 20 of formal port r_addra is not equal to width 30 of actual.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 120.  For instance uut/U3/, width 48 of formal port r_dina is not equal to width 32 of actual signal slave_DAT_I.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 125.  For instance uut/U3/, width 48 of formal port r_douta is not equal to width 32 of actual signal Ram_DAT_O.
+WARNING: For instance uut/U3/, width 20 of formal port v_addra is not equal to width 30 of actual.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 120.  For instance uut/U3/, width 48 of formal port v_dina is not equal to width 32 of actual signal slave_DAT_I.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 125.  For instance uut/U3/, width 48 of formal port v_douta is not equal to width 32 of actual signal VRam_DAT_O.
 Time resolution is 1 ps
 # onerror resume
 # wave add /
 # run 1000 ns
 Simulator is doing circuit initialization process.
 Finished circuit initialization process.
+Warning : input CLKIN1 period and attribute CLKIN1_PERIOD on MMCME2_ADV instance top_test.uut.timer.mmcm_adv_inst are not same.
+ISim P.20131013 (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 118.  For instance uut/intercon/, width 8 of formal port slave_STB is not equal to width 17 of actual signal slave_STB.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 118.  For instance uut/intercon/, width 8 of formal port slave_ACK is not equal to width 17 of actual signal slave_ACK.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 121.  For instance uut/intercon/, width 256 of formal port slave_DAT_I is not equal to width 512 of actual signal slave_DAT_O.
+WARNING: For instance uut/U3/, width 20 of formal port r_addra is not equal to width 30 of actual.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 120.  For instance uut/U3/, width 48 of formal port r_dina is not equal to width 32 of actual signal slave_DAT_I.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 125.  For instance uut/U3/, width 48 of formal port r_douta is not equal to width 32 of actual signal Ram_DAT_O.
+WARNING: For instance uut/U3/, width 20 of formal port v_addra is not equal to width 30 of actual.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 120.  For instance uut/U3/, width 48 of formal port v_dina is not equal to width 32 of actual signal slave_DAT_I.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 125.  For instance uut/U3/, width 48 of formal port v_douta is not equal to width 32 of actual signal VRam_DAT_O.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+Warning : input CLKIN1 period and attribute CLKIN1_PERIOD on MMCME2_ADV instance top_test.uut.timer.mmcm_adv_inst are not same.
+ISim P.20131013 (signature 0xfbc00daa)
+This is a Full version of ISim.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 118.  For instance uut/intercon/, width 8 of formal port slave_STB is not equal to width 17 of actual signal slave_STB.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 118.  For instance uut/intercon/, width 8 of formal port slave_ACK is not equal to width 17 of actual signal slave_ACK.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 121.  For instance uut/intercon/, width 256 of formal port slave_DAT_I is not equal to width 512 of actual signal slave_DAT_O.
+WARNING: For instance uut/U3/, width 20 of formal port r_addra is not equal to width 30 of actual.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 120.  For instance uut/U3/, width 48 of formal port r_dina is not equal to width 32 of actual signal slave_DAT_I.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 125.  For instance uut/U3/, width 48 of formal port r_douta is not equal to width 32 of actual signal Ram_DAT_O.
+WARNING: For instance uut/U3/, width 20 of formal port v_addra is not equal to width 30 of actual.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 120.  For instance uut/U3/, width 48 of formal port v_dina is not equal to width 32 of actual signal slave_DAT_I.
+WARNING: File "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 125.  For instance uut/U3/, width 48 of formal port v_douta is not equal to width 32 of actual signal VRam_DAT_O.
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+Warning : input CLKIN1 period and attribute CLKIN1_PERIOD on MMCME2_ADV instance top_test.uut.timer.mmcm_adv_inst are not same.
+# exit 0

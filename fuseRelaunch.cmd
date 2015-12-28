@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "D:/project/ISE/project/SimpleOS/SimpleOS_isim_beh.exe" -prj "D:/project/ISE/project/SimpleOS/SimpleOS_beh.prj" "work.SimpleOS" "work.glbl" 
+-intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/home/mforever78/Share/Xilinx/SimpleOS/top_test_isim_beh.exe" -prj "/home/mforever78/Share/Xilinx/SimpleOS/top_test_beh.prj" "work.top_test" "work.glbl" 

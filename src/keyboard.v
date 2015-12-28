@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module keyboard(
         input STB,
-        input ACK,
+        output ACK,
         
 		input clk_cpu,
         input reset,
@@ -37,12 +37,14 @@ module keyboard(
 	wire wea;
 	wire ready;
 	wire overflow;
-	reg [31:0] key_data_buffer;
 	
     assign wea = STB ? WE : 1'b1;
     assign INT = ready;
     assign ACK = STB;
     
+    assign key_data = {24'b0, data[7:0]};
+    
+    /*
 	initial begin
 		key_data_buffer[31:0] <= 32'h0;
 	end
@@ -59,7 +61,7 @@ module keyboard(
 		end
 	end
 	assign key_data = ready ? {key_data_buffer[23:0], data[7:0]} : key_data_buffer[31:0];
-	
+	*/
 	ps2_kbd ps2_kbd_dev(
 		.clk(clk_cpu),
 		.clrn(~reset),
