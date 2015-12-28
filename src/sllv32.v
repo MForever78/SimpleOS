@@ -23,6 +23,6 @@ module sllv32(
 	input [31:0] B, 
 	output [31:0] res);
 
-	assign res = (A << B[4:0]);
+	assign res = (B << A[4:0]);
 
 endmodule
