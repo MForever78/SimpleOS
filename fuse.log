@@ -51,20 +51,20 @@ Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" i
 Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/tests/top_test.v" into library work
 Analyzing Verilog file "/opt/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
-WARNING:HDLCompiler:1016 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 167: Port RESET is not connected to this instance
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 156: Size mismatch in connection of port <slave_STB>. Formal port size is 8-bit while actual signal size is 17-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 157: Size mismatch in connection of port <slave_ACK>. Formal port size is 8-bit while actual signal size is 17-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 159: Size mismatch in connection of port <slave_DAT_I>. Formal port size is 256-bit while actual signal size is 512-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 209: Size mismatch in connection of port <r_addra>. Formal port size is 20-bit while actual signal size is 30-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 210: Size mismatch in connection of port <r_dina>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 212: Size mismatch in connection of port <r_douta>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 216: Size mismatch in connection of port <v_addra>. Formal port size is 20-bit while actual signal size is 30-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 217: Size mismatch in connection of port <v_dina>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 219: Size mismatch in connection of port <v_douta>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 357: Size mismatch in connection of port <data3>. Formal port size is 32-bit while actual signal size is 6-bit.
+WARNING:HDLCompiler:1016 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 168: Port RESET is not connected to this instance
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 157: Size mismatch in connection of port <slave_STB>. Formal port size is 8-bit while actual signal size is 17-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 158: Size mismatch in connection of port <slave_ACK>. Formal port size is 8-bit while actual signal size is 17-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 160: Size mismatch in connection of port <slave_DAT_I>. Formal port size is 256-bit while actual signal size is 512-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 210: Size mismatch in connection of port <r_addra>. Formal port size is 20-bit while actual signal size is 30-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 211: Size mismatch in connection of port <r_dina>. Formal port size is 48-bit while actual signal size is 32-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 213: Size mismatch in connection of port <r_douta>. Formal port size is 48-bit while actual signal size is 32-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 217: Size mismatch in connection of port <v_addra>. Formal port size is 20-bit while actual signal size is 30-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 218: Size mismatch in connection of port <v_dina>. Formal port size is 48-bit while actual signal size is 32-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 220: Size mismatch in connection of port <v_douta>. Formal port size is 48-bit while actual signal size is 32-bit.
+WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 358: Size mismatch in connection of port <data3>. Formal port size is 32-bit while actual signal size is 6-bit.
 Completed static elaboration
 Fuse Memory Usage: 100368 KB
-Fuse CPU Usage: 1000 ms
+Fuse CPU Usage: 980 ms
 Compiling module WB_intercon
 Compiling module IBUFG
 Compiling module MMCME2_ADV(CLKOUT1_DIVIDE=20,CLK...
@@ -122,6 +122,6 @@ Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
 Compiled 53 Verilog Units
 Built simulation executable /home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.exe
-Fuse Memory Usage: 1197704 KB
-Fuse CPU Usage: 1180 ms
-GCC CPU Usage: 240 ms
+Fuse Memory Usage: 1197708 KB
+Fuse CPU Usage: 1160 ms
+GCC CPU Usage: 270 ms

@@ -1,0 +1,10 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7 (64-bit)
+# Build 321239 by xbuild on Fri Sep 27 19:24:36 MDT 2013
+# Start of session at: Tue Dec 29 03:20:07 2015
+# Process ID: 24398
+# Log file: /home/mforever78/Share/Xilinx/SimpleOS/planAhead_run_5/planAhead.log
+# Journal file: /home/mforever78/Share/Xilinx/SimpleOS/planAhead_run_5/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source /home/mforever78/Share/Xilinx/SimpleOS/pa.fromNcd.tcl
