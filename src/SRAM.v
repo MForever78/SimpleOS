@@ -76,7 +76,7 @@ module SRAM(
 	//assign SRAM_ADDR = (sw_state > 0 && sw_state < 5) ? cpu_addra : sram_addra;
     assign SRAM_ADDR = sram_addra;
 	assign SRAM_CE = 1'b0;				
-	assign SRAM_OEN = sram_wea;			
+	assign SRAM_OEN = 1'b0;			
 	assign SRAM_WEN = ~sram_wea;
 	assign SRAM_DQ[47:0] = sram_wea ? (clk_100mhz ? {48{1'bz}} : sram_dina[47:0]) : {48{1'bz}};
 	assign sram_douta = SRAM_DQ[47:0];
