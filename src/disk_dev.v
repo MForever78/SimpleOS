@@ -280,93 +280,97 @@ module disk_dev(
     end
 
     // device control
-    wire[7: 0] state = instruction[31] == 1 ? write_state : read_state;
+    wire[7: 0] state = instruction[30] == 1 ? write_state : read_state;
     always @(clk) begin
         if (rst) begin
             dev_enable <= 0;
             dev_we <= 0;
             dev_data_out <= 0;
         end else begin
-            if (instruction[30]) begin
-                case(instruction[31])
-                    0: begin
-                        case(state)
-                            READ_IDLE: begin
-                                dev_enable <= 0;
-                            end
-                            READ_REQUEST: begin
-                                dev_enable <= 1;
-                                dev_we <= 1;
-                                dev_data_out <= byte_instruction[read_data_cnt];
-                            end
-                            READ_HELLO: begin
-                                dev_enable <= 1;
-                                dev_we <= 0;
-                            end
-                            READ_WAIT: begin
-                                dev_enable <= 1;
-                                dev_we <= dev_we;
-                            end
-                            READ_DATA: begin
-                                dev_enable <= 1;
-                                dev_we <= 0;
-                                if (dev_read_done)
-                                    buffer[read_data_cnt] <= dev_data_in;
-                            end
-                            READ_GOODBYE: begin
-                                dev_enable <= 1;
-                                dev_we <= 1;
-                                dev_data_out <= 8'hff;
-                            end
-                            default: begin
-                                dev_enable <= 0;
-                                dev_we <= 0;
-                            end
-                        endcase
+            if (instruction[31]) begin
+                // device selected
+                if (instruction[29]) begin
+                    // uart selected
+                    case(instruction[30])
+                        0: begin
+                            case(state)
+                                READ_IDLE: begin
+                                    dev_enable <= 0;
+                                end
+                                READ_REQUEST: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 1;
+                                    dev_data_out <= byte_instruction[read_data_cnt];
+                                end
+                                READ_HELLO: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 0;
+                                end
+                                READ_WAIT: begin
+                                    dev_enable <= 1;
+                                    dev_we <= dev_we;
+                                end
+                                READ_DATA: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 0;
+                                    if (dev_read_done)
+                                        buffer[read_data_cnt] <= dev_data_in;
+                                end
+                                READ_GOODBYE: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 1;
+                                    dev_data_out <= 8'hff;
+                                end
+                                default: begin
+                                    dev_enable <= 0;
+                                    dev_we <= 0;
+                                end
+                            endcase
+                        end
+                        1: begin
+                            case(state)
+                                WRITE_IDLE: begin
+                                    dev_enable <= 0;
+                                end
+                                WRITE_REQUEST: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 1;
+                                    dev_data_out <= byte_instruction[write_data_cnt];
+                                end
+                                WRITE_HELLO: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 0;
+                                end
+                                WRITE_WAIT: begin
+                                    dev_enable <= 1;
+                                    dev_we <= dev_we;
+                                end
+                                WRITE_DATA: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 1;
+                                    if (dev_write_done)
+                                        dev_data_out <= buffer[write_data_cnt];
+                                end
+                                WRITE_GOODBYE: begin
+                                    dev_enable <= 1;
+                                    dev_we <= 1;
+                                    dev_data_out <= 8'hff;
+                                end
+                                default: begin
+                                    dev_enable <= 0;
+                                    dev_we <= 0;
+                                end
+                            endcase
+                        end
+                    endcase
+                end else begin
+                    // buffer selected
+                    if (instruction[30]) begin
+                        buffer[addr] <= din_0;
+                        buffer[addr + 1] <= din_1;
+                        buffer[addr + 2] <= din_2;
+                        buffer[addr + 3] <= din_3;
                     end
-                    1: begin
-                        case(state)
-                            WRITE_IDLE: begin
-                                dev_enable <= 0;
-                            end
-                            WRITE_REQUEST: begin
-                                dev_enable <= 1;
-                                dev_we <= 1;
-                                dev_data_out <= byte_instruction[write_data_cnt];
-                            end
-                            WRITE_HELLO: begin
-                                dev_enable <= 1;
-                                dev_we <= 0;
-                            end
-                            WRITE_WAIT: begin
-                                dev_enable <= 1;
-                                dev_we <= dev_we;
-                            end
-                            WRITE_DATA: begin
-                                dev_enable <= 1;
-                                dev_we <= 1;
-                                if (dev_write_done)
-                                    dev_data_out <= buffer[write_data_cnt];
-                            end
-                            WRITE_GOODBYE: begin
-                                dev_enable <= 1;
-                                dev_we <= 1;
-                                dev_data_out <= 8'hff;
-                            end
-                            default: begin
-                                dev_enable <= 0;
-                                dev_we <= 0;
-                            end
-                        endcase
-                    end
-                endcase
-            end else begin
-                // write to buffer
-                if (instruction[31]) begin
-                    buffer[addr] <= din_0;
-                    buffer[addr + 1] <= din_1;
-                    buffer[addr + 2] <= din_2;
-                    buffer[addr + 3] <= din_3;
                 end
             end
         end
@@ -375,6 +379,6 @@ module disk_dev(
     // operate_done is true if and only if disk is select and (current
     // operation is write and write done or current operation is read and read
     // done)
-    assign operate_done = instruction[30] & ((instruction[31] & write_operate_done) | (~instruction[31] & read_operate_done));
+    assign operate_done = instruction[29] & ((instruction[30] & write_operate_done) | (~instruction[30] & read_operate_done));
 
 endmodule

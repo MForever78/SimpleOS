@@ -20,13 +20,31 @@ module disk(
 
     reg [31: 0] status;
     
-    wire dev_we = ADDR[9] ? DAT_I[31] : WE;
+    reg we_last;
+    reg we_pause;
+    always @(posedge clk) begin
+        if (rst) begin
+            we_last <= WE;
+            we_pause <= 0;
+        end else begin
+            if (WE & ~we_last)
+                we_pause <= 1;
+            else
+                we_pause <= 0;
+
+            we_last <= WE;
+        end
+    end
     
+    // use we pause when write to buffer to avoid clk align problem
+    wire dev_we = ADDR[9] ? DAT_I[31] : we_pause;
+
     // instruction format:
-    // 31th bit: we
-    // 30th bit: 1: select disk, 0: select buffer
-    // 29-0 bits: if select disk, they are block offset, otherwise no meaning
-    assign instruction = {dev_we, ADDR[9], DAT_I[29: 0]};
+    // 31th bit: 1: select device, 0: other bits has no meaning
+    // 30th bit: we
+    // 29th bit: 1: select disk, 0: select buffer
+    // 28-0 bits: if select disk, they are block offset, otherwise no meaning
+    assign instruction = {STB, dev_we, ADDR[9], DAT_I[29: 0]};
     assign disk_addr = {ADDR[8: 2], 2'b0};
     assign DAT_O = disk_data_in;
     assign disk_data_out = DAT_I;
