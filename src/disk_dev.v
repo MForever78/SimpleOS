@@ -372,6 +372,9 @@ module disk_dev(
         end
     end
 
-    assign operate_done = instruction[30] & ((instruction[31] & write_operate_done) | (instruction[31] & read_operate_done));
+    // operate_done is true if and only if disk is select and (current
+    // operation is write and write done or current operation is read and read
+    // done)
+    assign operate_done = instruction[30] & ((instruction[31] & write_operate_done) | (~instruction[31] & read_operate_done));
 
 endmodule

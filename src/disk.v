@@ -33,8 +33,8 @@ module disk(
 
     // if read from or write to buffer, complete immediately
     wire disk_ack = ADDR[9] ? disk_operate_done : STB;
+    // otherwise, if receive disk_operate_done pause, pull up ack for 7 cycles
     reg[2: 0] ack_cnt;
-    reg long_ack;
     always @(posedge clk) begin
         if (rst) begin
             ack_cnt <= 0;
@@ -51,7 +51,7 @@ module disk(
 
     assign ACK = ack_cnt != 0;
 
-    // handle read && write with disk
+    // generate disk read & write pause
     reg stb_last;
     always @(posedge clk) begin
         if (rst) begin
