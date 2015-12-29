@@ -44,7 +44,7 @@ module disk(
     // 30th bit: we
     // 29th bit: 1: select disk, 0: select buffer
     // 28-0 bits: if select disk, they are block offset, otherwise no meaning
-    assign instruction = {STB, dev_we, ADDR[9], DAT_I[29: 0]};
+    assign instruction = {STB, dev_we, ADDR[9], DAT_I[28: 0]};
     assign disk_addr = {ADDR[8: 2], 2'b0};
     assign DAT_O = disk_data_in;
     assign disk_data_out = DAT_I;
