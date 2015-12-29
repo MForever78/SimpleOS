@@ -21,6 +21,7 @@
 module SRAM(    
                 input clk_25mhz,
 				input clk_50mhz,
+                input clk_100mhz,
                 
                 input r_stb,
 				input [19:0] r_addra,
@@ -77,7 +78,7 @@ module SRAM(
 	assign SRAM_CE = 1'b0;				
 	assign SRAM_OEN = sram_wea;			
 	assign SRAM_WEN = ~sram_wea;
-	assign SRAM_DQ[47:0] = sram_wea ? sram_dina[47:0] : {48{1'bz}};
+	assign SRAM_DQ[47:0] = sram_wea ? (clk_100mhz ? {48{1'bz}} : sram_dina[47:0]) : {48{1'bz}};
 	assign sram_douta = SRAM_DQ[47:0];
 	 /*SRAM ºËÐÄ²Ù×÷½áÊø*/
 	

@@ -220,6 +220,7 @@ module SimpleOS(
             .Cause_in(CPU_CAUSE));
     
     SRAM  U3 (
+        .clk_100mhz(clk100),
         .clk_50mhz(clk_fast), 
         .clk_25mhz(clk_slow), 
         
