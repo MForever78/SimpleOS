@@ -58,7 +58,18 @@ module SimpleOS(
 
         // UART
         input UART_RXD,
-        output UART_TXD
+        output UART_TXD,
+
+        // BTN
+        output BTN_X0,
+        output BTN_X1,
+        output BTN_X2,
+        output BTN_X3,
+        output BTN_X4,
+        input BTN_Y1,
+        input BTN_Y2,
+        input BTN_Y3,
+        input BTN_Y4
     );
 
 
@@ -66,6 +77,12 @@ module SimpleOS(
     wire [15:0] vram_scan_data; 
     wire clk100, clk50, clk25;
     wire RST = ~RSTN;
+
+    // Btn
+    wire[4: 0] btn_x;
+    wire[3: 0] btn_y = {BTN_Y4, BTN_Y3, BTN_Y2, BTN_Y1};
+    wire[19: 0] btn, pause;
+    assign {BTN_X4, BTN_X3, BTN_X2, BTN_X1, BTN_X0} = btn_x;
     
     //////////////////////////////////////////////////
     // Wishbone bus IO                              //
@@ -260,6 +277,7 @@ module SimpleOS(
     wire[31: 0] disk_instruction;
     wire disk_write_pause, disk_read_pause;
     wire [8: 0] disk_addr;
+    wire [8: 0] manual_disk_addr;
     wire [31: 0] disk_data_in, disk_data_out;
     wire disk_operate_done;
 
@@ -303,7 +321,7 @@ module SimpleOS(
     disk_dev disk_dev(
         .clk(clk100),
         .rst(RST),
-        .addr(disk_addr),
+        .addr(SW[2: 0] == 7 ? manual_disk_addr : disk_addr),
         .data_in(disk_data_in),
         .data_out(disk_data_out),
         .instruction(disk_instruction),
@@ -358,8 +376,8 @@ module SimpleOS(
         .data3(CPU_state),
         .data4(CPU_DAT_I),
         .data5(CPU_DAT_O),
-        .data6(),
-        .data7(),
+        .data6(manual_disk_addr),
+        .data7(disk_data_out),
         .data_out(display_data)
     );
         
@@ -378,6 +396,28 @@ module SimpleOS(
         .seg_en(SEGLED_PEN),
         .seg_clr_n(SEGLED_CLR),
         .seg_do(SEGLED_DO)
+    );
+
+    btn_scan_sword btn_scan_sword(
+        .clk(clk100),
+        .rst(RST),
+        .btn_x(btn_x),
+        .btn_y(btn_y),
+        .result(btn)
+    );
+
+    pause_gen pause_gen(
+        .clk(clk100),
+        .rst(RST),
+        .button(btn),
+        .pause(pause)
+    );
+
+    disk_addr_gen disk_addr_gen(
+        .clk(clk100),
+        .rst(RST),
+        .button(pause),
+        .addr(manual_disk_addr)
     );
 
 endmodule                                                           
