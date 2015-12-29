@@ -130,7 +130,7 @@ module SimpleOS(
     assign slave_DAT_O = {320'b0, Counter_DAT_O, Keyboard_DAT_O, VRam_DAT_O, Disk_DAT_O, Ram_DAT_O};
     assign slave_ACK[0] = Ram_ACK;
     //assign slave_ACK[1] = Disk_ACK;
-    assign slave_ACK[1] = SW[13];
+    assign slave_ACK[1] = SW[13] ? SW[12] : Disk_ACK;
     assign slave_ACK[2] = VRam_ACK;
     assign slave_ACK[3] = Keyboard_ACK;
     assign slave_ACK[4] = Counter_ACK;
