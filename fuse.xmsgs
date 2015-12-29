@@ -5,43 +5,43 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"D:/project/ISE/project/SimpleOS/tests/top_test.v" Line 65: Port <arg fmt="%s" index="1">BTN_X0</arg> is not connected to this instance
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/tests/top_test.v" Line 65: Port <arg fmt="%s" index="1">BTN_X0</arg> is not connected to this instance
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 185: Port <arg fmt="%s" index="1">RESET</arg> is not connected to this instance
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 185: Port <arg fmt="%s" index="1">RESET</arg> is not connected to this instance
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 174: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_STB</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 174: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_STB</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 175: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_ACK</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 175: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_ACK</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 177: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_DAT_I</arg>&gt;. Formal port size is <arg fmt="%d" index="2">256</arg>-bit while actual signal size is <arg fmt="%d" index="1">512</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 177: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_DAT_I</arg>&gt;. Formal port size is <arg fmt="%d" index="2">256</arg>-bit while actual signal size is <arg fmt="%d" index="1">512</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 227: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">20</arg>-bit while actual signal size is <arg fmt="%d" index="1">30</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 228: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">20</arg>-bit while actual signal size is <arg fmt="%d" index="1">30</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 228: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_dina</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 229: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_dina</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 230: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_douta</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 231: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">r_douta</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 234: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">20</arg>-bit while actual signal size is <arg fmt="%d" index="1">30</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 235: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">20</arg>-bit while actual signal size is <arg fmt="%d" index="1">30</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 235: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_dina</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 236: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_dina</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 237: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_douta</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 238: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">v_douta</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 376: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">data3</arg>&gt;. Formal port size is <arg fmt="%d" index="2">32</arg>-bit while actual signal size is <arg fmt="%d" index="1">6</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 377: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">data3</arg>&gt;. Formal port size is <arg fmt="%d" index="2">32</arg>-bit while actual signal size is <arg fmt="%d" index="1">6</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 379: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">data6</arg>&gt;. Formal port size is <arg fmt="%d" index="2">32</arg>-bit while actual signal size is <arg fmt="%d" index="1">9</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 380: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">data6</arg>&gt;. Formal port size is <arg fmt="%d" index="2">32</arg>-bit while actual signal size is <arg fmt="%d" index="1">9</arg>-bit.
 </msg>
 
 </messages>
