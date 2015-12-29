@@ -30,8 +30,8 @@ module MdrHalfStore(
 	always @* 
 	begin
 		case (pos)
-			1'b0: data_out[31:0] <= {MDR_in[31:16], data_in[15:0]}; 
-			1'b1: data_out[31:0] <= {data_in[15:0], MDR_in[15:0]}; 
+			1'b0: data_out[31:0] = {MDR_in[31:16], data_in[15:0]}; 
+			1'b1: data_out[31:0] = {data_in[15:0], MDR_in[15:0]}; 
 		endcase
 	end
 

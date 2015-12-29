@@ -30,10 +30,10 @@ module MdrByteStore(
 	always @* 
 	begin
 		case (pos[1:0])
-			2'b00: data_out[31:0] <= {MDR_in[31:8], data_in[7:0]}; 
-			2'b01: data_out[31:0] <= {MDR_in[31:16], data_in[7:0], MDR_in[7:0]};
-			2'b10: data_out[31:0] <= {MDR_in[31:24], data_in[7:0], MDR_in[15:0]};
-			2'b11: data_out[31:0] <= {data_in[7:0], MDR_in[23:0]};
+			2'b00: data_out[31:0] = {MDR_in[31:8], data_in[7:0]}; 
+			2'b01: data_out[31:0] = {MDR_in[31:16], data_in[7:0], MDR_in[7:0]};
+			2'b10: data_out[31:0] = {MDR_in[31:24], data_in[7:0], MDR_in[15:0]};
+			2'b11: data_out[31:0] = {data_in[7:0], MDR_in[23:0]};
 		endcase
 	end
 

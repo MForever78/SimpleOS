@@ -28,8 +28,8 @@ module MDR_HALF(
 	always @* 
 	begin
 		case (pos)
-			1'b0: data_out[31:0] <= {16'b0, MDR_in[15:0]};
-			1'b1: data_out[31:0] <= {16'b0, MDR_in[31:16]};
+			1'b0: data_out[31:0] = {16'b0, MDR_in[15:0]};
+			1'b1: data_out[31:0] = {16'b0, MDR_in[31:16]};
 		endcase
 	end
 

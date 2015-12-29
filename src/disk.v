@@ -35,6 +35,7 @@ module disk(
     wire disk_ack = ADDR[9] ? disk_operate_done : STB;
     // otherwise, if receive disk_operate_done pause, pull up ack for 7 cycles
     reg[2: 0] ack_cnt;
+    initial ack_cnt = 0;
     always @(posedge clk) begin
         if (rst) begin
             ack_cnt <= 0;

@@ -28,10 +28,10 @@ module MDR_BYTE(
 	always @* 
 	begin
 		case (pos[1:0])
-			2'b00: data_out[31:0] <= {24'b0, MDR_in[7:0]};
-			2'b01: data_out[31:0] <= {24'b0, MDR_in[15:8]};
-			2'b10: data_out[31:0] <= {24'b0, MDR_in[23:16]};
-			2'b11: data_out[31:0] <= {24'b0, MDR_in[31:24]};
+			2'b00: data_out[31:0] = {24'b0, MDR_in[7:0]};
+			2'b01: data_out[31:0] = {24'b0, MDR_in[15:8]};
+			2'b10: data_out[31:0] = {24'b0, MDR_in[23:16]};
+			2'b11: data_out[31:0] = {24'b0, MDR_in[31:24]};
 		endcase
 	end
 

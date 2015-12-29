@@ -68,15 +68,15 @@
     NET "TRI_LED1_G"                               LOC = U25       | IOSTANDARD = LVCMOS33 ;
     NET "TRI_LED1_R"                               LOC = U24       | IOSTANDARD = LVCMOS33 ;
 #
-#    NET "BTN_X0"                                   LOC = V17       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_X1"                                   LOC = W18       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_X2"                                   LOC = W19       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_X3"                                   LOC = W15       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_X4"                                   LOC = W16       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_Y1"                                   LOC = V18       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_Y2"                                   LOC = V19       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_Y3"                                   LOC = V14       | IOSTANDARD = LVCMOS18 ;
-#    NET "BTN_Y4"                                   LOC = W14       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_X0"                                   LOC = V17       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_X1"                                   LOC = W18       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_X2"                                   LOC = W19       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_X3"                                   LOC = W15       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_X4"                                   LOC = W16       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_Y1"                                   LOC = V18       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_Y2"                                   LOC = V19       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_Y3"                                   LOC = V14       | IOSTANDARD = LVCMOS18 ;
+    NET "BTN_Y4"                                   LOC = W14       | IOSTANDARD = LVCMOS18 ;
 #
     NET "SW[0]"                                    LOC = AA10      | IOSTANDARD = LVCMOS15 ;
     NET "SW[1]"                                    LOC = AB10      | IOSTANDARD = LVCMOS15 ;

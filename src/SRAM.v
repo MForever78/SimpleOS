@@ -72,11 +72,12 @@ module SRAM(
 	wire [47:0] sram_douta;
 	
 	/*SRAM 核心操作开始*/
-	assign SRAM_ADDR = sram_addra;
+	//assign SRAM_ADDR = (sw_state > 0 && sw_state < 5) ? cpu_addra : sram_addra;
+    assign SRAM_ADDR = sram_addra;
 	assign SRAM_CE = 1'b0;				
 	assign SRAM_OEN = sram_wea;			
 	assign SRAM_WEN = ~sram_wea;
-	assign SRAM_DQ[47:0] = (sw_state > 0 && sw_state <= 5) ? (sram_wea ? sram_dina[47:0] : {48{1'bz}}) : cpu_addra;
+	assign SRAM_DQ[47:0] = sram_wea ? sram_dina[47:0] : {48{1'bz}};
 	assign sram_douta = SRAM_DQ[47:0];
 	 /*SRAM 核心操作结束*/
 	

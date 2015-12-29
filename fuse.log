@@ -1,4 +1,4 @@
-Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.exe" -prj "/home/mforever78/Share/Xilinx/SimpleOS/test_top_beh.prj" "test_top" "work.glbl" 
+Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.exe" -prj "/home/mforever78/Share/Xilinx/SimpleOS/test_top_beh.prj" "work.test_top" "work.glbl" 
 ISim P.20131013 (signature 0xfbc00daa)
 Number of CPUs detected in this system: 8
 Turning on mult-threading, number of parallel sub-compilation jobs: 16 
@@ -64,7 +64,7 @@ WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v
 WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 358: Size mismatch in connection of port <data3>. Formal port size is 32-bit while actual signal size is 6-bit.
 Completed static elaboration
 Fuse Memory Usage: 100368 KB
-Fuse CPU Usage: 980 ms
+Fuse CPU Usage: 940 ms
 Compiling module WB_intercon
 Compiling module IBUFG
 Compiling module MMCME2_ADV(CLKOUT1_DIVIDE=20,CLK...
@@ -123,5 +123,5 @@ Waiting for 1 sub-compilation(s) to finish...
 Compiled 53 Verilog Units
 Built simulation executable /home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.exe
 Fuse Memory Usage: 1197708 KB
-Fuse CPU Usage: 1160 ms
-GCC CPU Usage: 270 ms
+Fuse CPU Usage: 1150 ms
+GCC CPU Usage: 80 ms
