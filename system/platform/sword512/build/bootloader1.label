@@ -1,0 +1,2 @@
+66128 fat16_find_in_dir_syscall_handler
+66200 fat16_next_sector_syscall_handler

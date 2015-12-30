@@ -25,10 +25,10 @@ console_scroll_up_screen()
 
     // one reserved line for input method
     base_addr = disp_get_base_addr();
-    memcpy(base_addr, base_addr + (640 << 5), (448 << 8) * 5);
+    memcpy(base_addr, base_addr + (640 << 6), (448 << 9) * 5);
     disp_fill_rect_unsafe(0, 448, 640, 16, console_bg_color);
 
-    console_rows = 46;
+    console_rows = 28;
     console_cols = 0;
 }
 

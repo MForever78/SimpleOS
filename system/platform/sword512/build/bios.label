@@ -1,0 +1,7 @@
+65856 interrupt_handler
+65640 disk_syscall_handler
+65664 memcpy_syscall_handler
+65696 strlen_syscall_handler
+65724 strncmp_syscall_handler
+65772 draw_bitmap_syscall_handler
+65812 load_dword_unaligned_syscall_handler

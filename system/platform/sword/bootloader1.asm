@@ -2,7 +2,7 @@
 ## 20: fat16_find_in_dir(entry, entry_limit, name)      -> entry
 ## 21: fat16_next_sector(fat, start_of_data. sector)    -> sector
 bootloader1_init:
-    lui     $gp, 0x10
+    lui     $gp, 0x0010
 
     addi    $t0, $gp, fat16_find_in_dir_syscall_handler
     sw      $t0, 80($zero)
@@ -18,7 +18,7 @@ bootloader1_init:
     addi    $v0, $zero, 8
     syscall $v0
 
-    addi    $a0, $gp, 512   ## move from hardware buffer to 0x00100200(1MB + 512)
+    addi    $a0, $gp, 512
     lui     $a1, 0x2000
     addi    $a2, $zero, 512
     addi    $v0, $zero, 9
@@ -30,7 +30,7 @@ bootloader1_init:
 ## fat16_find_in_dir(entry, entry_limit, name)  -> entry
 ## modified t0, t1, t2, ra
 fat16_find_in_dir_syscall_handler:
-    mfco    $ra, 14         ## save ra
+    mfco    $ra, 3         ## save ra
 
     addi    $t0, $a0, 0
     addi    $t1, $a1, 0
@@ -55,7 +55,7 @@ _fat16_find_in_dir_not_found:
 _fat16_find_in_dir_found:
     addi    $v0, $t0, 0
 _fat16_find_in_dir_end:
-    mtco    $ra, 14
+    mtco    $ra, 3
     eret
 .global fat16_find_in_dir_syscall_handler
 
@@ -71,7 +71,9 @@ fat16_next_sector_syscall_handler:
     sll     $v0, $v0, 1
     add     $v0, $v0, $a0
     lh      $v0, 0($v0)
-    andi    $v1, $v0, 0x8000
+    addi    $v1, $zero, 0x7FFF
+    addi    $v1, $v1, 1
+    and     $v1, $v0, $v1
     bne     $v1, $zero, _fat16_next_sector_return_zero
     addi    $v0, $v0, -2    ## -2
     sll     $v0, $v0, 2

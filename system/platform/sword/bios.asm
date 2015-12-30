@@ -7,11 +7,12 @@
 ##  13: load_dword_unaligned(addr)
 
 bios_init:
-    lui     $gp, 0x20       # base address 2M
+    lui     $gp, 0x0020
+
+    addi    $t0, $gp, interrupt_handler
+    sw      $t0, 4($zero)
     
     ## setup interrupt table
-    addi    $t0, $gp, disk_int_handler
-    sw      $t0, 4($zero)
     addi    $t0, $gp, disk_syscall_handler
     sw      $t0, 32($zero)
     addi    $t0, $gp, memcpy_syscall_handler
@@ -32,41 +33,23 @@ bios_init:
     syscall $v0
 
     ## copy bootloader to 1M
-    addi    $a0, $zero, 1
-    sll     $a0, $a0, 20                ## dist to 1M
+    lui     $a0, 0x0010
     lui     $a1, 0x2000
     addi    $a2, $zero, 512             ## one block
     addi    $v0, $zero, 9
     syscall $v0
 
     ## jump to bootloader
-    addi    $t0, $zero, 1
-    sll     $t0, $t0, 20
+    lui     $t0, 0x0010
     jr      $t0
-
-## make $v0 to 1
-disk_int_handler:
-    addi    $v0, $v0, 1
-    eret
-.global disk_int_handler
 
 ## disk(block, we)
 disk_syscall_handler:
-    mfco    $ra, 14                     ## save ra
-
-    mfco    $a3, 12                     ## enable disk interrupt
-    ori     $a3, $a3, 2
-    mtco    $a3, 12
-
     sll     $a1, $a1, 31
     or      $a0, $a0, $a1
     lui     $a2, 0x2000
     addi    $v0, $zero, 0
     sw      $a0, 0x0200($a2)
-_disk_syscall_waiting:
-    beq     $v0, $zero, _disk_syscall_waiting
-
-    mtco    $ra, 14
     eret
 .global disk_syscall_handler
 
@@ -148,3 +131,10 @@ load_dword_unaligned_syscall_handler:
     add     $v0, $v0, $a1
     eret
 .global load_dword_unaligned_syscall_handler
+
+interrupt_handler:
+    mfco    $v0, 2
+    sll     $v0, $v0, 2
+    lw      $v0, 0($v0)
+    jr      $v0
+.global interrupt_handler

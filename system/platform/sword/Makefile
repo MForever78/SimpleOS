@@ -4,18 +4,19 @@ ASM = ../../../../c4/as
 LNK = ../../../../c4/lk
 PPA = cpp $< | ../../scripts/newline-sub.js | ../../scripts/func-ext.js 
 
-all: ../../build/sword.o ./build/bios.bin ./build/bootloader1.bin ./build/bootloader2.bin
+all: clean ../../build/sword.o ./build/bios.bin ./build/bootloader1.bin ./build/bootloader2.bin
 
-../../build/sword.o: ../../build/sword_driver.o ../../build/sword_driver_util.o ../../build/sword_keyboard.o
+.PHONY: clean
+
+clean: 
+	rm ./build/*
+
+../../build/sword.o: ../../build/sword_driver.o ../../build/sword_keyboard.o
 	../../../../c4/lk -m -o $@ $^
 
 ../../build/sword_driver.o: sword_driver.c
 	../../../../c4/c5 -m -o ../../build/sword_driver.asm $^
 	../../../../c4/as -m -o $@ ../../build/sword_driver.asm
-
-../../build/sword_driver_util.o: sword_driver_util.asm
-	$(PPA) > ../../build/sword_driver-bundle.asm
-	$(ASM) -m -o $@ ../../build/sword_driver-bundle.asm
 
 ../../build/sword_keyboard.o: sword_keyboard.asm
 	$(PPA) > ../../build/sword_keyboard-bundle.asm

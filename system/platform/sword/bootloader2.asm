@@ -9,11 +9,11 @@
 KERNEL_NAME:
     string  "KERNEL  BIN"
 bootloader2_init:
-    lui     $gp, 0x10
+    lui     $gp, 0x0010
     addi    $gp, $gp, 512
     
-    ## load FAT to 2.5MB
-    lui     $s0, 0x28
+    ## load FAT to 128K + 1.5K
+    addi    $s0, $gp, 512
     addi    $s1, $zero, 64      # FAT start at sector 1 + 63
     addi    $s7, $zero, 124     # 124 sectors per FAT
     j       _load_fat_cmp
@@ -35,8 +35,13 @@ _load_fat_loop:
 _load_fat_cmp:
     bne     $s7, $zero, _load_fat_loop
 
-    ## load root dir to 3MB
-    lui     $s0, 0x30
+    addi    $a0, $zero, 0x3FFF
+    addi    $a1, $zero, 0
+    addi    $v0, $zero, 8
+    syscall $v0
+
+    ## load root dir to 0x00030000
+    lui     $s0, 3
     addi    $s1, $zero, 312     # Root start at sector 249 + 63
     addi    $s7, $zero, 32      # 32 sectors per Root
     j       _load_root_cmp
@@ -56,10 +61,11 @@ _load_root_loop:
     addi    $s1, $s1, 1
     addi    $s7, $s7, -1
 _load_root_cmp:
+.global _load_root_cmp
     bne     $s7, $zero, _load_root_loop
 
     ## search in root for kernel
-    lui     $a0, 0x30
+    lui     $a0, 3
     addi    $a1, $a0, 16384
     addi    $a2, $gp, KERNEL_NAME
     addi    $v0, $zero, 20
@@ -83,7 +89,7 @@ _load_kernel_loop:
     addi    $v0, $zero, 9
     syscall $v0
 
-    lui     $a0, 0x28           # calculate next sector
+    addi    $a0, $gp, 512       # calculate next sector
     addi    $a1, $zero, 344
     addi    $a2, $s1, 0
     addi    $v0, $zero, 21

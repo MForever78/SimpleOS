@@ -1,12 +1,12 @@
 #include "macros.asm"
 
 @global STACK_TOP
-    dd 0x00100000
+    dd 0x00010000
 
 ## initialize point, which initialize all this system
 _init:
     addi $gp, $zero, 0
-    mtco $zero, 12  ## disable all interrupt
+    mtco $zero, CP0_STATUS  ## disable all interrupt
     move($sp, @STACK_TOP)
 
     @call malloc_init
@@ -18,7 +18,7 @@ _init:
     @call env_init
 
     addi $t0, $zero, 0x7FFF
-    mtco $t0, 12
+    mtco $t0, CP0_STATUS
 
     @call shell
 __forever:

@@ -47,6 +47,10 @@ exec(char *path)
     ret_code = reloc(exec, (int)exec);
     if (ret_code) { free(exec); return ret_code; }
 
+    console_print_str("Loaded at: ", 0x7FFF);
+    _print_number(exec);
+    console_print_str("\n", 0x7FFF);
+
     ret_code = _actual_exec(exec);
     free(exec);
     return ret_code;

@@ -1,7 +1,7 @@
 #include "macros.asm"
 
 @global _malloc_memory_pool_start
-    dd 0x00100000   ## 1MB
+    dd 0x00010000   ## 1MB
 
 @global _malloc_linked_list_start
     dd 0            ## un-initialized
@@ -136,7 +136,7 @@ MALLOC_OOM:
     sw @pool_start, @&_malloc_linked_list_start
 
     ## initialize first free block
-    lli(@linked_list_header, 0x10A0,0x0000)
+    lli(@linked_list_header, 0x1007,0x0000)
     sw @linked_list_header, -4(@pool_start)
 @enddef
 

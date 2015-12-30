@@ -133,7 +133,7 @@ _int_dont_set_v0:
 
 INTERRUPT_TABLE:
 I0:     dd  int_handler_nop
-I1:     dd  disk_int_handler
+I1:     dd  int_handler_nop
 I2:     dd  int_handler_nop
 I3:     dd  keyboard_int_handler
 I4:     dd  int_handler_nop
@@ -167,10 +167,6 @@ I31:    dd  int_handler_nop
 
 int_handler_nop:
     jr $ra
-
-@def disk_int_handler
-    sw      $zero, _platform_driver_waiting($gp)
-@enddef
 
 reboot_int_handler:
     ## disable interrupt
