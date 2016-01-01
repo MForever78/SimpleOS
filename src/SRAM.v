@@ -142,7 +142,8 @@ module SRAM(
 
     /*写操作*/
      
-    assign sram_wea =   init_flag ? 1'b1                                                : (sel_vram_scan ? 1'b0 : ram_wea);
+    reg init_wea;
+    assign sram_wea =   init_flag ? init_wea                                            : (sel_vram_scan ? 1'b0 : ram_wea);
     assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                    : (sel_vram_scan ? vram_scan_addr : ram_addra);
     assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h000008080000)    : (sel_vram_scan ? {48{1'bz}} : ram_dina);
     assign MIO_ready = ~init_flag & write_flag & ~write_wait; 
@@ -152,14 +153,15 @@ module SRAM(
     reg [9:0] timer;
     /*SRAM 初始化*/
     initial begin
-        cpu_addra <= 48'h0;
-        write_wait <= 1'b0;
-        write_flag <= 1'b1;
-        init_flag <= 1'b1;
-        init_addra[19:0] <= 20'h80000;
-        rom_addra[19:0] <= 20'h0;
-        copy_flag <= 1'b0;
-        timer <= 10'h0;
+        cpu_addra = 48'h0;
+        write_wait = 1'b0;
+        write_flag = 1'b1;
+        init_flag = 1'b1;
+        init_addra[19:0] = 20'h80000;
+        init_wea = 1;
+        rom_addra[19:0] = 20'h0;
+        copy_flag = 1'b0;
+        timer = 10'h0;
     end
      
      RAM_B  U3 (.addra(rom_addra[19:0]), 
@@ -178,13 +180,20 @@ module SRAM(
                     copy_flag <= 1'b0;
                 end
                 else begin
-                    rom_addra <= rom_addra + 20'h1;    //地址增加
-                    if (rom_addra >= 20'b1) init_addra <= init_addra + 20'b1;
+                    if (~init_wea) begin
+                        rom_addra <= rom_addra + 20'h1;    //地址增加
+                        if (rom_addra >= 20'b1) init_addra <= init_addra + 20'b1;
+                    end
+                    init_wea <= ~init_wea;
                 end
             end
             else begin
                 timer <= timer + 10'h1;
-                if (timer >= 10'ha) copy_flag <= 1'b1; 
+                if (timer >= 50) init_wea <= 0;
+                if (timer >= 100) begin
+                    copy_flag <= 1'b1; 
+                    init_wea <= 1;
+                end
             end
          end
     end
