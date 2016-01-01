@@ -1,135 +1,23 @@
-Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.exe" -prj "/home/mforever78/Share/Xilinx/SimpleOS/test_top_beh.prj" "work.test_top" "work.glbl" 
+Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/home/mforever78/Share/Xilinx/SimpleOS/uart_dark_test_isim_beh.exe" -prj "/home/mforever78/Share/Xilinx/SimpleOS/uart_dark_test_beh.prj" "work.uart_dark_test" "work.glbl" 
 ISim P.20131013 (signature 0xfbc00daa)
 Number of CPUs detected in this system: 8
 Turning on mult-threading, number of parallel sub-compilation jobs: 16 
 Determining compilation order of HDL files
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/ipcore_dir/dsp.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/xor32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/srlv32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/srl32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/sllv32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/sll32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/SignalExt_32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/or_bit_32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/or32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/nor32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/mux16to1_32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/and32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/ADC32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/Regs.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/REG32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/mux4to1_5.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/mux4to1_32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/mux2to1_32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/MDR_HALF.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/MDR_BYTE.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/MdrHalfStore.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/MdrByteSotre.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/Ext_32.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/ALU.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/vgac.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/RAM_B.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/ps2_kbd.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/parallel2serial.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/dec4to16.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/data_path.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/ctrl.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/CP0.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/WB_intercon.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/vga_display.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/uart.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/SRAM.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/slower.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/pause_gen.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/muliti_cpu.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/keyboard.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/display_select.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/disk_dev.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/disk_addr_gen.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/disk.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/counter.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/btn_scan_sword.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/board_disp_sword.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" into library work
-Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/tests/top_test.v" into library work
+Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/src/uart_dark.v" into library work
+WARNING:HDLCompiler:693 - "/home/mforever78/Share/Xilinx/SimpleOS/src/uart_dark.v" Line 25: Parameter declaration becomes local in uart_dark with formal parameter declaration list
+Analyzing Verilog file "/home/mforever78/Share/Xilinx/SimpleOS/tests/uart_dark_test.v" into library work
 Analyzing Verilog file "/opt/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
-WARNING:HDLCompiler:1016 - "/home/mforever78/Share/Xilinx/SimpleOS/tests/top_test.v" Line 65: Port BTN_X0 is not connected to this instance
-WARNING:HDLCompiler:1016 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 185: Port RESET is not connected to this instance
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 174: Size mismatch in connection of port <slave_STB>. Formal port size is 8-bit while actual signal size is 17-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 175: Size mismatch in connection of port <slave_ACK>. Formal port size is 8-bit while actual signal size is 17-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 177: Size mismatch in connection of port <slave_DAT_I>. Formal port size is 256-bit while actual signal size is 512-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 228: Size mismatch in connection of port <r_addra>. Formal port size is 20-bit while actual signal size is 30-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 229: Size mismatch in connection of port <r_dina>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 231: Size mismatch in connection of port <r_douta>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 235: Size mismatch in connection of port <v_addra>. Formal port size is 20-bit while actual signal size is 30-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 236: Size mismatch in connection of port <v_dina>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 238: Size mismatch in connection of port <v_douta>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 377: Size mismatch in connection of port <data3>. Formal port size is 32-bit while actual signal size is 6-bit.
-WARNING:HDLCompiler:189 - "/home/mforever78/Share/Xilinx/SimpleOS/src/SimpleOS.v" Line 380: Size mismatch in connection of port <data6>. Formal port size is 32-bit while actual signal size is 9-bit.
 Completed static elaboration
-Fuse Memory Usage: 100416 KB
-Fuse CPU Usage: 920 ms
-Compiling module WB_intercon
-Compiling module IBUFG
-Compiling module MMCME2_ADV(CLKOUT1_DIVIDE=20,CLK...
-Compiling module BUFG
-Compiling module dsp
-Compiling module slower
-Compiling module dec4to16
-Compiling module ctrl
-Compiling module VCC
-Compiling module GND
-Compiling module REG32
-Compiling module MDR_BYTE
-Compiling module MDR_HALF
-Compiling module MdrByteStore
-Compiling module MdrHalfStore
-Compiling module mux4to1_32
-Compiling module mux4to1_5
-Compiling module mux2to1_32
-Compiling module Regs
-Compiling module ADC32
-Compiling module mux16to1_32
-Compiling module and32
-Compiling module or32
-Compiling module xor32
-Compiling module nor32
-Compiling module srl32
-Compiling module sll32
-Compiling module srlv32
-Compiling module sllv32
-Compiling module or_bit_32
-Compiling module SignalExt_32
-Compiling module ALU
-Compiling module Ext_32
-Compiling module data_path
-Compiling module CP0
-Compiling module Muliti_CPU
-Compiling module RAM_B
-Compiling module SRAM
-Compiling module vgac
-Compiling module vga_display
-Compiling module counter_default
-Compiling module disk
-Compiling module disk_dev
-Compiling module uart_default
-Compiling module ps2_kbd
-Compiling module keyboard
-Compiling module display_select
-Compiling module parallel2serial(P_CLK_FREQ=100,S...
-Compiling module parallel2serial(P_CLK_FREQ=100,S...
-Compiling module board_disp_sword_default
-Compiling module btn_scan_sword_default
-Compiling module pause_gen
-Compiling module disk_addr_gen
-Compiling module SimpleOS
-Compiling module test_top
+Fuse Memory Usage: 96340 KB
+Fuse CPU Usage: 980 ms
+Compiling module uart_dark(freq_hz=32,baud=2)
+Compiling module uart_dark_test
 Compiling module glbl
 Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
-Compiled 56 Verilog Units
-Built simulation executable /home/mforever78/Share/Xilinx/SimpleOS/test_top_isim_beh.exe
-Fuse Memory Usage: 1197784 KB
-Fuse CPU Usage: 1090 ms
-GCC CPU Usage: 100 ms
+Compiled 3 Verilog Units
+Built simulation executable /home/mforever78/Share/Xilinx/SimpleOS/uart_dark_test_isim_beh.exe
+Fuse Memory Usage: 1180896 KB
+Fuse CPU Usage: 1000 ms
+GCC CPU Usage: 90 ms

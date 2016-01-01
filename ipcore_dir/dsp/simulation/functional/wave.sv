@@ -90,7 +90,8 @@ group clear 0 end
 
 group insert \
     {dsp_tb.dut.clk[1]} \
-    {dsp_tb.dut.clk[2]}  \     {dsp_tb.dut.clk[3]} 
+    {dsp_tb.dut.clk[2]}  \     {dsp_tb.dut.clk[3]}  \     {dsp_tb.dut.clk[4]}  
+
 group using {Counters}
 group set -overlay 0
 group set -comment {}
@@ -98,7 +99,8 @@ group clear 0 end
 
 group insert \
     {dsp_tb.dut.counter[1]} \
-    {dsp_tb.dut.counter[2]}  \     {dsp_tb.dut.counter[3]} 
+    {dsp_tb.dut.counter[2]}  \     {dsp_tb.dut.counter[3]}  \     {dsp_tb.dut.counter[4]}  
+
 group using {Status/control}
 group set -overlay 0
 group set -comment {}

@@ -55,9 +55,10 @@
 // "Output    Output      Phase     Duty      Pk-to-Pk        Phase"
 // "Clock    Freq (MHz) (degrees) Cycle (%) Jitter (ps)  Error (ps)"
 //----------------------------------------------------------------------------
-// CLK_OUT1___100.000______0.000______50.0______130.958_____98.575
-// CLK_OUT2____50.000______0.000______50.0______151.636_____98.575
-// CLK_OUT3____25.000______0.000______50.0______175.402_____98.575
+// CLK_OUT1___100.000______0.000______50.0______115.831_____87.180
+// CLK_OUT2____50.000______0.000______50.0______132.683_____87.180
+// CLK_OUT3____25.000______0.000______50.0______154.057_____87.180
+// CLK_OUT4____92.308______0.000______50.0______117.541_____87.180
 //
 //----------------------------------------------------------------------------
 // "Input Clock   Freq (MHz)    Input Jitter (UI)"
@@ -66,7 +67,7 @@
 
 `timescale 1ps/1ps
 
-(* CORE_GENERATION_INFO = "dsp,clk_wiz_v3_6,{component_name=dsp,use_phase_alignment=true,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,feedback_source=FDBK_AUTO,primtype_sel=MMCM_ADV,num_out_clk=3,clkin1_period=10.000,clkin2_period=10.000,use_power_down=false,use_reset=true,use_locked=true,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=MANUAL,manual_override=false}" *)
+(* CORE_GENERATION_INFO = "dsp,clk_wiz_v3_6,{component_name=dsp,use_phase_alignment=true,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,feedback_source=FDBK_AUTO,primtype_sel=MMCM_ADV,num_out_clk=4,clkin1_period=10.000,clkin2_period=10.000,use_power_down=false,use_reset=true,use_locked=true,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=MANUAL,manual_override=false}" *)
 module dsp
  (// Clock in ports
   input         CLK_IN1,
@@ -74,6 +75,7 @@ module dsp
   output        CLK_OUT1,
   output        CLK_OUT2,
   output        CLK_OUT3,
+  output        CLK_OUT4,
   // Status and control signals
   input         RESET,
   output        LOCKED
@@ -100,7 +102,6 @@ module dsp
   wire        clkout0b_unused;
   wire        clkout1b_unused;
   wire        clkout2b_unused;
-  wire        clkout3_unused;
   wire        clkout3b_unused;
   wire        clkout4_unused;
   wire        clkout5_unused;
@@ -114,21 +115,25 @@ module dsp
     .COMPENSATION         ("ZHOLD"),
     .STARTUP_WAIT         ("FALSE"),
     .DIVCLK_DIVIDE        (1),
-    .CLKFBOUT_MULT_F      (10.000),
+    .CLKFBOUT_MULT_F      (12.000),
     .CLKFBOUT_PHASE       (0.000),
     .CLKFBOUT_USE_FINE_PS ("FALSE"),
-    .CLKOUT0_DIVIDE_F     (10.000),
+    .CLKOUT0_DIVIDE_F     (12.000),
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
-    .CLKOUT1_DIVIDE       (20),
+    .CLKOUT1_DIVIDE       (24),
     .CLKOUT1_PHASE        (0.000),
     .CLKOUT1_DUTY_CYCLE   (0.500),
     .CLKOUT1_USE_FINE_PS  ("FALSE"),
-    .CLKOUT2_DIVIDE       (40),
+    .CLKOUT2_DIVIDE       (48),
     .CLKOUT2_PHASE        (0.000),
     .CLKOUT2_DUTY_CYCLE   (0.500),
     .CLKOUT2_USE_FINE_PS  ("FALSE"),
+    .CLKOUT3_DIVIDE       (13),
+    .CLKOUT3_PHASE        (0.000),
+    .CLKOUT3_DUTY_CYCLE   (0.500),
+    .CLKOUT3_USE_FINE_PS  ("FALSE"),
     .CLKIN1_PERIOD        (10.000),
     .REF_JITTER1          (0.010))
   mmcm_adv_inst
@@ -141,7 +146,7 @@ module dsp
     .CLKOUT1B            (clkout1b_unused),
     .CLKOUT2             (clkout2),
     .CLKOUT2B            (clkout2b_unused),
-    .CLKOUT3             (clkout3_unused),
+    .CLKOUT3             (clkout3),
     .CLKOUT3B            (clkout3b_unused),
     .CLKOUT4             (clkout4_unused),
     .CLKOUT5             (clkout5_unused),
@@ -190,6 +195,10 @@ module dsp
   BUFG clkout3_buf
    (.O   (CLK_OUT3),
     .I   (clkout2));
+
+  BUFG clkout4_buf
+   (.O   (CLK_OUT4),
+    .I   (clkout3));
 
 
 
