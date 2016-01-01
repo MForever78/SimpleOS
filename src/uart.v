@@ -16,15 +16,16 @@ module uart(
     `include "function.vh"
 
     parameter
-        MAIN_FREQUENCY = 100000000,
+        MAIN_FREQUENCY = 92308000,
         BAUD = 115200;
     localparam
         COUNT = MAIN_FREQUENCY / BAUD / 16,
         CNT_WIDTH = GET_WIDTH(COUNT - 1);
     localparam
         RX_IDLE = 0,
-        RX_DATA = 1,
-        RX_STOP = 2;
+        RX_START = 1,
+        RX_DATA = 2,
+        RX_STOP = 3;
     localparam
         TX_IDLE = 0,
         TX_START = 1,
@@ -58,22 +59,22 @@ module uart(
     end
 
     // Anti jitter
-    reg[1: 0] rxd_cnt;
+    reg[2: 0] rxd_cnt;
     reg rx_bit;
     always @(posedge clk) begin
         if (rst) begin
-            rxd_cnt <= 2'b11;
+            rxd_cnt <= 3'b111;
             rx_bit <= 1;
         end else begin
             if (sample_pause) begin
-                if (rx_d2 && rxd_cnt != 2'b11)
+                if (rx_d2 && rxd_cnt != 3'b111)
                     rxd_cnt <= rxd_cnt + 1;
-                else if (~rx_d2 && rxd_cnt != 2'b00)
+                else if (~rx_d2 && rxd_cnt != 3'b000)
                     rxd_cnt <= rxd_cnt - 1;
 
-                if (rxd_cnt == 2'b00)
+                if (rxd_cnt == 3'b000)
                     rx_bit <= 0;
-                if (rxd_cnt == 2'b11)
+                if (rxd_cnt == 3'b111)
                     rx_bit <= 1;
             end
         end
@@ -83,7 +84,7 @@ module uart(
     reg[3: 0] bit_spacing;
     always @(posedge clk) begin
         if (rx_state == RX_IDLE)
-            bit_spacing <= 7;
+            bit_spacing <= 9;
         else begin
             if (sample_pause)
                 bit_spacing <= bit_spacing + 1;
@@ -104,7 +105,13 @@ module uart(
         case(rx_state)
             RX_IDLE: begin
                 if (~rx_bit & en)
+                    rx_state_next = RX_START;
+            end
+            RX_START: begin
+                if (~rx_bit)
                     rx_state_next = RX_DATA;
+                else
+                    rx_state_next = RX_IDLE;
             end
             RX_DATA: begin
                 if (rx_data_cnt == 7) begin
@@ -128,6 +135,10 @@ module uart(
             if (sample_pause)
                 case(rx_state)
                     RX_IDLE: rx_state <= rx_state_next;
+                    RX_START: begin
+                        if (rx_shift_bit)
+                            rx_state <= rx_state_next;
+                    end
                     RX_DATA: begin
                         if (rx_shift_bit) begin
                             rx_state <= rx_state_next;

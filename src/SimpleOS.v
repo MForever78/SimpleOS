@@ -75,7 +75,7 @@ module SimpleOS(
 
     wire [19:0] addr_read;
     wire [15:0] vram_scan_data; 
-    wire clk100, clk50, clk25;
+    wire clk100, clk50, clk25, clk92;
     wire RST = ~RSTN;
 
     // Btn
@@ -186,7 +186,8 @@ module SimpleOS(
         .CLK_IN1(clk_100mhz),
         .CLK_OUT1(clk100),
         .CLK_OUT2(clk50),
-        .CLK_OUT3(clk25));
+        .CLK_OUT3(clk25),
+        .CLK_OUT4(clk92));
 
     wire clk1s, clk2s;
 
@@ -339,7 +340,7 @@ module SimpleOS(
     );
 
     uart uart(
-        .clk(clk100),
+        .clk(clk92),
         .rst(RST),
         .rx(UART_RXD),
         .tx(UART_TXD),
