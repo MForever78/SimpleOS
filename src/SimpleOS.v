@@ -340,7 +340,7 @@ module SimpleOS(
     );
 
     uart uart(
-        .clk(clk92),
+        .clk(clk100),
         .rst(RST),
         .rx(UART_RXD),
         .tx(UART_TXD),

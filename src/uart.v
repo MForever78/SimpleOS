@@ -16,7 +16,7 @@ module uart(
     `include "function.vh"
 
     parameter
-        MAIN_FREQUENCY = 92308000,
+        MAIN_FREQUENCY = 100000000,
         BAUD = 115200;
     localparam
         COUNT = MAIN_FREQUENCY / BAUD / 16,
@@ -59,22 +59,22 @@ module uart(
     end
 
     // Anti jitter
-    reg[2: 0] rxd_cnt;
+    reg[1: 0] rxd_cnt;
     reg rx_bit;
     always @(posedge clk) begin
         if (rst) begin
-            rxd_cnt <= 3'b111;
+            rxd_cnt <= 2'b11;
             rx_bit <= 1;
         end else begin
             if (sample_pause) begin
-                if (rx_d2 && rxd_cnt != 3'b111)
+                if (rx_d2 && rxd_cnt != 2'b11)
                     rxd_cnt <= rxd_cnt + 1;
-                else if (~rx_d2 && rxd_cnt != 3'b000)
+                else if (~rx_d2 && rxd_cnt != 2'b00)
                     rxd_cnt <= rxd_cnt - 1;
 
-                if (rxd_cnt == 3'b000)
+                if (rxd_cnt == 2'b00)
                     rx_bit <= 0;
-                if (rxd_cnt == 3'b111)
+                if (rxd_cnt == 2'b11)
                     rx_bit <= 1;
             end
         end

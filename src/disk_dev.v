@@ -281,7 +281,7 @@ module disk_dev(
 
     // device control
     wire[7: 0] state = instruction[30] == 1 ? write_state : read_state;
-    always @(clk) begin
+    always @(posedge clk) begin
         if (rst) begin
             dev_enable <= 0;
             dev_we <= 0;
