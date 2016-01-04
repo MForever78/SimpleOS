@@ -64,9 +64,9 @@ module dsp_exdes
   input         CLK_IN1,
   // Reset that only drives logic in example design
   input         COUNTER_RESET,
-  output [4:1]  CLK_OUT,
+  output [5:1]  CLK_OUT,
   // High bits of counters driven by clocks
-  output [4:1]  COUNT,
+  output [5:1]  COUNT,
   // Status and control signals
   input         RESET,
   output        LOCKED
@@ -77,7 +77,7 @@ module dsp_exdes
   // Counter width
   localparam    C_W       = 16;
   // Number of counters
-  localparam    NUM_C     = 4;
+  localparam    NUM_C     = 5;
   genvar        count_gen;
   // When the clock goes out of lock, reset the counters
   wire          reset_int = !LOCKED || RESET || COUNTER_RESET;
@@ -103,6 +103,7 @@ module dsp_exdes
     .CLK_OUT2           (clk_int[2]),
     .CLK_OUT3           (clk_int[3]),
     .CLK_OUT4           (clk_int[4]),
+    .CLK_OUT5           (clk_int[5]),
     // Status and control signals
     .RESET              (RESET),
     .LOCKED             (LOCKED));
@@ -129,6 +130,7 @@ endgenerate
   assign clk[2] = clk_int[2];
   assign clk[3] = clk_int[3];
   assign clk[4] = clk_int[4];
+  assign clk[5] = clk_int[5];
 
 
   // Reset synchronizer

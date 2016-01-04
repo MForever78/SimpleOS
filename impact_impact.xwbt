@@ -1,0 +1,8 @@
+INTSTYLE=impact
+INFILE=/home/mforever78/Share/Xilinx/SimpleOS/impact.xsl
+OUTFILE=/home/mforever78/Share/Xilinx/SimpleOS/impact.xsl
+FAMILY=Single
+PART=Single
+WORKINGDIR=/home/mforever78/Share/Xilinx/SimpleOS
+LICENSE=iMPACT
+USER_INFO=iMPACT

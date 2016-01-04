@@ -79,29 +79,33 @@ module dsp_tb ();
   reg         CLK_IN1     = 1;
 
   // The high bits of the sampling counters
-  wire [4:1]  COUNT;
+  wire [5:1]  COUNT;
   // Status and control signals
   reg         RESET      = 0;
   wire        LOCKED;
   reg         COUNTER_RESET = 0;
-wire [4:1] CLK_OUT;
+wire [5:1] CLK_OUT;
 //Freq Check using the M & D values setting and actual Frequency generated
 real period1;
 real ref_period1;
-localparam  ref_period1_clkin1 = (10.000*1*12.000*1000/12.000);
+localparam  ref_period1_clkin1 = (10.000*1*8.000*1000/8.000);
 time prev_rise1;
 real period2;
 real ref_period2;
-localparam  ref_period2_clkin1 = (10.000*1*24*1000/12.000);
+localparam  ref_period2_clkin1 = (10.000*1*16*1000/8.000);
 time prev_rise2;
 real period3;
 real ref_period3;
-localparam  ref_period3_clkin1 = (10.000*1*48*1000/12.000);
+localparam  ref_period3_clkin1 = (10.000*1*32*1000/8.000);
 time prev_rise3;
 real period4;
 real ref_period4;
-localparam  ref_period4_clkin1 = (10.000*1*13*1000/12.000);
+localparam  ref_period4_clkin1 = (10.000*1*64*1000/8.000);
 time prev_rise4;
+real period5;
+real ref_period5;
+localparam  ref_period5_clkin1 = (10.000*1*128*1000/8.000);
+time prev_rise5;
 
 
   // Input clock generation
@@ -146,6 +150,10 @@ time prev_rise4;
     $display("Freq of CLK_OUT[4] ( in MHz ) : %0f\n", 1000000/period4);
     end else 
     $display("ERROR: Freq of CLK_OUT[4] is not correct"); 
+    if ((period5 -ref_period5_clkin1) <= 100 && (period5 -ref_period5_clkin1) >= -100) begin
+    $display("Freq of CLK_OUT[5] ( in MHz ) : %0f\n", 1000000/period5);
+    end else 
+    $display("ERROR: Freq of CLK_OUT[5] is not correct"); 
 
     $display("SIMULATION PASSED");
     $display("SYSTEM_CLOCK_COUNTER : %0d\n",$time/PER1);
@@ -206,6 +214,15 @@ begin
   if (prev_rise4 != 0)
     period4 = $time - prev_rise4;
   prev_rise4 = $time;
+end
+initial
+  prev_rise5 = 0;
+
+always @(posedge CLK_OUT[5])
+begin
+  if (prev_rise5 != 0)
+    period5 = $time - prev_rise5;
+  prev_rise5 = $time;
 end
 
 endmodule
