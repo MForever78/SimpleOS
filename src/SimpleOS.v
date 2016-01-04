@@ -194,8 +194,8 @@ module SimpleOS(
         .clk2s(clk2s)
     );
         
-    wire clk_slow = SW[15] ? (SW[14] ? clk12p5 : clk2s) : 0;
-    wire clk_fast = SW[15] ? (SW[14] ? clk6p25 : clk1s) : 0;
+    wire clk_slow = SW[15] ? (SW[14] ? clk6p25 : clk2s) : 0;
+    wire clk_fast = SW[15] ? (SW[14] ? clk12p5 : clk1s) : 0;
         
     wire mem_w, mem_r;
     assign CPU_WE = mem_w & ~mem_r;
