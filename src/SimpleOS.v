@@ -75,7 +75,7 @@ module SimpleOS(
 
     wire [19:0] addr_read;
     wire [15:0] vram_scan_data; 
-    wire clk100, clk50, clk25, clk92;
+    wire clk100, clk50, clk25, clk12p5, clk6p25;
     wire RST = ~RSTN;
 
     // Btn
@@ -107,8 +107,7 @@ module SimpleOS(
        // VRam_INT |
        // Keyboard_INT |
        // Counter_INT |
-        Switch_INT ;
-    
+        0;
     
     wire [31:0] CPU_CAUSE = 
        // Ram_INT ? Ram_CAUSE :
@@ -116,7 +115,6 @@ module SimpleOS(
        // VRam_INT ? VRam_CAUSE :
         Keyboard_INT ? Keyboard_CAUSE :
        // Counter_INT ? Counter_CAUSE :
-        Switch_INT ? Switch_CAUSE :
         32'h0;
     
     //////////////////////////////////////////////////
@@ -179,15 +177,13 @@ module SimpleOS(
         .slave_ADDR(slave_ADDR)
     );
     
-    
-    assign Switch_INT = SW[0];
-    
     dsp timer(
         .CLK_IN1(clk_100mhz),
         .CLK_OUT1(clk100),
         .CLK_OUT2(clk50),
         .CLK_OUT3(clk25),
-        .CLK_OUT4(clk92));
+        .CLK_OUT4(clk12p5),
+        .CLK_OUT5(clk6p25));
 
     wire clk1s, clk2s;
 
@@ -198,14 +194,14 @@ module SimpleOS(
         .clk2s(clk2s)
     );
         
-    wire clk_slow = SW[15] ? (SW[14] ? clk25 : clk2s) : 0;
-    wire clk_fast = SW[15] ? (SW[14] ? clk50 : clk1s) : 0;
+    wire clk_slow = SW[15] ? (SW[14] ? clk12p5 : clk2s) : 0;
+    wire clk_fast = SW[15] ? (SW[14] ? clk6p25 : clk1s) : 0;
         
     wire mem_w, mem_r;
     assign CPU_WE = mem_w & ~mem_r;
     assign CPU_STB = mem_w ^ mem_r;
     Muliti_CPU U1 (
-            .clk(clk_slow),
+            .clk(clk_fast),
             .reset(RST),
             .INT(CPU_INT), 
             .inst_out(CPU_inst), 
@@ -221,7 +217,6 @@ module SimpleOS(
             .Cause_in(CPU_CAUSE));
     
     SRAM  U3 (
-        .clk_100mhz(clk100),
         .clk_50mhz(clk_fast), 
         .clk_25mhz(clk_slow), 
         

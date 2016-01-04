@@ -21,7 +21,6 @@
 module SRAM(    
                 input clk_25mhz,
                 input clk_50mhz,
-                input clk_100mhz,
                 
                 input r_stb,
                 input [19:0] r_addra,
@@ -78,7 +77,8 @@ module SRAM(
     assign SRAM_CE = 1'b0;                
     assign SRAM_OEN = sram_wea;            
     assign SRAM_WEN = ~sram_wea;
-    assign SRAM_DQ[47:0] = sram_wea ? (clk_100mhz ? {48{1'bz}} : sram_dina[47:0]) : {48{1'bz}};
+    //assign SRAM_DQ[47:0] = sram_wea ? (clk_100mhz ? {48{1'bz}} : sram_dina[47:0]) : {48{1'bz}};
+    assign SRAM_DQ[47:0] = sram_wea ? sram_dina[47: 0] : {48{1'bz}};
     assign sram_douta = SRAM_DQ[47:0];
      /*SRAM 核心操作结束*/
     
@@ -97,7 +97,7 @@ module SRAM(
     /*vga 扫描信号输出*/
     wire sel_vram_scan;
     assign sel_vram_scan = clk_25mhz;
-    always @(posedge clk_50mhz)
+    always @(posedge clk_25mhz)
     begin
         if (sel_vram_scan) vram_scan_data[15:0] <= sram_douta[47:32];
     end
@@ -143,12 +143,13 @@ module SRAM(
     /*写操作*/
      
     reg init_wea;
-    assign sram_wea =   init_flag ? init_wea                                            : (sel_vram_scan ? 1'b0 : ram_wea);
-    assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                    : (sel_vram_scan ? vram_scan_addr : ram_addra);
-    assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h000008080000)    : (sel_vram_scan ? {48{1'bz}} : ram_dina);
+    //assign sram_wea =   init_flag ? init_wea                                            : (sel_vram_scan ? 1'b0 : ram_wea);
+    assign sram_wea =   init_flag ? init_wea                                            : (ram_wea);
+    //assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                    : (sel_vram_scan ? vram_scan_addr : ram_addra);
+    assign sram_addra = init_flag ? (copy_flag ? init_addra : 20'h0)                    : (ram_addra);
+    //assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h000008080000)    : (sel_vram_scan ? {48{1'bz}} : ram_dina);
+    assign sram_dina =  init_flag ? (copy_flag ? init_dina[47:0] : 48'h000008080000)    : (ram_dina);
     assign MIO_ready = ~init_flag & write_flag & ~write_wait; 
-    
-    
     
     reg [9:0] timer;
     /*SRAM 初始化*/
