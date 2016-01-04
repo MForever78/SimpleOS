@@ -5,7 +5,7 @@
 # 
 # This file contains several Tcl procedures (procs) that you can use to automate
 # your project by running from xtclsh or the Project Navigator Tcl console.
-# If you load this file (using the Tcl command: source /home/mforever78/Share/Xilinx/SimpleOS/SimpleOS.tcl), then you can
+# If you load this file (using the Tcl command: source SimpleOS.tcl), then you can
 # run any of the procs included here.
 # 
 # This script is generated assuming your project has HDL sources.
@@ -36,7 +36,7 @@
 # 
 
 set myProject "SimpleOS"
-set myScript "/home/mforever78/Share/Xilinx/SimpleOS/SimpleOS.tcl"
+set myScript "SimpleOS.tcl"
 
 # 
 # Main (top-level) routines
@@ -241,8 +241,8 @@ proc add_source_files {} {
    xfile add "src/MDR_HALF.v"
    xfile add "src/MdrByteSotre.v"
    xfile add "src/MdrHalfStore.v"
-   xfile add "src/RAM_B.v"
    xfile add "src/REG32.v"
+   xfile add "src/ROM_127.v"
    xfile add "src/Regs.v"
    xfile add "src/SRAM.v"
    xfile add "src/SignalExt_32.v"
@@ -276,8 +276,7 @@ proc add_source_files {} {
    xfile add "src/slower.v"
    xfile add "src/srl32.v"
    xfile add "src/srlv32.v"
-   xfile add "src/testMuliti_CPU.v"
-   xfile add "src/test_cpu.v"
+   xfile add "src/static_ram.v"
    xfile add "src/uart.v"
    xfile add "src/vga_display.v"
    xfile add "src/vgac.v"

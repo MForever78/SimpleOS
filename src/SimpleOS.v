@@ -201,7 +201,7 @@ module SimpleOS(
     assign CPU_WE = mem_w & ~mem_r;
     assign CPU_STB = mem_w ^ mem_r;
     Muliti_CPU U1 (
-            .clk(clk_fast),
+            .clk(clk_slow),
             .reset(RST),
             .INT(CPU_INT), 
             .inst_out(CPU_inst), 
@@ -216,32 +216,50 @@ module SimpleOS(
             .CPU_MIO(),
             .Cause_in(CPU_CAUSE));
     
-    SRAM  U3 (
-        .clk_50mhz(clk_fast), 
-        .clk_25mhz(clk_slow), 
-        
-        .r_stb(Ram_STB),
-        .r_addra(slave_ADDR[31:2]),
-        .r_dina(slave_DAT_I),
-        .r_we(Ram_WE),
-        .r_douta(Ram_DAT_O), 
-        .r_ACK(Ram_ACK),
-        
-        .v_stb(VRam_STB),
-        .v_addra(slave_ADDR[31:2]),
-        .v_dina(slave_DAT_I),
-        .v_we(VRam_WE),
-        .v_douta(VRam_DAT_O), 
-        .v_ACK(VRam_ACK),
+
+    wire sram_stb;
+    wire [19:0] sram_addra;
+    wire [47:0] sram_dina;
+    wire sram_we;
+    wire [47:0] sram_douta;
+    wire sram_ack;
+
+    SRAM  sram_init (
+        .clk100(clk_fast),
+        .clk50(clk_slow),
+        .rst(~RSTN),
+        .stb(Ram_STB),
+        .addra(slave_ADDR[31:2]),
+        .dina(slave_DAT_I),
+        .wea(Ram_WE),
+        .douta(Ram_DAT_O), 
+        .ack(Ram_ACK),
             
-        .vram_scan_addr(addr_read[19:0]),
-        .vram_scan_data(vram_scan_data),    
-            
-        .SRAM_ADDR(SRAM_ADDR[19:0]),
+        .sram_stb(sram_stb),
+        .sram_addra(sram_addra),
+        .sram_dina(sram_dina),
+        .sram_we(sram_we),
+        .sram_douta(sram_douta),
+        .sram_ack(sram_ack)   
+            );    
+
+    static_ram static_ram(
+        .clk100(clk_fast),
+        .clk50(clk_slow),
+        .rst(rst),
+        .stb(sram_stb),
+        .addra(sram_addra),
+        .dina(sram_dina),
+        .we(sram_we),
+        .douta(sram_douta), 
+        .ack(sram_ack),
+
+        .SRAM_ADDR(SRAM_ADDR),
         .SRAM_CE(SRAM_CE),
         .SRAM_OEN(SRAM_OEN),
         .SRAM_WEN(SRAM_WEN),
-        .SRAM_DQ(SRAM_DQ));    
+        .SRAM_DQ(SRAM_DQ)
+    );
 
    vga_display vga_dev(
         .clk_25mhz(clk25),
