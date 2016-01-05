@@ -50,7 +50,7 @@ module SRAM(
                                       : init_dina;
                                       
     assign douta = {16'b0, sram_douta[31:0]};
-    assign ack = ~init_flag ? stb ? 1'b1 : sram_ack
+    assign ack = ~init_flag ? stb ? sram_ack : 1'b1
                             : 1'b0; 
     
     
@@ -87,7 +87,7 @@ module SRAM(
     //init_sram using clk50     
     always @(posedge clk50) begin
         if (init_flag & sram_ack) begin
-            if (zero_cnt <= 3'b100) begin           //for the purpose of 0x08080000 writing
+            if (zero_cnt <= 3'b10) begin           //for the purpose of 0x08080000 writing
                 zero_flag <= 1'b1;
                 zero_cnt <= zero_cnt + 3'b1;
             end
@@ -108,5 +108,6 @@ module SRAM(
     ////////////////////////////////////////
     //        initial sram end            //
     ////////////////////////////////////////
+    
     
 endmodule

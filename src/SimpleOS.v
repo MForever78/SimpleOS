@@ -178,6 +178,7 @@ module SimpleOS(
     );
     
     dsp timer(
+        .RESET(~RSTN),
         .CLK_IN1(clk_100mhz),
         .CLK_OUT1(clk100),
         .CLK_OUT2(clk50),
@@ -245,7 +246,6 @@ module SimpleOS(
 
     static_ram static_ram(
         .clk100(clk_fast),
-        .clk50(clk_slow),
         .rst(rst),
         .stb(sram_stb),
         .addra(sram_addra),

@@ -21,7 +21,6 @@
 module static_ram(
         
         input clk100,
-        input clk50,
         input rst,
         
         input stb,
@@ -45,69 +44,48 @@ module static_ram(
     //
     // Example:
     // input:
-    // we:        TTTTTTTT        ____
-    // clk25:     TTTT____TTTT____TTTT____TTTT____TTTT____TTTT____
-    // clk50:     TT__TT__TT__TT__TT__TT__TT__TT__TT__TT__TT__TT__
+    // we:        TTTTTTTTTTTTTTTTTTTTTTTT____
+    // clk50:     TTTT____TTTT____TTTT____TTTT____TTTT____TTTT____
+    // clk100:    TT__TT__TT__TT__TT__TT__TT__TT__TT__TT__TT__TT__
+    //             ID WAIT S0  S1  S2  S3  ID  ID
     
     // output:
-    // wen:       ______TT        TTTT
-    // data_out:  --TTTT--        ----
-    // ack:       ______TT        TTTT
+    // wen:               ____________TTTT        TTTTTTTT
+    // data_out:          ----TTTTTTTT----        --------
+    // ack:               ____________TTTT        TTTTTTTT
     
     // action:      
     //             write          read
 
     
-    localparam S1 = 4'b0001, S2 = 4'b0010, S3 = 4'b0100, S4 = 4'b1000;
-    reg [3:0] state;
-    reg [2:0] cnt;
-    initial begin 
-        state <= S1;
-        cnt <= 3'b0;
-    end
-    
-    ////////////////////////////////////////
-    //          alignment                 //
-    ////////////////////////////////////////
-    always @(posedge clk50) begin
-        if (rst) cnt <= 0;
-        else if (cnt < 3'h2) cnt <= cnt + 3'b1;
-        else cnt <= 3'h2;  
-    end
-    ////////////////////////////////////////
-    //          alignment                 //
-    ////////////////////////////////////////
-    
+    localparam S0 = 3'h0, S1 = 3'h1, S2 = 3'h2, S3 = 3'h3, IDLE = 3'h4, WAIT = 3'h5;
+    reg [2:0] state;
+    initial state <= IDLE; 
 
     always @(posedge clk100) begin
-        if (rst) state <= S1;
-        else
-        if (cnt == 3'h2)
-            case (state)
-                S1: state<=S2;
-                S2: state<=S3;
-                S3: state<=S4;
-                S4: state<=S1; 
-                default: state<=S4;
-            endcase
-        else state <= S1;
+        if (rst) state <= IDLE;
+        else 
+            if (stb & we) begin
+                case (state)
+                    IDLE: state <= WAIT;
+                    WAIT: state <= S0;
+                    S0: state<=S1;
+                    S1: state<=S2;
+                    S2: state<=S3;
+                    S3: state<=IDLE; 
+                    default: state<=IDLE;
+                endcase
+            end
+            else state <= IDLE;
     end
     
-    
     assign SRAM_ADDR = addra;
-    assign SRAM_CE = 1'b0;                                                      //always enable
-    assign SRAM_OEN = 1'b0;                                                     //always output
-    assign SRAM_WEN = stb ? we ? state[3]                                       //write
-                               : 1'b1                                           //read
-                          : 1'b1;                                               //not chosen
-    assign SRAM_DQ = stb ? we ? ((state[1] | state[2]) ? dina : {48{1'hz}})     //write         
-                              : {48{1'hz}}                                      //read
-                         : {48{1'hz}};                                          //not chosen
-                         
-    assign ack = stb ? we ? state == S4                                         //write
-                          : 1'b1                                                //read
-                     : 1'b1;                                                    //not chosen
-    
+    assign SRAM_CE = 1'b0;                                                      
+    assign SRAM_OEN = 1'b0;                                                     
+    assign SRAM_WEN = (stb & we) ? state == S3 : 1'b1;                       
+    assign SRAM_DQ = (stb & we) ? ((state == S1 || state == S2) ? dina : {48{1'hz}}) 
+                                : {48{1'hz}};                                    
+    assign ack = (stb & we) ? state == S3 : 1'b1;                                   
     assign douta = SRAM_DQ;
     
 endmodule

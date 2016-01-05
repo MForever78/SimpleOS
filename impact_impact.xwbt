@@ -1,8 +1,8 @@
 INTSTYLE=impact
-INFILE=/home/mforever78/Share/Xilinx/SimpleOS/impact.xsl
-OUTFILE=/home/mforever78/Share/Xilinx/SimpleOS/impact.xsl
+INFILE=D:\project\ISE\project\SimpleOS\impact.xsl
+OUTFILE=D:\project\ISE\project\SimpleOS\impact.xsl
 FAMILY=Single
 PART=Single
-WORKINGDIR=/home/mforever78/Share/Xilinx/SimpleOS
+WORKINGDIR=D:\project\ISE\project\SimpleOS
 LICENSE=iMPACT
 USER_INFO=iMPACT

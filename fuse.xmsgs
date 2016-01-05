@@ -5,7 +5,34 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="warning" file="HDLCompiler" num="693" delta="unknown" >"/home/mforever78/Share/Xilinx/SimpleOS/src/uart_dark.v" Line 25: Parameter declaration becomes local in <arg fmt="%s" index="1">uart_dark</arg> with formal parameter declaration list
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"D:/project/ISE/project/SimpleOS/tests/top_test.v" Line 65: Port <arg fmt="%s" index="1">BTN_X0</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 180: Port <arg fmt="%s" index="1">LOCKED</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 172: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_STB</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 173: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_ACK</arg>&gt;. Formal port size is <arg fmt="%d" index="2">8</arg>-bit while actual signal size is <arg fmt="%d" index="1">17</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 175: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">slave_DAT_I</arg>&gt;. Formal port size is <arg fmt="%d" index="2">256</arg>-bit while actual signal size is <arg fmt="%d" index="1">512</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 233: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">20</arg>-bit while actual signal size is <arg fmt="%d" index="1">30</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 236: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">douta</arg>&gt;. Formal port size is <arg fmt="%d" index="2">48</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 391: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">data3</arg>&gt;. Formal port size is <arg fmt="%d" index="2">32</arg>-bit while actual signal size is <arg fmt="%d" index="1">6</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 394: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">data6</arg>&gt;. Formal port size is <arg fmt="%d" index="2">32</arg>-bit while actual signal size is <arg fmt="%d" index="1">9</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1330" delta="unknown" >"function.vh" Line 1: Function <arg fmt="%s" index="1">GET_WIDTH</arg> has no return value assignment
 </msg>
 
 </messages>
