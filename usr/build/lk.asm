@@ -12,7 +12,7 @@ _main_module_ref:
     dd   _lk_ref
 
 _main_start:
-    addi $sp, $sp, -96
+    addi $sp, $sp, -100
 ## line 13
     addi $t0, $fp, 8
     lw   $v0, 0($t0)
@@ -108,7 +108,7 @@ _main_1459913072:
     addi $sp, $sp, 4
 _main_1459913276:
 ## line 22
-    addi $t0, $fp, -28
+    addi $t0, $fp, -32
     addi $t1, $fp, 12
     lw   $v0, 0($t1)
     addi $t2, $v0, 0
@@ -159,7 +159,7 @@ _main_1459913352:
     addi $sp, $sp, 4
 _main_1459913556:
 ## line 26
-    addi $t0, $fp, -36
+    addi $t0, $fp, -40
     addi $t1, $fp, 12
     lw   $v0, 0($t1)
     addi $t2, $v0, 0
@@ -169,12 +169,12 @@ _main_1459913556:
     sw   $v0, 0($t0)
 ## line 27
 _main_1459913632:
-    lw   $v0, -36($fp)
+    lw   $v0, -40($fp)
     lb   $v0, 0($v0)
     addi $t0, $v0, 0
     beq  $v0, $zero, _main_1459913704
     and  $v0, $t0, $v0
-    lw   $v0, -36($fp)
+    lw   $v0, -40($fp)
     lb   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 48
@@ -186,7 +186,7 @@ _main_1459913704:
     addi $t0, $v0, 0
     beq  $v0, $zero, _main_1459913764
     and  $v0, $t0, $v0
-    lw   $v0, -36($fp)
+    lw   $v0, -40($fp)
     lb   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 57
@@ -214,7 +214,7 @@ _main_1459913764:
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
     addi $t1, $v0, 0
-    addi $t2, $fp, -36
+    addi $t2, $fp, -40
     lw   $v0, 0($t2)
     addi $t3, $v0, 0
     addi $v0, $t3, 1
@@ -290,7 +290,7 @@ _main_1459914144:
     addi $sp, $sp, 4
     sw   $v0, 0($t0)
 ## line 37
-    addi $t0, $fp, -48
+    addi $t0, $fp, -52
     lw   $v0, -4($fp)
     addi $t1, $v0, 0
     addi $sp, $sp, -4
@@ -333,7 +333,7 @@ _main_1459914144:
     addi $sp, $sp, 4
 _main_1459914352:
 ## line 38
-    addi $t0, $fp, -52
+    addi $t0, $fp, -56
     lw   $v0, -4($fp)
     addi $t1, $v0, 0
     addi $sp, $sp, -4
@@ -376,15 +376,15 @@ _main_1459914352:
     addi $sp, $sp, 4
 _main_1459914512:
 ## line 40
-    addi $t0, $fp, -56
-    lw   $v0, -48($fp)
+    addi $t0, $fp, -60
+    lw   $v0, -52($fp)
     sw   $v0, 0($t0)
 ## line 41
-    addi $t0, $fp, -88
+    addi $t0, $fp, -92
     addi $v0, $zero, 0
     sw   $v0, 0($t0)
 ## line 42
-    addi $t0, $fp, -92
+    addi $t0, $fp, -96
     sw   $v0, 0($t0)
 ## line 43
     addi $t0, $fp, -20
@@ -403,10 +403,10 @@ _main_1459914716:
 ## line 45
 _main_1459914732:
     lw   $v0, 8($fp)
-    beq  $v0, $zero, _main_1459917476
+    beq  $v0, $zero, _main_1459917472
 ## line 46
     addi $t0, $fp, -12
-    addi $t1, $fp, -32
+    addi $t1, $fp, -36
     lw   $v0, 12($fp)
     lw   $v0, 0($v0)
     sw   $v0, 0($t1)
@@ -430,7 +430,7 @@ _main_1459914732:
 ## line 46
     addi $v0, $ra, s1486131352[_main_ref_pos]
     addi $t0, $v0, 0
-    lw   $v0, -32($fp)
+    lw   $v0, -36($fp)
     addi $t1, $v0, 0
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -453,41 +453,28 @@ _main_1459914732:
     addi $sp, $sp, 4
 _main_1459914932:
 ## line 47
-    addi $t0, $fp, -80
+    addi $t0, $fp, -28
     lw   $v0, -12($fp)
     addi $t1, $v0, 0
-    lw   $v0, -56($fp)
-    addi $t2, $v0, 0
-    addi $t3, $zero, 0
-    lw   $v0, -4($fp)
-    addi $t4, $v0, 0
-    lw   $v0, -56($fp)
-    addi $t5, $v0, 0
-    lw   $v0, -48($fp)
-    sub  $v0, $t5, $v0
-    addi $t5, $v0, 0
-    addi $v0, $zero, 4
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
-    addi $t6, $v0, 0
-    addi $sp, $sp, -28
-    sw   $t0, 24($sp)
-    sw   $t1, 20($sp)
-    sw   $t2, 16($sp)
-    sw   $t3, 12($sp)
-    sw   $t4, 8($sp)
-    sw   $t6, 4($sp)
-    sw   $t5, 0($sp)
-    jal  div
-    lw   $t0, 24($sp)
-    lw   $t1, 20($sp)
-    lw   $t2, 16($sp)
-    lw   $t3, 12($sp)
-    lw   $t4, 8($sp)
-    addi $sp, $sp, 28
+    addi $sp, $sp, -8
+    sw   $t0, 4($sp)
+    sw   $t1, 0($sp)
+    jal  file_size
+    lw   $t0, 4($sp)
+    addi $sp, $sp, 8
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-    sub  $v0, $t4, $v0
+    sw   $v0, 0($t0)
+## line 48
+    addi $t0, $fp, -84
+    lw   $v0, -12($fp)
+    addi $t1, $v0, 0
+    lw   $v0, -60($fp)
+    addi $t2, $v0, 0
+    addi $t3, $zero, 0
+    lw   $v0, -28($fp)
     addi $t4, $v0, 0
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -507,11 +494,11 @@ _main_1459914932:
     addi $v0, $zero, 0
     slt  $v0, $v0, $t0
     addi $v0, $v0, -1
-    beq  $v0, $zero, _main_1459915192
-## line 47
+    beq  $v0, $zero, _main_1459915188
+## line 48
     addi $v0, $ra, s1486131372[_main_ref_pos]
     addi $t0, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t1, $v0, 0
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -522,7 +509,7 @@ _main_1459914932:
     addi $sp, $sp, 8
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 47
+## line 48
     addi $t0, $zero, -1
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -532,8 +519,8 @@ _main_1459914932:
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-_main_1459915192:
-## line 48
+_main_1459915188:
+## line 49
     lw   $v0, -12($fp)
     addi $t0, $v0, 0
     addi $sp, $sp, -4
@@ -544,8 +531,8 @@ _main_1459915192:
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 49
-    lw   $v0, -56($fp)
+## line 50
+    lw   $v0, -60($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $t1, $zero, 4
@@ -553,11 +540,11 @@ _main_1459915192:
     addi $t1, $v0, 0
     ori  $v0, $t1, 2
     sub  $v0, $t0, $v0
-    beq  $v0, $zero, _main_1459915392
-## line 49
+    beq  $v0, $zero, _main_1459915388
+## line 50
     addi $v0, $ra, s1486131392[_main_ref_pos]
     addi $t0, $v0, 0
-    lw   $v0, -32($fp)
+    lw   $v0, -36($fp)
     addi $t1, $v0, 0
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -568,7 +555,7 @@ _main_1459915192:
     addi $sp, $sp, 8
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 49
+## line 50
     addi $t0, $zero, -1
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -578,31 +565,31 @@ _main_1459915192:
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-_main_1459915392:
-## line 50
-    lw   $v0, -56($fp)
+_main_1459915388:
+## line 51
+    lw   $v0, -60($fp)
     addi $t0, $v0, 0
     addi $t1, $zero, 2
     sll  $v0, $t1, 2
     add  $v0, $t0, $v0
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     sub  $v0, $t0, $v0
-    beq  $v0, $zero, _main_1459915628
-## line 50
+    beq  $v0, $zero, _main_1459915624
+## line 51
     addi $v0, $ra, s1486131416[_main_ref_pos]
     addi $t0, $v0, 0
-    lw   $v0, -32($fp)
+    lw   $v0, -36($fp)
     addi $t1, $v0, 0
-    lw   $v0, -56($fp)
+    lw   $v0, -60($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
     add  $v0, $t2, $v0
     lw   $v0, 0($v0)
     addi $t2, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t3, $v0, 0
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -615,7 +602,7 @@ _main_1459915392:
     addi $sp, $sp, 16
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 50
+## line 51
     addi $t0, $zero, -1
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -625,10 +612,10 @@ _main_1459915392:
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-_main_1459915628:
-## line 52
-    addi $t0, $fp, -84
-    lw   $v0, -56($fp)
+_main_1459915624:
+## line 53
+    addi $t0, $fp, -88
+    lw   $v0, -60($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -637,18 +624,18 @@ _main_1459915628:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-## line 53
+## line 54
     addi $t0, $fp, -20
     lw   $v0, -20($fp)
     addi $t1, $v0, 0
-    lw   $v0, -84($fp)
+    lw   $v0, -88($fp)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 55
-    addi $t0, $fp, -72
-    lw   $v0, -56($fp)
+## line 56
+    addi $t0, $fp, -76
+    lw   $v0, -60($fp)
     addi $t1, $v0, 0
-    lw   $v0, -56($fp)
+    lw   $v0, -60($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -656,11 +643,11 @@ _main_1459915628:
     lw   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 56
-    addi $t0, $fp, -56
-    lw   $v0, -56($fp)
+## line 57
+    addi $t0, $fp, -60
+    lw   $v0, -60($fp)
     addi $t1, $v0, 0
-    lw   $v0, -56($fp)
+    lw   $v0, -60($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -668,48 +655,48 @@ _main_1459915628:
     lw   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 58
-_main_1459915968:
-    lw   $v0, -72($fp)
-    addi $t0, $v0, 0
-    lw   $v0, -56($fp)
-    slt  $v0, $t0, $v0
-    beq  $v0, $zero, _main_1459917320
 ## line 59
-    lw   $v0, -72($fp)
+_main_1459915964:
+    lw   $v0, -76($fp)
+    addi $t0, $v0, 0
+    lw   $v0, -60($fp)
+    slt  $v0, $t0, $v0
+    beq  $v0, $zero, _main_1459917316
+## line 60
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 0
-    bne  $v0, $t0, _main_1459916932
-## line 61
-    lw   $v0, -92($fp)
-    addi $t0, $v0, 0
-    lw   $v0, -72($fp)
-    sw   $v0, 0($t0)
+    bne  $v0, $t0, _main_1459916928
 ## line 62
-    addi $t0, $fp, -92
-    lw   $v0, -72($fp)
+    lw   $v0, -96($fp)
+    addi $t0, $v0, 0
+    lw   $v0, -76($fp)
     sw   $v0, 0($t0)
 ## line 63
-    addi $t0, $fp, -80
-    addi $v0, $zero, 0
+    addi $t0, $fp, -96
+    lw   $v0, -76($fp)
     sw   $v0, 0($t0)
 ## line 64
-    addi $t0, $fp, -36
-    lw   $v0, -72($fp)
+    addi $t0, $fp, -84
+    addi $v0, $zero, 0
+    sw   $v0, 0($t0)
+## line 65
+    addi $t0, $fp, -40
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 3
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 65
-_main_1459916244:
-    lw   $v0, -36($fp)
+## line 66
+_main_1459916240:
+    lw   $v0, -40($fp)
     lb   $v0, 0($v0)
-    beq  $v0, $zero, _main_1459916396
-## line 65
-    addi $t0, $fp, -80
-    lw   $v0, -80($fp)
+    beq  $v0, $zero, _main_1459916392
+## line 66
+    addi $t0, $fp, -84
+    lw   $v0, -84($fp)
     addi $t1, $v0, 0
     addi $v0, $zero, 147
     addi $sp, $sp, -4
@@ -725,7 +712,7 @@ _main_1459916244:
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
     addi $t1, $v0, 0
-    addi $t2, $fp, -36
+    addi $t2, $fp, -40
     lw   $v0, 0($t2)
     addi $t3, $v0, 0
     addi $v0, $t3, 1
@@ -735,16 +722,16 @@ _main_1459916244:
     lb   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459916244
-_main_1459916396:
-## line 66
-    lw   $v0, -72($fp)
+    beq  $zero, $zero, _main_1459916240
+_main_1459916392:
+## line 67
+    lw   $v0, -76($fp)
     addi $t0, $v0, 0
     addi $t1, $zero, 1
     sll  $v0, $t1, 2
     add  $v0, $t0, $v0
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -757,26 +744,26 @@ _main_1459916396:
     addi $v0, $t1, -12
     addi $t1, $v0, 0
     lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459916580
+    beq  $v0, $zero, _main_1459916576
     addi $v0, $zero, 0
-    beq  $zero, $zero, _main_1459916596
-_main_1459916580:
+    beq  $zero, $zero, _main_1459916592
+_main_1459916576:
     lw   $v0, -24($fp)
-_main_1459916596:
+_main_1459916592:
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 67
-    lw   $v0, -72($fp)
+## line 68
+    lw   $v0, -76($fp)
     addi $t0, $v0, 0
     addi $t1, $zero, 2
     sll  $v0, $t1, 2
     add  $v0, $t0, $v0
     addi $t0, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t1, $v0, 0
     sll  $v0, $t1, 6
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -784,13 +771,13 @@ _main_1459916596:
     lw   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 68
-    addi $t0, $fp, -72
-    lw   $v0, -72($fp)
+## line 69
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $v0, $t1, 12
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -806,23 +793,23 @@ _main_1459916596:
     addi $v0, $t2, -4
     and  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459917308
-_main_1459916932:
-## line 70
-    lw   $v0, -72($fp)
+    beq  $zero, $zero, _main_1459917304
+_main_1459916928:
+## line 71
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     andi $v0, $t0, 15
     addi $t0, $v0, 0
     addi $v0, $zero, 2
-    bne  $v0, $t0, _main_1459917164
-## line 72
-    addi $t0, $fp, -72
-    lw   $v0, -72($fp)
+    bne  $v0, $t0, _main_1459917160
+## line 73
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $v0, $t1, 12
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -836,97 +823,97 @@ _main_1459916932:
     addi $v0, $t2, -4
     and  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459917304
-_main_1459917164:
-## line 74
-    lw   $v0, -72($fp)
+    beq  $zero, $zero, _main_1459917300
+_main_1459917160:
+## line 75
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     andi $v0, $t0, 15
     addi $t0, $v0, 0
     addi $v0, $zero, 1
-    bne  $v0, $t0, _main_1459917300
-## line 76
-    addi $t0, $fp, -72
-    lw   $v0, -72($fp)
+    bne  $v0, $t0, _main_1459917296
+## line 77
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 2
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
+_main_1459917296:
 _main_1459917300:
 _main_1459917304:
-_main_1459917308:
-    beq  $zero, $zero, _main_1459915968
-_main_1459917320:
-## line 80
+    beq  $zero, $zero, _main_1459915964
+_main_1459917316:
+## line 81
     addi $t0, $fp, 8
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, -1
     sw   $v0, 0($t0)
-## line 80
+## line 81
     addi $t0, $fp, 12
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
     sw   $v0, 0($t0)
-## line 81
+## line 82
     addi $t0, $fp, -16
     lw   $v0, -16($fp)
     addi $t1, $v0, 0
-    lw   $v0, -84($fp)
+    lw   $v0, -88($fp)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
     beq  $zero, $zero, _main_1459914732
-_main_1459917476:
-## line 84
-    lw   $v0, -92($fp)
+_main_1459917472:
+## line 85
+    lw   $v0, -96($fp)
     addi $t0, $v0, 0
     addi $v0, $zero, 0
     sw   $v0, 0($t0)
-## line 85
+## line 86
     addi $t0, $fp, -16
     lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459917572
+    beq  $v0, $zero, _main_1459917568
     addi $v0, $zero, 12
-    beq  $zero, $zero, _main_1459917584
-_main_1459917572:
+    beq  $zero, $zero, _main_1459917580
+_main_1459917568:
     addi $v0, $zero, 0
-_main_1459917584:
+_main_1459917580:
     sw   $v0, 0($t0)
-## line 86
-    addi $t0, $fp, -68
-    lw   $v0, -52($fp)
+## line 87
+    addi $t0, $fp, -72
+    lw   $v0, -56($fp)
     addi $t1, $v0, 0
     lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459917684
+    beq  $v0, $zero, _main_1459917680
     lw   $v0, -20($fp)
     addi $t2, $v0, 0
     addi $v0, $t2, 12
-    beq  $zero, $zero, _main_1459917700
-_main_1459917684:
+    beq  $zero, $zero, _main_1459917696
+_main_1459917680:
     lw   $v0, -20($fp)
-_main_1459917700:
+_main_1459917696:
     add  $v0, $t1, $v0
-    sw   $v0, 0($t0)
-## line 88
-    addi $t0, $fp, -56
-    lw   $v0, -48($fp)
     sw   $v0, 0($t0)
 ## line 89
     addi $t0, $fp, -60
     lw   $v0, -52($fp)
     sw   $v0, 0($t0)
 ## line 90
-    addi $t0, $fp, -76
-    lw   $v0, -72($fp)
+    addi $t0, $fp, -64
+    lw   $v0, -56($fp)
     sw   $v0, 0($t0)
-## line 92
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459918112
+## line 91
+    addi $t0, $fp, -80
+    lw   $v0, -76($fp)
+    sw   $v0, 0($t0)
 ## line 93
-    addi $t0, $fp, -60
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459918108
+## line 94
+    addi $t0, $fp, -64
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -939,8 +926,8 @@ _main_1459917700:
     addi $t1, $v0, 0
     ori  $v0, $t1, 2
     sw   $v0, 0($t0)
-## line 94
-    addi $t0, $fp, -60
+## line 95
+    addi $t0, $fp, -64
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -952,32 +939,32 @@ _main_1459917700:
     addi $t1, $v0, 0
     addi $v0, $t1, 12
     sw   $v0, 0($t0)
-## line 95
-    addi $t0, $fp, -60
+## line 96
+    addi $t0, $fp, -64
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
     sw   $v0, 0($t0)
     addi $t0, $v0, 0
     addi $v0, $t0, -4
-_main_1459918112:
-## line 98
-_main_1459918124:
-    lw   $v0, -56($fp)
-    addi $t0, $v0, 0
-    lw   $v0, -76($fp)
-    slt  $v0, $t0, $v0
-    beq  $v0, $zero, _main_1459926184
+_main_1459918108:
 ## line 99
+_main_1459918120:
     lw   $v0, -60($fp)
     addi $t0, $v0, 0
-    lw   $v0, -56($fp)
+    lw   $v0, -80($fp)
+    slt  $v0, $t0, $v0
+    beq  $v0, $zero, _main_1459926180
+## line 100
+    lw   $v0, -64($fp)
+    addi $t0, $v0, 0
+    lw   $v0, -60($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 3
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -56($fp)
+    lw   $v0, -60($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -996,9 +983,9 @@ _main_1459918124:
     addi $sp, $sp, 12
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 100
-    addi $t0, $fp, -84
-    lw   $v0, -56($fp)
+## line 101
+    addi $t0, $fp, -88
+    lw   $v0, -60($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1007,18 +994,18 @@ _main_1459918124:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-## line 101
-    addi $t0, $fp, -64
-    lw   $v0, -60($fp)
+## line 102
+    addi $t0, $fp, -68
+    lw   $v0, -64($fp)
     addi $t1, $v0, 0
-    lw   $v0, -84($fp)
+    lw   $v0, -88($fp)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 102
-    addi $t0, $fp, -72
-    lw   $v0, -56($fp)
+## line 103
+    addi $t0, $fp, -76
+    lw   $v0, -60($fp)
     addi $t1, $v0, 0
-    lw   $v0, -56($fp)
+    lw   $v0, -60($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -1026,11 +1013,11 @@ _main_1459918124:
     lw   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 103
-    addi $t0, $fp, -56
-    lw   $v0, -56($fp)
+## line 104
+    addi $t0, $fp, -60
+    lw   $v0, -60($fp)
     addi $t1, $v0, 0
-    lw   $v0, -56($fp)
+    lw   $v0, -60($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -1038,26 +1025,26 @@ _main_1459918124:
     lw   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 105
-_main_1459918656:
-    lw   $v0, -72($fp)
-    addi $t0, $v0, 0
-    lw   $v0, -56($fp)
-    slt  $v0, $t0, $v0
-    beq  $v0, $zero, _main_1459926080
 ## line 106
-    lw   $v0, -72($fp)
+_main_1459918652:
+    lw   $v0, -76($fp)
+    addi $t0, $v0, 0
+    lw   $v0, -60($fp)
+    slt  $v0, $t0, $v0
+    beq  $v0, $zero, _main_1459926076
+## line 107
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     andi $v0, $t0, 3
     addi $t0, $v0, 0
     addi $v0, $zero, 0
-    bne  $v0, $t0, _main_1459919608
-## line 107
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459919424
+    bne  $v0, $t0, _main_1459919604
 ## line 108
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459919420
+## line 109
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1067,8 +1054,8 @@ _main_1459918656:
     addi $t0, $v0, 0
     addi $v0, $zero, 0
     sw   $v0, 0($t0)
-## line 109
-    addi $t0, $fp, -68
+## line 110
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1076,15 +1063,15 @@ _main_1459918656:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 110
-    addi $t0, $fp, -68
+## line 111
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1092,7 +1079,7 @@ _main_1459918656:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 2
     sll  $v0, $t2, 2
@@ -1101,16 +1088,16 @@ _main_1459918656:
     addi $t1, $v0, 0
     andi $v0, $t1, 63
     sw   $v0, 0($t0)
-## line 111
-    lw   $v0, -68($fp)
-    addi $t0, $v0, 0
+## line 112
     lw   $v0, -72($fp)
+    addi $t0, $v0, 0
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 3
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -1129,34 +1116,11 @@ _main_1459918656:
     addi $sp, $sp, 12
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 112
-    addi $t0, $fp, -68
-    lw   $v0, -68($fp)
-    addi $t1, $v0, 0
-    lw   $v0, -72($fp)
-    addi $t2, $v0, 0
-    addi $t3, $zero, 2
-    sll  $v0, $t3, 2
-    add  $v0, $t2, $v0
-    lw   $v0, 0($v0)
-    addi $t2, $v0, 0
-    andi $v0, $t2, 63
-    add  $v0, $t1, $v0
-    addi $t1, $v0, 0
-    addi $v0, $t1, 4
-    addi $t1, $v0, 0
-    addi $t2, $zero, 0
-    addi $v0, $t2, -4
-    and  $v0, $t1, $v0
-    sw   $v0, 0($t0)
-_main_1459919424:
-## line 114
+## line 113
     addi $t0, $fp, -72
     lw   $v0, -72($fp)
     addi $t1, $v0, 0
-    addi $v0, $t1, 12
-    addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -1172,36 +1136,59 @@ _main_1459919424:
     addi $v0, $t2, -4
     and  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459926068
-_main_1459919608:
-## line 116
-    lw   $v0, -72($fp)
+_main_1459919420:
+## line 115
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
+    addi $t1, $v0, 0
+    addi $v0, $t1, 12
+    addi $t1, $v0, 0
+    lw   $v0, -76($fp)
+    addi $t2, $v0, 0
+    addi $t3, $zero, 2
+    sll  $v0, $t3, 2
+    add  $v0, $t2, $v0
+    lw   $v0, 0($v0)
+    addi $t2, $v0, 0
+    andi $v0, $t2, 63
+    add  $v0, $t1, $v0
+    addi $t1, $v0, 0
+    addi $v0, $t1, 4
+    addi $t1, $v0, 0
+    addi $t2, $zero, 0
+    addi $v0, $t2, -4
+    and  $v0, $t1, $v0
+    sw   $v0, 0($t0)
+    beq  $zero, $zero, _main_1459926064
+_main_1459919604:
+## line 117
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     andi $v0, $t0, 15
     addi $t0, $v0, 0
     addi $v0, $zero, 2
-    bne  $v0, $t0, _main_1459923744
-## line 117
-    addi $t0, $fp, -80
+    bne  $v0, $t0, _main_1459923740
+## line 118
+    addi $t0, $fp, -84
     addi $v0, $zero, 0
     sw   $v0, 0($t0)
-## line 118
-    addi $t0, $fp, -36
-    lw   $v0, -72($fp)
+## line 119
+    addi $t0, $fp, -40
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 3
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 119
-_main_1459919784:
-    lw   $v0, -36($fp)
+## line 120
+_main_1459919780:
+    lw   $v0, -40($fp)
     lb   $v0, 0($v0)
-    beq  $v0, $zero, _main_1459919936
-## line 119
-    addi $t0, $fp, -80
-    lw   $v0, -80($fp)
+    beq  $v0, $zero, _main_1459919932
+## line 120
+    addi $t0, $fp, -84
+    lw   $v0, -84($fp)
     addi $t1, $v0, 0
     addi $v0, $zero, 147
     addi $sp, $sp, -4
@@ -1217,7 +1204,7 @@ _main_1459919784:
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
     addi $t1, $v0, 0
-    addi $t2, $fp, -36
+    addi $t2, $fp, -40
     lw   $v0, 0($t2)
     addi $t3, $v0, 0
     addi $v0, $t3, 1
@@ -1227,15 +1214,15 @@ _main_1459919784:
     lb   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459919784
-_main_1459919936:
-## line 120
-    addi $t0, $fp, -80
-    lw   $v0, -80($fp)
+    beq  $zero, $zero, _main_1459919780
+_main_1459919932:
+## line 121
+    addi $t0, $fp, -84
+    lw   $v0, -84($fp)
     addi $t1, $v0, 0
     sll  $v0, $t1, 6
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -1243,19 +1230,19 @@ _main_1459919936:
     lw   $v0, 0($v0)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 121
-    addi $t0, $fp, -96
-    lw   $v0, -88($fp)
-    sw   $v0, 0($t0)
 ## line 122
-_main_1459920092:
-    lw   $v0, -96($fp)
+    addi $t0, $fp, -100
+    lw   $v0, -92($fp)
+    sw   $v0, 0($t0)
+## line 123
+_main_1459920088:
+    lw   $v0, -100($fp)
     addi $t0, $v0, 0
-    beq  $v0, $zero, _main_1459920196
+    beq  $v0, $zero, _main_1459920192
     and  $v0, $t0, $v0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t0, $v0, 0
-    lw   $v0, -96($fp)
+    lw   $v0, -100($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 2
     sll  $v0, $t2, 2
@@ -1263,30 +1250,30 @@ _main_1459920092:
     lw   $v0, 0($v0)
     sub  $v0, $t0, $v0
     addi $t0, $v0, 0
-_main_1459920196:
+_main_1459920192:
     and  $v0, $t0, $v0
-    beq  $v0, $zero, _main_1459920260
-## line 122
-    addi $t0, $fp, -96
-    lw   $v0, -96($fp)
+    beq  $v0, $zero, _main_1459920256
+## line 123
+    addi $t0, $fp, -100
+    lw   $v0, -100($fp)
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459920092
-_main_1459920260:
-## line 123
-    lw   $v0, -96($fp)
-    beq  $v0, $zero, _main_1459922788
+    beq  $zero, $zero, _main_1459920088
+_main_1459920256:
 ## line 124
-    lw   $v0, -72($fp)
+    lw   $v0, -100($fp)
+    beq  $v0, $zero, _main_1459922784
+## line 125
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 2
-    bne  $v0, $t0, _main_1459920864
-## line 125
-    addi $t0, $fp, -80
-    lw   $v0, -60($fp)
+    bne  $v0, $t0, _main_1459920860
+## line 126
+    addi $t0, $fp, -84
+    lw   $v0, -64($fp)
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -1297,10 +1284,10 @@ _main_1459920260:
     addi $v0, $t1, -12
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 126
-    lw   $v0, -60($fp)
+## line 127
+    lw   $v0, -64($fp)
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1310,14 +1297,14 @@ _main_1459920260:
     addi $t0, $v0, 0
     addi $v0, $t0, -12
     addi $t0, $v0, 0
-    lw   $v0, -96($fp)
+    lw   $v0, -100($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     lw   $v0, 0($v0)
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -1340,7 +1327,7 @@ _main_1459920260:
     addi $v0, $t2, -1
     and  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 16
@@ -1351,19 +1338,19 @@ _main_1459920260:
     and  $v0, $t2, $v0
     or   $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459922776
-_main_1459920864:
-## line 129
-    lw   $v0, -72($fp)
+    beq  $zero, $zero, _main_1459922772
+_main_1459920860:
+## line 130
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 18
-    bne  $v0, $t0, _main_1459921576
-## line 130
-    addi $t0, $fp, -80
-    lw   $v0, -60($fp)
+    bne  $v0, $t0, _main_1459921572
+## line 131
+    addi $t0, $fp, -84
+    lw   $v0, -64($fp)
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -1374,10 +1361,10 @@ _main_1459920864:
     addi $v0, $t1, -12
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 131
-    lw   $v0, -60($fp)
+## line 132
+    lw   $v0, -64($fp)
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1387,7 +1374,7 @@ _main_1459920864:
     addi $t0, $v0, 0
     addi $v0, $t0, -12
     addi $t0, $v0, 0
-    lw   $v0, -96($fp)
+    lw   $v0, -100($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1400,7 +1387,7 @@ _main_1459920864:
     addi $v0, $t2, -1
     and  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 16
@@ -1411,11 +1398,11 @@ _main_1459920864:
     and  $v0, $t2, $v0
     or   $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 132
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459921564
 ## line 133
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459921560
+## line 134
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1425,8 +1412,8 @@ _main_1459920864:
     addi $t0, $v0, 0
     addi $v0, $zero, 17
     sw   $v0, 0($t0)
-## line 134
-    addi $t0, $fp, -68
+## line 135
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1434,7 +1421,7 @@ _main_1459920864:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1446,20 +1433,20 @@ _main_1459920864:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-_main_1459921564:
-    beq  $zero, $zero, _main_1459922772
-_main_1459921576:
-## line 137
-    lw   $v0, -72($fp)
+_main_1459921560:
+    beq  $zero, $zero, _main_1459922768
+_main_1459921572:
+## line 138
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 34
-    bne  $v0, $t0, _main_1459922304
-## line 138
-    addi $t0, $fp, -80
-    lw   $v0, -60($fp)
+    bne  $v0, $t0, _main_1459922300
+## line 139
+    addi $t0, $fp, -84
+    lw   $v0, -64($fp)
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -1470,10 +1457,10 @@ _main_1459921576:
     addi $v0, $t1, -12
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 139
-    lw   $v0, -60($fp)
+## line 140
+    lw   $v0, -64($fp)
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1483,7 +1470,7 @@ _main_1459921576:
     addi $t0, $v0, 0
     addi $v0, $t0, -12
     addi $t0, $v0, 0
-    lw   $v0, -96($fp)
+    lw   $v0, -100($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1498,7 +1485,7 @@ _main_1459921576:
     addi $v0, $t2, -1
     and  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 6
@@ -1509,11 +1496,11 @@ _main_1459921576:
     and  $v0, $t2, $v0
     or   $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 140
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459922292
 ## line 141
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459922288
+## line 142
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1523,8 +1510,8 @@ _main_1459921576:
     addi $t0, $v0, 0
     addi $v0, $zero, 33
     sw   $v0, 0($t0)
-## line 142
-    addi $t0, $fp, -68
+## line 143
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1532,7 +1519,7 @@ _main_1459921576:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1544,19 +1531,19 @@ _main_1459921576:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-_main_1459922292:
-    beq  $zero, $zero, _main_1459922768
-_main_1459922304:
-## line 145
-    lw   $v0, -72($fp)
+_main_1459922288:
+    beq  $zero, $zero, _main_1459922764
+_main_1459922300:
+## line 146
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 50
-    bne  $v0, $t0, _main_1459922764
-## line 146
-    lw   $v0, -60($fp)
+    bne  $v0, $t0, _main_1459922760
+## line 147
+    lw   $v0, -64($fp)
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1566,18 +1553,18 @@ _main_1459922304:
     addi $t0, $v0, 0
     addi $v0, $t0, -12
     addi $t0, $v0, 0
-    lw   $v0, -96($fp)
+    lw   $v0, -100($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 147
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459922760
 ## line 148
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459922756
+## line 149
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1587,8 +1574,8 @@ _main_1459922304:
     addi $t0, $v0, 0
     addi $v0, $zero, 49
     sw   $v0, 0($t0)
-## line 149
-    addi $t0, $fp, -68
+## line 150
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1596,7 +1583,7 @@ _main_1459922304:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1608,18 +1595,18 @@ _main_1459922304:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
+_main_1459922756:
 _main_1459922760:
 _main_1459922764:
 _main_1459922768:
 _main_1459922772:
-_main_1459922776:
-    beq  $zero, $zero, _main_1459923576
-_main_1459922788:
-## line 154
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459923456
+    beq  $zero, $zero, _main_1459923572
+_main_1459922784:
 ## line 155
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459923452
+## line 156
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1627,11 +1614,11 @@ _main_1459922788:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 156
-    addi $t0, $fp, -68
+## line 157
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1639,7 +1626,7 @@ _main_1459922788:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1651,8 +1638,8 @@ _main_1459922788:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-## line 157
-    addi $t0, $fp, -68
+## line 158
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1660,23 +1647,23 @@ _main_1459922788:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 2
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 158
-    lw   $v0, -68($fp)
-    addi $t0, $v0, 0
+## line 159
     lw   $v0, -72($fp)
+    addi $t0, $v0, 0
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 3
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -1693,11 +1680,11 @@ _main_1459922788:
     addi $sp, $sp, 12
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 159
-    addi $t0, $fp, -68
-    lw   $v0, -68($fp)
-    addi $t1, $v0, 0
+## line 160
+    addi $t0, $fp, -72
     lw   $v0, -72($fp)
+    addi $t1, $v0, 0
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -1711,12 +1698,12 @@ _main_1459922788:
     addi $v0, $t2, -4
     and  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459923572
-_main_1459923456:
-## line 161
+    beq  $zero, $zero, _main_1459923568
+_main_1459923452:
+## line 162
     addi $v0, $ra, s1486131484[_main_ref_pos]
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 3
     sll  $v0, $t2, 2
@@ -1731,7 +1718,7 @@ _main_1459923456:
     addi $sp, $sp, 8
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 161
+## line 162
     addi $t0, $zero, -1
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -1741,15 +1728,15 @@ _main_1459923456:
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
+_main_1459923568:
 _main_1459923572:
-_main_1459923576:
-## line 163
-    addi $t0, $fp, -72
-    lw   $v0, -72($fp)
+## line 164
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $v0, $t1, 12
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 2
     sll  $v0, $t3, 2
@@ -1763,19 +1750,19 @@ _main_1459923576:
     addi $v0, $t2, -4
     and  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459926064
-_main_1459923744:
-## line 165
-    lw   $v0, -72($fp)
+    beq  $zero, $zero, _main_1459926060
+_main_1459923740:
+## line 166
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 17
-    bne  $v0, $t0, _main_1459924524
-## line 166
-    addi $t0, $fp, -80
-    lw   $v0, -60($fp)
+    bne  $v0, $t0, _main_1459924520
+## line 167
+    addi $t0, $fp, -84
+    lw   $v0, -64($fp)
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -1786,10 +1773,10 @@ _main_1459923744:
     addi $v0, $t1, -12
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 167
-    lw   $v0, -60($fp)
+## line 168
+    lw   $v0, -64($fp)
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1799,7 +1786,7 @@ _main_1459923744:
     addi $t0, $v0, 0
     addi $v0, $t0, -12
     addi $t0, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t1, $v0, 0
     lw   $v0, -16($fp)
     add  $v0, $t1, $v0
@@ -1812,7 +1799,7 @@ _main_1459923744:
     addi $v0, $t2, -1
     and  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 16
@@ -1823,11 +1810,11 @@ _main_1459923744:
     and  $v0, $t2, $v0
     or   $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 168
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459924444
 ## line 169
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459924440
+## line 170
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1837,8 +1824,8 @@ _main_1459923744:
     addi $t0, $v0, 0
     addi $v0, $zero, 17
     sw   $v0, 0($t0)
-## line 170
-    addi $t0, $fp, -68
+## line 171
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1846,7 +1833,7 @@ _main_1459923744:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1858,28 +1845,28 @@ _main_1459923744:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-_main_1459924444:
-## line 172
-    addi $t0, $fp, -72
-    lw   $v0, -72($fp)
+_main_1459924440:
+## line 173
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 2
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459926060
-_main_1459924524:
-## line 174
-    lw   $v0, -72($fp)
+    beq  $zero, $zero, _main_1459926056
+_main_1459924520:
+## line 175
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 33
-    bne  $v0, $t0, _main_1459925384
-## line 175
-    addi $t0, $fp, -80
-    lw   $v0, -60($fp)
+    bne  $v0, $t0, _main_1459925380
+## line 176
+    addi $t0, $fp, -84
+    lw   $v0, -64($fp)
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -1890,10 +1877,10 @@ _main_1459924524:
     addi $v0, $t1, -12
     lw   $v0, 0($v0)
     sw   $v0, 0($t0)
-## line 176
-    lw   $v0, -60($fp)
+## line 177
+    lw   $v0, -64($fp)
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1903,19 +1890,19 @@ _main_1459924524:
     addi $t0, $v0, 0
     addi $v0, $t0, -12
     addi $t0, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t1, $v0, 0
     lw   $v0, -16($fp)
     addi $t2, $v0, 0
     addi $v0, $t2, -12
     addi $t2, $v0, 0
     lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459924868
+    beq  $v0, $zero, _main_1459924864
     addi $v0, $zero, 0
-    beq  $zero, $zero, _main_1459924884
-_main_1459924868:
+    beq  $zero, $zero, _main_1459924880
+_main_1459924864:
     lw   $v0, -24($fp)
-_main_1459924884:
+_main_1459924880:
     add  $v0, $t2, $v0
     addi $t2, $v0, 0
     srl  $v0, $t2, 2
@@ -1927,7 +1914,7 @@ _main_1459924884:
     addi $v0, $t2, -1
     and  $v0, $t1, $v0
     addi $t1, $v0, 0
-    lw   $v0, -80($fp)
+    lw   $v0, -84($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 6
@@ -1938,11 +1925,11 @@ _main_1459924884:
     and  $v0, $t2, $v0
     or   $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 177
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459925304
 ## line 178
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459925300
+## line 179
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1952,8 +1939,8 @@ _main_1459924884:
     addi $t0, $v0, 0
     addi $v0, $zero, 33
     sw   $v0, 0($t0)
-## line 179
-    addi $t0, $fp, -68
+## line 180
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -1961,7 +1948,7 @@ _main_1459924884:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -1973,27 +1960,27 @@ _main_1459924884:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-_main_1459925304:
-## line 181
-    addi $t0, $fp, -72
-    lw   $v0, -72($fp)
+_main_1459925300:
+## line 182
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 2
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459926056
-_main_1459925384:
-## line 183
-    lw   $v0, -72($fp)
+    beq  $zero, $zero, _main_1459926052
+_main_1459925380:
+## line 184
+    lw   $v0, -76($fp)
     lw   $v0, 0($v0)
     addi $t0, $v0, 0
     addi $v0, $zero, 49
-    bne  $v0, $t0, _main_1459926052
-## line 184
-    lw   $v0, -60($fp)
+    bne  $v0, $t0, _main_1459926048
+## line 185
+    lw   $v0, -64($fp)
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -2003,9 +1990,9 @@ _main_1459925384:
     addi $t0, $v0, 0
     addi $v0, $t0, -12
     addi $t0, $v0, 0
-    lw   $v0, -60($fp)
+    lw   $v0, -64($fp)
     addi $t1, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t2, $v0, 0
     addi $t3, $zero, 1
     sll  $v0, $t3, 2
@@ -2022,19 +2009,19 @@ _main_1459925384:
     addi $v0, $t1, -12
     addi $t1, $v0, 0
     lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459925696
+    beq  $v0, $zero, _main_1459925692
     addi $v0, $zero, 0
-    beq  $zero, $zero, _main_1459925712
-_main_1459925696:
+    beq  $zero, $zero, _main_1459925708
+_main_1459925692:
     lw   $v0, -24($fp)
-_main_1459925712:
+_main_1459925708:
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 185
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459925980
 ## line 186
-    addi $t0, $fp, -68
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459925976
+## line 187
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -2044,8 +2031,8 @@ _main_1459925712:
     addi $t0, $v0, 0
     addi $v0, $zero, 49
     sw   $v0, 0($t0)
-## line 187
-    addi $t0, $fp, -68
+## line 188
+    addi $t0, $fp, -72
     lw   $v0, 0($t0)
     addi $t1, $v0, 0
     addi $v0, $t1, 4
@@ -2053,7 +2040,7 @@ _main_1459925712:
     addi $t0, $v0, 0
     addi $v0, $t0, -4
     addi $t0, $v0, 0
-    lw   $v0, -72($fp)
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 1
     sll  $v0, $t2, 2
@@ -2065,38 +2052,38 @@ _main_1459925712:
     addi $t1, $v0, 0
     addi $v0, $t1, -12
     sw   $v0, 0($t0)
-_main_1459925980:
-## line 189
-    addi $t0, $fp, -72
-    lw   $v0, -72($fp)
+_main_1459925976:
+## line 190
+    addi $t0, $fp, -76
+    lw   $v0, -76($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 2
     sll  $v0, $t2, 2
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
+_main_1459926048:
 _main_1459926052:
 _main_1459926056:
 _main_1459926060:
 _main_1459926064:
-_main_1459926068:
-    beq  $zero, $zero, _main_1459918656
-_main_1459926080:
-## line 193
-    addi $t0, $fp, -60
-    lw   $v0, -64($fp)
-    sw   $v0, 0($t0)
+    beq  $zero, $zero, _main_1459918652
+_main_1459926076:
 ## line 194
+    addi $t0, $fp, -64
+    lw   $v0, -68($fp)
+    sw   $v0, 0($t0)
+## line 195
     addi $t0, $fp, -16
     lw   $v0, -16($fp)
     addi $t1, $v0, 0
-    lw   $v0, -84($fp)
+    lw   $v0, -88($fp)
     add  $v0, $t1, $v0
     sw   $v0, 0($t0)
-    beq  $zero, $zero, _main_1459918124
-_main_1459926184:
-## line 197
+    beq  $zero, $zero, _main_1459918120
+_main_1459926180:
+## line 198
     addi $t0, $fp, -12
-    lw   $v0, -28($fp)
+    lw   $v0, -32($fp)
     addi $t1, $v0, 0
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -2113,8 +2100,8 @@ _main_1459926184:
     addi $v0, $zero, 0
     slt  $v0, $v0, $t0
     addi $v0, $v0, -1
-    beq  $v0, $zero, _main_1459926344
-## line 197
+    beq  $v0, $zero, _main_1459926340
+## line 198
     addi $v0, $ra, s1486131508[_main_ref_pos]
     addi $t0, $v0, 0
     lw   $v0, -12($fp)
@@ -2128,7 +2115,7 @@ _main_1459926184:
     addi $sp, $sp, 8
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 197
+## line 198
     addi $t0, $zero, -1
     addi $sp, $sp, -4
     sw   $ra, 0($sp)
@@ -2138,31 +2125,31 @@ _main_1459926184:
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-_main_1459926344:
-## line 199
-    lw   $v0, -8($fp)
-    beq  $v0, $zero, _main_1459926576
+_main_1459926340:
 ## line 200
-    lw   $v0, -52($fp)
+    lw   $v0, -8($fp)
+    beq  $v0, $zero, _main_1459926572
+## line 201
+    lw   $v0, -56($fp)
     addi $t0, $v0, 0
     addi $t1, $zero, 2
     sll  $v0, $t1, 2
     add  $v0, $t0, $v0
     addi $t0, $v0, 0
-    lw   $v0, -68($fp)
+    lw   $v0, -72($fp)
     addi $t1, $v0, 0
-    lw   $v0, -52($fp)
+    lw   $v0, -56($fp)
     sub  $v0, $t1, $v0
     sw   $v0, 0($t0)
-## line 201
+## line 202
     lw   $v0, -12($fp)
     addi $t0, $v0, 0
-    lw   $v0, -52($fp)
+    lw   $v0, -56($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 0
-    lw   $v0, -68($fp)
+    lw   $v0, -72($fp)
     addi $t3, $v0, 0
-    lw   $v0, -52($fp)
+    lw   $v0, -56($fp)
     sub  $v0, $t3, $v0
     addi $t3, $v0, 0
     addi $sp, $sp, -4
@@ -2176,17 +2163,17 @@ _main_1459926344:
     addi $sp, $sp, 16
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-    beq  $zero, $zero, _main_1459926680
-_main_1459926576:
-## line 204
+    beq  $zero, $zero, _main_1459926676
+_main_1459926572:
+## line 205
     lw   $v0, -12($fp)
     addi $t0, $v0, 0
-    lw   $v0, -52($fp)
+    lw   $v0, -56($fp)
     addi $t1, $v0, 0
     addi $t2, $zero, 0
-    lw   $v0, -60($fp)
+    lw   $v0, -64($fp)
     addi $t3, $v0, 0
-    lw   $v0, -52($fp)
+    lw   $v0, -56($fp)
     sub  $v0, $t3, $v0
     addi $t3, $v0, 0
     addi $sp, $sp, -4
@@ -2200,8 +2187,8 @@ _main_1459926576:
     addi $sp, $sp, 16
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-_main_1459926680:
-## line 206
+_main_1459926676:
+## line 207
     lw   $v0, -12($fp)
     addi $t0, $v0, 0
     addi $sp, $sp, -4
@@ -2209,17 +2196,6 @@ _main_1459926680:
     addi $sp, $sp, -4
     sw   $t0, 0($sp)
     jal  close
-    addi $sp, $sp, 4
-    lw   $ra, 0($sp)
-    addi $sp, $sp, 4
-## line 208
-    lw   $v0, -48($fp)
-    addi $t0, $v0, 0
-    addi $sp, $sp, -4
-    sw   $ra, 0($sp)
-    addi $sp, $sp, -4
-    sw   $t0, 0($sp)
-    jal  free
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
@@ -2234,11 +2210,22 @@ _main_1459926680:
     addi $sp, $sp, 4
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
-## line 211
+## line 210
+    lw   $v0, -56($fp)
+    addi $t0, $v0, 0
+    addi $sp, $sp, -4
+    sw   $ra, 0($sp)
+    addi $sp, $sp, -4
+    sw   $t0, 0($sp)
+    jal  free
+    addi $sp, $sp, 4
+    lw   $ra, 0($sp)
+    addi $sp, $sp, 4
+## line 212
     addi $v0, $zero, 0
 
 _main_end:
-    addi $sp, $sp, 96
+    addi $sp, $sp, 100
     lw   $ra, 0($sp)
     addi $sp, $sp, 4
     lw   $fp, 0($sp)

@@ -1,46 +1,46 @@
 ## bios syscall table:
-##  2 8: disk_syscall(block, we)
-##  3 9: memcpy_syscall(dst, src, len)
-##  4 10: strlen(str) -> len
-##  5 11: strncmp(sa, sb, n) -> res
-##  6 12: draw_bitmap(start, bitmap, color)
-##  7 13: load_dword_unaligned(addr)
+##  8: disk_syscall(block, we)
+##  9: memcpy_syscall(dst, src, len)
+##  10: strlen(str) -> len
+##  11: strncmp(sa, sb, n) -> res
+##  12: draw_bitmap(start, bitmap, color)
+##  13: load_dword_unaligned(addr)
 
 bios_init:
-    addi    $gp, $zero, 0
+    lui     $gp, 0x0020
 
     addi    $t0, $gp, interrupt_handler
     sw      $t0, 4($zero)
     
     ## setup interrupt table
     addi    $t0, $gp, disk_syscall_handler
-    sw      $t0, 8($zero)
+    sw      $t0, 32($zero)
     addi    $t0, $gp, memcpy_syscall_handler
-    sw      $t0, 12($zero)
+    sw      $t0, 36($zero)
     addi    $t0, $gp, strlen_syscall_handler
-    sw      $t0, 16($zero)
+    sw      $t0, 40($zero)
     addi    $t0, $gp, strncmp_syscall_handler
-    sw      $t0, 20($zero)
+    sw      $t0, 44($zero)
     addi    $t0, $gp, draw_bitmap_syscall_handler
-    sw      $t0, 24($zero)
+    sw      $t0, 48($zero)
     addi    $t0, $gp, load_dword_unaligned_syscall_handler
-    sw      $t0, 28($zero)
+    sw      $t0, 52($zero)
 
     ## load bootloader into hardware buffer
     addi    $a0, $zero, 0
     addi    $a1, $zero, 0
-    addi    $v0, $zero, 2
+    addi    $v0, $zero, 8
     syscall $v0
 
-    ## copy bootloader to 64K
-    lui     $a0, 1
+    ## copy bootloader to 1M
+    lui     $a0, 0x0010
     lui     $a1, 0x2000
     addi    $a2, $zero, 512             ## one block
-    addi    $v0, $zero, 3
+    addi    $v0, $zero, 9
     syscall $v0
 
     ## jump to bootloader
-    lui     $t0, 1
+    lui     $t0, 0x0010
     jr      $t0
 
 ## disk(block, we)

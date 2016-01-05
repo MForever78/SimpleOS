@@ -15,3 +15,4 @@ usr: kernel
 bios: kernel
 	xxd -g 4 -c 4 -e ./system/platform/sword/build/bios.bin | awk '{ print $$2 }' > bios.hex
 	../c4/as -o bios_jump.bin ./system/platform/sword/bios_jump.asm
+	../mips_as/bin2coe.sh bios.bin > bios.coe

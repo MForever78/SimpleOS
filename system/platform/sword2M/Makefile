@@ -24,12 +24,12 @@ clean:
 
 ./build/bios.bin: bios.asm
 	$(ASM) -m -o ./build/bios.o $<
-	$(LNK) -l ./build/bios.label -o $@ ./build/bios.o
+	$(LNK) -s 2097152 -l ./build/bios.label -o $@ ./build/bios.o
 
 ./build/bootloader1.bin: bootloader1.asm
 	$(ASM) -m -o ./build/bootloader1.o $<
-	$(LNK) -s 65536 -l ./build/bootloader1.label -o $@ ./build/bootloader1.o
+	$(LNK) -s 1048576 -l ./build/bootloader1.label -o $@ ./build/bootloader1.o
 
 ./build/bootloader2.bin: bootloader2.asm
 	$(ASM) -m -o ./build/bootloader2.o $<
-	$(LNK) -s 66048 -l ./build/bootloader2.label -o $@ ./build/bootloader2.o
+	$(LNK) -s 1049088 -l ./build/bootloader2.label -o $@ ./build/bootloader2.o
