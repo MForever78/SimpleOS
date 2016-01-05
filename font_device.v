@@ -26,7 +26,7 @@ module font_dev(
 	output data
 	);
 
-	wire [10:0] addr;
+	wire [11:0] addr;
 	wire [7:0] rom_data;
     
 	assign addr[11:0] = {ascii[7:0], row[3:0]};
