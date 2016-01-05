@@ -69,7 +69,7 @@ module SimpleOS(
 
 
     wire [19:0] addr_read;
-    wire [15:0] vram_scan_data; 
+    wire [7:0] vram_scan_data; 
     wire clk100, clk50, clk25, clk12p5, clk6p25;
     wire RST = ~RSTN;
 
@@ -277,7 +277,7 @@ module SimpleOS(
          .douta(vram_out[7:0]),
          
          .addrb(addr_read[11:0]),
-         .dinb(16'b0),
+         .dinb(8'b0),
          .web(1'b0),
          .clkb(clk_fast),
          .doutb(vram_scan_data[7:0]));	

@@ -23,7 +23,7 @@ module vga_display(
 		 input reset,
 		 
 		 output [19:0] addr_read,
-		 input [15:0] vram_scan_data,
+		 input [7:0] vram_scan_data,
 		 
 		 output [3:0] Red,
 		 output [3:0] Green,
@@ -51,6 +51,7 @@ module vga_display(
     .hs(hsync),
 	.vs(vsync));
 	 
+     
     font_dev font_device(
 		.ascii(vram_scan_data[7:0]), 
 		.row(py[3:0]),
@@ -58,9 +59,9 @@ module vga_display(
 	   .data(font_data)
 	 );
 	 
+     
     assign `rgb_out = (~rdn) ? {12{font_data}} : 12'b0;
      
-	assign `rgb_out = (~rdn) ?  vram_scan_data[11:0] : 12'b0;
 
 	 
 
