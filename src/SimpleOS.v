@@ -218,21 +218,15 @@ module SimpleOS(
             .Cause_in(CPU_CAUSE));
     
 
-    wire sram_stb;
-    wire [19:0] sram_addra;
-    wire [47:0] sram_dina;
-    wire sram_we;
-    wire [47:0] sram_douta;
-    wire sram_ack;
-
-
     ram_ipcore ram_ipcore(
         .clka(clk_fast),
         .addra(slave_ADDR[16:2]),
         .dina(slave_DAT_I),
-        .wea(Ram_WE),
+        .wea(Ram_STB ? Ram_WE : 1'b0),
         .douta(Ram_DAT_O),
     );
+    
+    assign Ram_ACK = 1'b1;
 
    vga_display vga_dev(
         .clk_25mhz(clk25),
