@@ -225,40 +225,13 @@ module SimpleOS(
     wire [47:0] sram_douta;
     wire sram_ack;
 
-    SRAM  sram_init (
-        .clk100(clk_fast),
-        .clk50(clk_slow),
-        .rst(~RSTN),
-        .stb(Ram_STB),
-        .addra(slave_ADDR[31:2]),
+
+    ram_ipcore ram_ipcore(
+        .clka(clk_fast),
+        .addra(slave_ADDR[16:2]),
         .dina(slave_DAT_I),
         .wea(Ram_WE),
-        .douta(Ram_DAT_O), 
-        .ack(Ram_ACK),
-            
-        .sram_stb(sram_stb),
-        .sram_addra(sram_addra),
-        .sram_dina(sram_dina),
-        .sram_we(sram_we),
-        .sram_douta(sram_douta),
-        .sram_ack(sram_ack)   
-            );    
-
-    static_ram static_ram(
-        .clk100(clk_fast),
-        .rst(rst),
-        .stb(sram_stb),
-        .addra(sram_addra),
-        .dina(sram_dina),
-        .we(sram_we),
-        .douta(sram_douta), 
-        .ack(sram_ack),
-
-        .SRAM_ADDR(SRAM_ADDR),
-        .SRAM_CE(SRAM_CE),
-        .SRAM_OEN(SRAM_OEN),
-        .SRAM_WEN(SRAM_WEN),
-        .SRAM_DQ(SRAM_DQ)
+        .douta(Ram_DAT_O),
     );
 
    vga_display vga_dev(
