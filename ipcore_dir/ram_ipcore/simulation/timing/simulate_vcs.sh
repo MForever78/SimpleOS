@@ -45,6 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 #!/bin/sh
+cp ../../../ram_ipcore.mif .
 
 rm -rf simv* csrc DVEfiles AN.DB
 

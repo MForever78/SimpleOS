@@ -1,16 +1,4 @@
- 
- 
- 
-
- 
-
-
-
-#--------------------------------------------------------------------------------
-#--
-#-- BMG Generator v8.4 Core Demo Testbench 
-#--
-#--------------------------------------------------------------------------------
+#!/bin/sh
 # (c) Copyright 2009 - 2010 Xilinx, Inc. All rights reserved.
 # 
 # This file contains confidential and proprietary information
@@ -56,28 +44,28 @@
 # 
 # THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
 # PART OF THIS FILE AT ALL TIMES.
-# Filename: vcs_session.tcl
-#
-# Description:
-#   This is the VCS wave form file.
-#
 #--------------------------------------------------------------------------------
 
-if { ![gui_is_db_opened -db {bmg_vcs.vpd}] } {
-	gui_open_db -design V1 -file bmg_vcs.vpd -nosource
-}
-gui_set_precision 1ps
-gui_set_time_units 1ps
+cp ../../../ram_ipcore.mif .
 
-gui_open_window Wave
-gui_sg_create ram_ipcore_Group
-gui_list_add_group -id Wave.1 {ram_ipcore_Group}
 
-      gui_sg_addsignal -group ram_ipcore_Group  /ram_ipcore_tb/status
-      gui_sg_addsignal -group ram_ipcore_Group  /ram_ipcore_tb/ram_ipcore_synth_inst/bmg_port/CLKA
-      gui_sg_addsignal -group ram_ipcore_Group  /ram_ipcore_tb/ram_ipcore_synth_inst/bmg_port/ADDRA
-      gui_sg_addsignal -group ram_ipcore_Group  /ram_ipcore_tb/ram_ipcore_synth_inst/bmg_port/DINA
-      gui_sg_addsignal -group ram_ipcore_Group  /ram_ipcore_tb/ram_ipcore_synth_inst/bmg_port/WEA
-      gui_sg_addsignal -group ram_ipcore_Group  /ram_ipcore_tb/ram_ipcore_synth_inst/bmg_port/DOUTA
+echo "Compiling Core Verilog UNISIM/Behavioral model"
+vlogcomp -work work ../../../ram_ipcore.v 
+vhpcomp -work work ../../example_design/ram_ipcore_exdes.vhd
 
-gui_zoom -window Wave.1 -full
+echo "Compiling Test Bench Files"
+
+vhpcomp -work work    ../bmg_tb_pkg.vhd
+vhpcomp -work work    ../random.vhd
+vhpcomp -work work    ../data_gen.vhd
+vhpcomp -work work    ../addr_gen.vhd
+vhpcomp -work work    ../checker.vhd
+vhpcomp -work work    ../bmg_stim_gen.vhd
+vhpcomp -work work    ../ram_ipcore_synth.vhd 
+vhpcomp -work work    ../ram_ipcore_tb.vhd
+
+
+vlogcomp -work work $XILINX/verilog/src/glbl.v
+fuse work.ram_ipcore_tb work.glbl -L unisims_ver -L xilinxcorelib_ver -o ram_ipcore_tb.exe
+
+./ram_ipcore_tb.exe -gui -tclbatch simcmds.tcl

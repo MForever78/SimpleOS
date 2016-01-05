@@ -32,11 +32,6 @@ module SimpleOS(
         output hsync,
         output vsync,
         
-        output [19:0] SRAM_ADDR,
-        output SRAM_CE,
-        output SRAM_OEN,
-        output SRAM_WEN,
-        inout [47:0] SRAM_DQ,
         output TRI_LED0_B,
         output TRI_LED0_G,
         output TRI_LED0_R,
@@ -195,8 +190,8 @@ module SimpleOS(
         .clk2s(clk2s)
     );
         
-    wire clk_slow = SW[15] ? (SW[14] ? clk6p25 : clk2s) : 0;
-    wire clk_fast = SW[15] ? (SW[14] ? clk12p5 : clk1s) : 0;
+    wire clk_slow = SW[15] ? (SW[14] ? clk50 : clk2s) : 0;
+    wire clk_fast = SW[15] ? (SW[14] ? clk100 : clk1s) : 0;
         
     wire mem_w, mem_r;
     assign CPU_WE = mem_w & ~mem_r;
@@ -223,7 +218,7 @@ module SimpleOS(
         .addra(slave_ADDR[16:2]),
         .dina(slave_DAT_I),
         .wea(Ram_STB ? Ram_WE : 1'b0),
-        .douta(Ram_DAT_O),
+        .douta(Ram_DAT_O)
     );
     
     assign Ram_ACK = 1'b1;
