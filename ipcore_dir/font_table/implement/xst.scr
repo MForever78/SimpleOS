@@ -1,0 +1,14 @@
+
+run
+-ifmt VHDL
+-ent font_table_exdes 
+-p xc7k160t-fbg676-3
+-ifn xst.prj
+-write_timing_constraints No
+-iobuf YES
+-max_fanout 100
+-ofn font_table_exdes 
+-ofmt NGC
+-bus_delimiter ()
+-hierarchy_separator /
+-case Maintain

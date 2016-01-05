@@ -264,14 +264,23 @@ module SimpleOS(
     wire UART_TX_busy, UART_TX_done;
     wire UART_dev_en, UART_dev_we;
 
-    reg tmp;
-    initial begin
-        tmp = 1'b0;
-    end
+    wire vga_read;
+    wire [7:0] vram_out;
+    assign VRam_DAT_O = {24'b0, vram_out[7:0]};
+    assign VRam_ACK = 1'b1;
     
-    always @*begin
-        if (Keyboard_ACK) tmp = 1'b1;
-    end
+    vram_ipcore  vram_ipcore(
+         .addra(slave_ADDR[11:0]), 
+         .dina(slave_DAT_I[7:0]), 
+         .wea(VRam_STB ? VRam_WE : 1'b0),
+         .clka(clk_fast), 
+         .douta(vram_out[7:0]),
+         
+         .addrb(addr_read[11:0]),
+         .dinb(16'b0),
+         .web(1'b0),
+         .clkb(clk_fast),
+         .doutb(vram_scan_data[7:0]));	
 
     disk disk(
         .clk(clk100),

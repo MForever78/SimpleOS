@@ -37,10 +37,9 @@ module vga_display(
 	wire [19:0] px;
 	wire [19:0] py;
 	wire rdn;
-	
+    wire font_data;
 
-	assign addr_read[19:0] = py * 640 + px;                                             //vram读取地址
-	
+	assign addr_read[19:0] = py[8:4] * 80 + px[9:3];                                             //vram读取地址    
 	
 	vgac vga_controller(         
     .vga_clk(clk_25mhz),    
@@ -52,7 +51,15 @@ module vga_display(
     .hs(hsync),
 	.vs(vsync));
 	 
+    font_dev font_device(
+		.ascii(vram_scan_data[7:0]), 
+		.row(py[3:0]),
+		.col(px[2:0]),
+	   .data(font_data)
+	 );
 	 
+    assign `rgb_out = (~rdn) ? {12{font_data}} : 12'b0;
+     
 	assign `rgb_out = (~rdn) ?  vram_scan_data[11:0] : 12'b0;
 
 	 
