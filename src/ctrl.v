@@ -69,7 +69,7 @@ module ctrl(input  clk,
 				 EX_LUI=6'b01100, EX_bne=6'b01101, EX_jr=6'b01110,  EX_JAL=6'b01111, 
 				 MFC0 = 6'h16, MTC0 = 6'h17, STORE_CP0 = 6'h18, INT_MEM_READ = 6'h19,
 				 INT_WB = 6'h1A, ERET = 6'h1B, HARD_INT = 6'h1C, WB_LB = 6'h1D, 
-				 WB_LH = 6'h1E, MEM_RD_SHB = 6'h1F, MEM_WD_BYTE = 6'h20, MEM_WD_HALF = 6'h21,
+				 WB_LH = 6'h1E, MEM_RD_SHB = 6'h1F, MEM_WD_BYTE = 6'h20, MEM_WD_HALF = 6'h21, EX_JALR = 6'h22,
 				 Error=6'b111111; 
 				 
 	localparam alu=6'b000000, lw=6'h23, sw=6'h2b, slti=6'ha, addi=6'h8, andi=6'hc, 
@@ -96,6 +96,7 @@ module ctrl(input  clk,
 				 SIG_EX_bne = 			27'b0_1_0_0_0_0_00_01_00_01_0_00_0_0_00_00_0110,
 				 SIG_EX_jr =  			27'b1_0_0_0_0_0_00_00_00_01_0_00_0_0_00_00_0010,
 				 SIG_EX_JAL = 			27'b1_0_0_0_0_0_11_10_11_00_1_10_0_0_00_00_0010,
+				 SIG_EX_JALR = 			27'b1_0_0_0_0_0_11_00_00_01_1_01_0_0_00_00_0010,
 				 
 				 SIG_WB_LB = 			27'b0_0_1_0_0_0_01_00_00_00_1_00_0_0_01_00_0010,
 				 SIG_WB_LH = 			27'b0_0_1_0_0_0_01_00_00_00_1_00_0_0_10_00_0010,
@@ -118,7 +119,7 @@ module ctrl(input  clk,
 				CP0_MTC0 = 				11'b00001000000,
 				CP0_ST_SYS =			11'b00000111110,
 				CP0_ST_HARD =			11'b00000111011,
-				CP0_INT_MEM_READ = 	11'b00010000000,
+				CP0_INT_MEM_READ = 	    11'b00010000000,
 				CP0_INT_WB = 			11'b01000000000,
 				CP0_ERET = 				11'b00100001000;
 				
@@ -142,6 +143,8 @@ module ctrl(input  clk,
 						alu:begin
 							case (Inst_in[5:0])
 								6'b001000: begin `CPU_ctrl_signals <= SIG_EX_jr; `CP0_ctrl_signals <= CP0_NULL; state_out <= EX_jr; end //jr
+								6'b001001: begin `CPU_ctrl_signals <= SIG_EX_JALR; `CP0_ctrl_signals <= CP0_NULL; state_out <= EX_JALR; end //jalr
+                                
 								6'b100000: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0010}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //add 
 								6'b100010: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0110}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //sub 
 								6'b100100: begin `CPU_ctrl_signals <= {SIG_EX_R[26:4], 4'b0000}; `CP0_ctrl_signals <= CP0_NULL;state_out <= EX_R; end  //and 
@@ -216,6 +219,7 @@ module ctrl(input  clk,
 				EX_J:     		begin  `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL;   state_out <= IF;     end
 				EX_JAL:   		begin  `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL;   state_out <= IF;     end
 				EX_jr:    		begin  `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL;   state_out <= IF;     end
+				EX_JALR:    	begin  `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL;   state_out <= IF;     end
 				WB_LW:    		begin  `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL;   state_out <= IF;     end
 				MEM_WD:   		begin  `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL;   state_out <= IF;     end
 				WB_R:     		begin  `CPU_ctrl_signals <= SIG_IF;   `CP0_ctrl_signals <= CP0_NULL;   state_out <= IF;     end
