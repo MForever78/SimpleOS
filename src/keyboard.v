@@ -63,7 +63,7 @@ module keyboard(
 	assign key_data = ready ? {key_data_buffer[23:0], data[7:0]} : key_data_buffer[31:0];
 	*/
 	ps2_kbd ps2_kbd_dev(
-		.clk(clk_cpu),
+		.clk(~clk_cpu),
 		.clrn(~reset),
 		.ps2_clk(PS2C),
 		.ps2_data(PS2D), 
