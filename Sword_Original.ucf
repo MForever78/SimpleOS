@@ -322,8 +322,8 @@
     NET "UART_RXD"                                 LOC = L25       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
     NET "UART_TXD"                                 LOC = P24       | IOSTANDARD = LVCMOS33 | SLEW = FAST | DRIVE = 16 | PULLUP ;
 #
-    NET "PS2D"                                 		LOC = N18       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
-    NET "PS2C"                                  	LOC = M19       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
+    NET "PS2C"                                 		LOC = N18       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
+    NET "PS2D"                                  	LOC = M19       | IOSTANDARD = LVCMOS33 | SLEW = FAST |              PULLUP ;
 #
     NET "Blue[0]"                                 	LOC = T20       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
     NET "Blue[1]"                                 	LOC = R20       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
