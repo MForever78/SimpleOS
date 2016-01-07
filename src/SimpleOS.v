@@ -215,7 +215,7 @@ module SimpleOS(
 
     ram_ipcore ram_ipcore(
         .clka(clk_fast),
-        .addra(slave_ADDR[16:2]),
+        .addra(slave_ADDR[17:2]),
         .dina(slave_DAT_I),
         .wea(Ram_STB ? Ram_WE : 1'b0),
         .douta(Ram_DAT_O)

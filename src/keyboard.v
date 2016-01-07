@@ -44,10 +44,10 @@ module keyboard(
     assign ACK = STB;
     
     assign key_data = {24'b0, data[7:0]};
-    
+
 	ps2_kbd ps2_kbd_dev(
-		.clk_scan(~clk_scan),
-        .clk_read(~clk_read),
+		.clk_scan(clk_scan),
+        .clk_read(clk_read),
 		.clrn(~reset),
 		.ps2_clk(PS2C),
 		.ps2_data(PS2D), 
