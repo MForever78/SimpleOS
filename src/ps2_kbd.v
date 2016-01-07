@@ -36,6 +36,13 @@ module ps2_kbd (clk_read,clk_scan,clrn,ps2_clk,ps2_data,rdn,data,ready,overflow)
         ps2_clk_sync <= {ps2_clk_sync[0],ps2_clk};
     wire sampling = ps2_clk_sync[1] &
                    ~ps2_clk_sync[0];           // had a falling edge
+    initial begin
+        w_ptr = 0;
+        r_ptr = 0;
+        count = 0;
+        buffer = 0;
+    end
+
     always @ (posedge clk_scan) begin
         if (!clrn) begin                       // on reset
             count    <= 0;                     // clear count

@@ -215,7 +215,7 @@ module SimpleOS(
 
     ram_ipcore ram_ipcore(
         .clka(clk_fast),
-        .addra(slave_ADDR[17:2]),
+        .addra(slave_ADDR[16:2]),
         .dina(slave_DAT_I),
         .wea(Ram_STB ? Ram_WE : 1'b0),
         .douta(Ram_DAT_O)
@@ -366,6 +366,13 @@ module SimpleOS(
         .data7(disk_data_out),
         .data_out(display_data)
     );
+
+    reg addr17 = 0;
+    always @(posedge clk100) begin
+        if (slave_ADDR[17])
+            addr17 <= 1;
+    end
+
         
     board_disp_sword board_disp_sword(
         .clk(clk100),
@@ -373,7 +380,7 @@ module SimpleOS(
         .en(8'hff),
         .data(display_data),   
         .dot(8'h0),
-        .led({14'b0, UART_TX_busy, UART_RX_busy}),
+        .led({addr17, 13'b0, UART_TX_busy, UART_RX_busy}),
         .led_clk(LED_CLK), 
         .led_en(LED_PEN),
         .led_clr_n(LED_CLR),

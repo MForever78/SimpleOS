@@ -8,7 +8,7 @@
 #    NET "*s_SYS_CLK"                               TNM_NET = TM_SYS_CLK;
 #    TIMESPEC TS_SYS_CLK                             = PERIOD "TM_SYS_CLK"   10 ns HIGH 50%;
 #    
-#    NET "*s_SYS_CLK100M"                           TNM_NET = TM_CLK_100M;
+#    NET "clk_100mhz"                                TNM_NET = TM_CLK_100M;
 #    TIMESPEC TS_SYS_CLK                             = PERIOD "TM_CLK_100M"  10 ns HIGH 50%;
 #    
 #    NET "*s_SYS_CLK50M"                            TNM_NET = TM_CLK_50M ;

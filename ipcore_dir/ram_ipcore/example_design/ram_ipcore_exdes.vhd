@@ -91,7 +91,7 @@ ENTITY ram_ipcore_exdes IS
       --Inputs - Port A
   
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-    ADDRA          : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    ADDRA          : IN STD_LOGIC_VECTOR(14 DOWNTO 0);
   
     DINA           : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
   
@@ -118,7 +118,7 @@ ARCHITECTURE xilinx OF ram_ipcore_exdes IS
       --Port A
   
     WEA        : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-    ADDRA      : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    ADDRA      : IN STD_LOGIC_VECTOR(14 DOWNTO 0);
   
     DINA       : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
   
