@@ -270,7 +270,7 @@ module SimpleOS(
     assign VRam_ACK = 1'b1;
     
     vram_ipcore  vram_ipcore(
-         .addra(slave_ADDR[11:0]), 
+         .addra(slave_ADDR[11:2]), 
          .dina(slave_DAT_I[7:0]), 
          .wea(VRam_STB ? VRam_WE : 1'b0),
          .clka(clk_fast), 
