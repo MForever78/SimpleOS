@@ -215,7 +215,7 @@ module SimpleOS(
 
     ram_ipcore ram_ipcore(
         .clka(clk_fast),
-        .addra(slave_ADDR[16:2]),
+        .addra(slave_ADDR[28:2]),
         .dina(slave_DAT_I),
         .wea(Ram_STB ? Ram_WE : 1'b0),
         .douta(Ram_DAT_O)
@@ -270,16 +270,16 @@ module SimpleOS(
     assign VRam_ACK = 1'b1;
     
     vram_ipcore  vram_ipcore(
-         .addra(slave_ADDR[11:2]), 
+         .addra(slave_ADDR[13:2]), 
          .dina(slave_DAT_I[7:0]), 
          .wea(VRam_STB ? VRam_WE : 1'b0),
-         .clka(clk_fast), 
+         .clka(clk100), 
          .douta(vram_out[7:0]),
          
          .addrb(addr_read[11:0]),
          .dinb(8'b0),
          .web(1'b0),
-         .clkb(clk_fast),
+         .clkb(clk100),
          .doutb(vram_scan_data[7:0]));	
 
     disk disk(

@@ -36,6 +36,6 @@ module font_dev(
 		.a(addr),
 		.spo(rom_data));
 
-	assign data = rom_data[col[0:2]];
+	assign data = rom_data[~col[2:0]];
 
 endmodule

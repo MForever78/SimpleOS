@@ -40,7 +40,6 @@ module ps2_kbd (clk_read,clk_scan,clrn,ps2_clk,ps2_data,rdn,data,ready,overflow)
         if (!clrn) begin                       // on reset
             count    <= 0;                     // clear count
             w_ptr    <= 0;                     // clear w_ptr
-            r_ptr    <= 0;                     // clear r_ptr
             overflow <= 0;                     // clear overflow
         end else if (sampling) begin           // if sampling
             if (count == 4'd10) begin          // if got one frame
@@ -60,9 +59,11 @@ module ps2_kbd (clk_read,clk_scan,clrn,ps2_clk,ps2_data,rdn,data,ready,overflow)
         end
     end
     always @(posedge clk_read) begin
+        if (!clrn) begin
+            r_ptr <= 0;
+        end else
         if (!rdn && ready) begin               // on cpu read
             r_ptr <= r_ptr + 3'b1;             // r_ptr++
-            overflow <= 0;                     // clear overflow
         end
     end
     
