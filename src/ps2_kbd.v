@@ -18,8 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module ps2_kbd (clk,clrn,ps2_clk,ps2_data,rdn,data,ready,overflow);
-    input        clk, clrn;                    // 50 MHz
+module ps2_kbd (clk_read,clk_scan,clrn,ps2_clk,ps2_data,rdn,data,ready,overflow);
+    input        clk_read, clk_scan;
+    input        clrn;                         // 50 MHz
     input        ps2_clk;                      // ps2 clock
     input        ps2_data;                     // ps2 data
     input        rdn;                          // read, active low
@@ -31,11 +32,11 @@ module ps2_kbd (clk,clrn,ps2_clk,ps2_data,rdn,data,ready,overflow);
     reg    [3:0] count;                        // count ps2_data bits
     reg    [2:0] w_ptr,r_ptr;                  // fifo w/r pointers
     reg    [1:0] ps2_clk_sync;                 // for detecting falling edge
-    always @ (posedge clk)
+    always @ (posedge clk_scan)
         ps2_clk_sync <= {ps2_clk_sync[0],ps2_clk};
     wire sampling = ps2_clk_sync[1] &
                    ~ps2_clk_sync[0];           // had a falling edge
-    always @ (posedge clk) begin
+    always @ (posedge clk_scan) begin
         if (!clrn) begin                       // on reset
             count    <= 0;                     // clear count
             w_ptr    <= 0;                     // clear w_ptr
@@ -57,11 +58,14 @@ module ps2_kbd (clk,clrn,ps2_clk,ps2_data,rdn,data,ready,overflow);
                 count <= count + 4'b1;         // count++
             end
         end
+    end
+    always @(posedge clk_read) begin
         if (!rdn && ready) begin               // on cpu read
             r_ptr <= r_ptr + 3'b1;             // r_ptr++
             overflow <= 0;                     // clear overflow
         end
     end
+    
     assign ready = (w_ptr != r_ptr);           // fifo is not empty
     assign data  = fifo[r_ptr];                // code byte
 endmodule

@@ -341,8 +341,8 @@ module SimpleOS(
     keyboard keyboard_dev(
         .STB(Keyboard_STB),
         .ACK(Keyboard_ACK),
-        
-		.clk_cpu(clk_slow),
+        .clk_scan(clk50),
+		.clk_read(clk_slow),
         .reset(RST),
 		.WE(Keyboard_WE),
 		.PS2C(PS2C),

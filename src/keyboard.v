@@ -22,7 +22,8 @@ module keyboard(
         input STB,
         output ACK,
         
-		input clk_cpu,
+        input clk_scan,
+		input clk_read,
         input reset,
 		input WE,
 		input PS2C,
@@ -44,26 +45,9 @@ module keyboard(
     
     assign key_data = {24'b0, data[7:0]};
     
-    /*
-	initial begin
-		key_data_buffer[31:0] <= 32'h0;
-	end
-
-	always @(posedge clk_cpu)
-	begin
-		if (reset)
-		begin
-			key_data_buffer[31:0] <= 32'h0; 
-		end
-		else begin
-			if (!wea && ready == 1'b1) 
-                key_data_buffer <= {key_data_buffer[23:0], data[7:0]};
-		end
-	end
-	assign key_data = ready ? {key_data_buffer[23:0], data[7:0]} : key_data_buffer[31:0];
-	*/
 	ps2_kbd ps2_kbd_dev(
-		.clk(~clk_cpu),
+		.clk_scan(~clk_scan),
+        .clk_read(~clk_read),
 		.clrn(~reset),
 		.ps2_clk(PS2C),
 		.ps2_data(PS2D), 

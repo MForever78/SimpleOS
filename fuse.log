@@ -1,4 +1,4 @@
-Running: fuse.exe -relaunch -intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "D:/project/ISE/project/SimpleOS/test_top_isim_beh.exe" -prj "D:/project/ISE/project/SimpleOS/test_top_beh.prj" "test_top" "work.glbl" 
+Running: D:\program\ISE\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o D:/project/ISE/project/SimpleOS/SimpleOS_isim_beh.exe -prj D:/project/ISE/project/SimpleOS/SimpleOS_beh.prj SimpleOS work.glbl 
 ISim P.20131013 (signature 0x7708f090)
 Number of CPUs detected in this system: 8
 Turning on mult-threading, number of parallel sub-compilation jobs: 16 
@@ -27,19 +27,18 @@ Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/MdrHalfStore.v" into
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/MdrByteSotre.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/Ext_32.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/ALU.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/ipcore_dir/font_table.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/vgac.v" into library work
-Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/ROM_127.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/ps2_kbd.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/parallel2serial.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/dec4to16.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/data_path.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/ctrl.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/CP0.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/font_device.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/WB_intercon.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/vga_display.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/uart.v" into library work
-Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/static_ram.v" into library work
-Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/SRAM.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/slower.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/pause_gen.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/muliti_cpu.v" into library work
@@ -51,20 +50,19 @@ Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/disk.v" into library
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/counter.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/btn_scan_sword.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/board_disp_sword.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/ipcore_dir/vram_ipcore.v" into library work
+Analyzing Verilog file "D:/project/ISE/project/SimpleOS/ipcore_dir/ram_ipcore.v" into library work
 Analyzing Verilog file "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" into library work
-Analyzing Verilog file "D:/project/ISE/project/SimpleOS/tests/top_test.v" into library work
 Analyzing Verilog file "D:/program/ISE/14.7/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
-WARNING:HDLCompiler:1016 - "D:/project/ISE/project/SimpleOS/tests/top_test.v" Line 65: Port BTN_X0 is not connected to this instance
-WARNING:HDLCompiler:1016 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 180: Port LOCKED is not connected to this instance
-WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 172: Size mismatch in connection of port <slave_STB>. Formal port size is 8-bit while actual signal size is 17-bit.
-WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 173: Size mismatch in connection of port <slave_ACK>. Formal port size is 8-bit while actual signal size is 17-bit.
-WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 175: Size mismatch in connection of port <slave_DAT_I>. Formal port size is 256-bit while actual signal size is 512-bit.
-WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 233: Size mismatch in connection of port <addra>. Formal port size is 20-bit while actual signal size is 30-bit.
-WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 236: Size mismatch in connection of port <douta>. Formal port size is 48-bit while actual signal size is 32-bit.
-WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 391: Size mismatch in connection of port <data3>. Formal port size is 32-bit while actual signal size is 6-bit.
-WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 394: Size mismatch in connection of port <data6>. Formal port size is 32-bit while actual signal size is 9-bit.
-WARNING:HDLCompiler:1330 - "function.vh" Line 1: Function GET_WIDTH has no return value assignment
+WARNING:HDLCompiler:1016 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 175: Port LOCKED is not connected to this instance
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 167: Size mismatch in connection of port <slave_STB>. Formal port size is 8-bit while actual signal size is 17-bit.
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 168: Size mismatch in connection of port <slave_ACK>. Formal port size is 8-bit while actual signal size is 17-bit.
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 170: Size mismatch in connection of port <slave_DAT_I>. Formal port size is 256-bit while actual signal size is 512-bit.
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 218: Size mismatch in connection of port <addra>. Formal port size is 16-bit while actual signal size is 15-bit.
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 273: Size mismatch in connection of port <addra>. Formal port size is 12-bit while actual signal size is 10-bit.
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 362: Size mismatch in connection of port <data3>. Formal port size is 32-bit while actual signal size is 6-bit.
+WARNING:HDLCompiler:189 - "D:/project/ISE/project/SimpleOS/src/SimpleOS.v" Line 365: Size mismatch in connection of port <data6>. Formal port size is 32-bit while actual signal size is 9-bit.
 Completed static elaboration
 Compiling module WB_intercon
 Compiling module IBUFG
@@ -102,12 +100,22 @@ Compiling module Ext_32
 Compiling module data_path
 Compiling module CP0
 Compiling module Muliti_CPU
-Compiling module ROM_127
-Compiling module SRAM
-Compiling module static_ram
+Compiling module BLK_MEM_GEN_V7_3_output_stage(C_...
+Compiling module BLK_MEM_GEN_V7_3_softecc_output_...
+Compiling module BLK_MEM_GEN_V7_3_mem_module(C_CO...
+Compiling module BLK_MEM_GEN_V7_3(C_FAMILY="kinte...
+Compiling module ram_ipcore
 Compiling module vgac
+Compiling module DIST_MEM_GEN_V7_2(C_FAMILY="kint...
+Compiling module font_table
+Compiling module font_dev
 Compiling module vga_display
 Compiling module counter_default
+Compiling module BLK_MEM_GEN_V7_3_output_stage(C_...
+Compiling module BLK_MEM_GEN_V7_3_softecc_output_...
+Compiling module BLK_MEM_GEN_V7_3_mem_module(C_CO...
+Compiling module BLK_MEM_GEN_V7_3(C_FAMILY="kinte...
+Compiling module vram_ipcore
 Compiling module disk
 Compiling module disk_dev
 Compiling module uart_default
@@ -121,11 +129,10 @@ Compiling module btn_scan_sword_default
 Compiling module pause_gen
 Compiling module disk_addr_gen
 Compiling module SimpleOS
-Compiling module test_top
 Compiling module glbl
 Time Resolution for simulation is 1ps.
-Waiting for 1 sub-compilation(s) to finish...
-Compiled 57 Verilog Units
-Built simulation executable D:/project/ISE/project/SimpleOS/test_top_isim_beh.exe
-Fuse Memory Usage: 44532 KB
-Fuse CPU Usage: 4077 ms
+Waiting for 3 sub-compilation(s) to finish...
+Compiled 66 Verilog Units
+Built simulation executable D:/project/ISE/project/SimpleOS/SimpleOS_isim_beh.exe
+Fuse Memory Usage: 47532 KB
+Fuse CPU Usage: 1296 ms
