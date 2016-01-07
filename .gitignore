@@ -24,6 +24,8 @@
 *.rbd
 *.stx
 *.syr
+*.svf
+*.xsvf
 *.twr
 *.twx
 *.unroutes
@@ -63,3 +65,5 @@ _xmsgs/
 *.wdb
 isim/
 
+# impact
+webtalk_impact.xml
