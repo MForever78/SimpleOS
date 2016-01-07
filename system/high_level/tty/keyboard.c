@@ -6,6 +6,7 @@ int _key_shift;
 int _key_ctrl;
 
 int *_key_shift_map;
+int *_key_map;
 
 enum {
     KEY_BUFFER_SIZE = 256
@@ -18,6 +19,7 @@ keyboard_init()
     _key_queue_e = _key_queue_b = 0;
     _key_shift = _key_ctrl = 0;
     _key_shift_map = _key_shift_table;
+    _key_map = _key_map_table;
 }
 
 void
@@ -46,11 +48,21 @@ keyboard_get()
 {
     int ret;
     char offset;
+    int release;
 
+    release = 0;
     while (1) {
         while (!keyboard_queue_size()) {};
         ret = keyboard_queue_pop();
-        if      (ret == 16)     { _key_shift = 1; }
+        ret = _key_map[ret];
+        if (release) { 
+            ret = -ret;
+            release = 0;
+        }
+
+        if      (ret == 0)      { } // do nothing
+        else if (ret == 0xF0)   { release = 1; }
+        else if (ret == 16)     { _key_shift = 1; }
         else if (ret == -16)    { _key_shift = 0; }
         else if (ret == 17)     { _key_ctrl  = 1; }
         else if (ret == -17)    { _key_ctrl  = 0; }

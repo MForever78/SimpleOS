@@ -10,10 +10,12 @@ driver_init()
     DRIVER_BLOCK_SIZE = 512;
 
     mbr = malloc(DRIVER_BLOCK_SIZE);
+    breakpoint();
     _platform_read_block(0, mbr);
 
     _driver_sector_start = load_dword_unaligned(mbr + 454);
     _driver_sector_count = load_dword_unaligned(mbr + 458);
+    breakpoint();
 
     free(mbr);
 }

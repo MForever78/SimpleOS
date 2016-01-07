@@ -107,8 +107,14 @@ _load_kernel_end:
     addi    $a0, $zero, 0
     lui     $a1, 0x2000
     addi    $a2, $zero, 512
-    addi    $v0, $zero, 3
-    syscall $v0
+_copy_first_loop:
+    lb      $a3, 0($a1)
+    sb      $a3, 0($a0)
+    addi    $a0, $a0, 1
+    addi    $a1, $a1, 1
+    addi    $a2, $a2, -1
+_copy_first_cmp:
+    bne     $a2, $zero, _copy_first_loop
 
     jr      $zero
 

@@ -4,7 +4,7 @@ ASM = ../../../c4/as
 LNK = ../../../c4/lk
 PPA = cpp $< | ../scripts/newline-sub.js | ../scripts/func-ext.js 
 
-../build/basic_level.o : ../build/interrupt.o ../build/init.o ../build/math.o ../build/memory.o ../build/string.o ../build/disp.o
+../build/basic_level.o : ../build/interrupt.o ../build/init.o ../build/math.o ../build/memory.o ../build/string.o
 	$(LNK) -l ../build/basic_label -m -o $@ $^
 
 ../build/init.o : init.asm macros.asm
@@ -26,7 +26,3 @@ PPA = cpp $< | ../scripts/newline-sub.js | ../scripts/func-ext.js
 ../build/string.o : string.asm macros.asm
 	$(PPA) > ../build/string-bundle.asm
 	$(ASM) -m -o $@ ../build/string-bundle.asm
-
-../build/disp.o : disp.asm macros.asm
-	$(PPA) > ../build/disp-bundle.asm
-	$(ASM) -m -o $@ ../build/disp-bundle.asm

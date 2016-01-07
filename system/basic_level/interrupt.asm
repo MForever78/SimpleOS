@@ -2,37 +2,6 @@
 
     j _init
     dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
-    dd int_universal_handler
 
 int_universal_handler:
     addi    $sp, $sp, -132
@@ -72,13 +41,22 @@ int_universal_handler:
     mfco    $t0, CP0_CAUSE
     sw      $t0, 128($sp)
 
-    mfco    $t0, CP0_CAUSE
     addi    $gp, $zero, 0
 
-    ## re-enable interrupt
-    mfco    $t1, CP0_STATUS
-    srl     $t1, $t1, 16
-    mtco    $t1, CP0_STATUS
+##    mfco    $t1, CP0_STATUS
+##    srl     $t1, $t1, 16
+##
+##    slti    $k0, $t0, 8
+##    beq     $k0, $zero, _int_restore_status
+##
+##    addi    $k0, $zero, 1
+##    sllv    $k0, $k0, $t0
+##    nor     $k0, $k0, $zero
+##    and     $t1, $t1, $k0
+##
+##    ## re-enable interrupt
+##_int_restore_status:
+##    mtco    $t1, CP0_STATUS
 
     sll     $t0, $t0, 2
     addi    $t0, $t0, INTERRUPT_TABLE
@@ -91,9 +69,19 @@ int_universal_handler:
     sw      $v0, 4($sp)
 
 _int_dont_set_v0:
-    mfco    $t1, CP0_STATUS
-    sll     $t1, $t1, 16
-    mtco    $t1, CP0_STATUS
+##    mfco    $t1, CP0_STATUS
+##
+##    lw      $t0, 128($sp)
+##    slti    $k0, $t0, 8
+##    beq     $k0, $zero, _int_dont_renable_status
+##
+##    addi    $k0, $zero, 1
+##    sllv    $k0, $k0, $t0
+##    or      $t1, $t1, $k0
+##
+##_int_dont_renable_status:
+##    sll     $t1, $t1, 16
+##    mtco    $t1, CP0_STATUS
 
     lw      $t0, 124($sp)
     mtco    $t0, CP0_EPC
