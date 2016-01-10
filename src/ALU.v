@@ -46,11 +46,15 @@ module ALU(A,
    wire [31:0] XLXN_23;
    wire [31:0] XLXN_14;
    wire [31:0] res_DUMMY;
-	wire [31:0] sllv_out;
+    wire [31:0] sllv_out;
 	wire [31:0] srlv_out;
 	
    
    assign res[31:0] = res_DUMMY[31:0];
+   
+   wire slt = (A[31] ^ B[31]) ? A[31] : 
+               A[31] ? A[30:0] > B[30:0] : A[30:0] < B[30:0];
+   
    ADC32  ADC_32 (.A(A[31:0]), 
                  .B(XLXN_8[31:0]), 
                  .C0(ALU_operation[2]), 
@@ -65,7 +69,7 @@ module ALU(A,
                        .x6(S[31:0]), 
                        .x7({N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, 
          N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, N0, 
-         N0, S[32]}),
+         N0, slt}),
 							  .x8(XLXN_14[31:0]),
 							  .x9(srlv_out[31:0]),
 							  .x10(sllv_out[31:0]),
