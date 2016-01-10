@@ -348,8 +348,7 @@ module disk_dev(
                                 WRITE_DATA: begin
                                     dev_enable <= 1;
                                     dev_we <= 1;
-                                    if (dev_write_done)
-                                        dev_data_out <= buffer[write_data_cnt];
+                                    dev_data_out <= buffer[write_data_cnt];
                                 end
                                 WRITE_GOODBYE: begin
                                     dev_enable <= 1;
