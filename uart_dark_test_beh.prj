@@ -1,0 +1,3 @@
+verilog work "src/uart_dark.v"
+verilog work "tests/uart_dark_test.v"
+verilog work "/opt/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v"
