@@ -38,37 +38,37 @@ module Muliti_CPU(clk,
     input INT;
     input MIO_ready;
     input reset;
-	 input [31:0] Cause_in;
-   output [31:0] Addr_out;
-   output CPU_MIO;
-   output [31:0] Data_out;
-   output [31:0] inst_out; 
-   output mem_w;
+	input [31:0] Cause_in;
+    output [31:0] Addr_out;
+    output CPU_MIO;
+    output [31:0] Data_out;
+    output [31:0] inst_out; 
+    output mem_w;
 	output mem_r;
-   output [31:0] PC_out;
-   output [5:0] state;
+    output [31:0] PC_out;
+    output [5:0] state;
    
-   wire IorD;
-   wire IRWrite;
-   wire RegWrite;
-   wire [1:0] ALUSrcA;
-   wire PCWrite;
-   wire PCWriteCond;
-   wire Branch;
-   wire [1:0] RegDst;
-   wire [1:0] MemtoReg;
-   wire [1:0] ALUSrcB;
-   wire [1:0] PCSource;
-   wire [3:0] ALU_operation;
+    wire IorD;
+    wire IRWrite;
+    wire RegWrite;
+    wire [1:0] ALUSrcA;
+    wire PCWrite;
+    wire PCWriteCond;
+    wire Branch;
+    wire [1:0] RegDst;
+    wire [1:0] MemtoReg;
+    wire [1:0] ALUSrcB;
+    wire [1:0] PCSource;
+    wire [3:0] ALU_operation;
 	wire [1:0] MDRSrc;
 	wire [1:0] Data_sel;
-   wire overflow;
-   wire MemRead;
-   wire MemRead_inv;
-   wire MemWrite;
-   wire zero;
-   wire [31:0] inst_out_DUMMY;
-	wire [31:0] Cause_in_tmp;
+    wire overflow;
+    wire MemRead;
+    wire MemRead_inv;
+    wire MemWrite;
+    wire zero;
+    wire [31:0] inst_out_DUMMY;
+ 	wire [31:0] Cause_in_tmp;
 	
 	//CP0 signal
 	wire [31:0] CP0_out;
@@ -123,20 +123,20 @@ module Muliti_CPU(clk,
                 .RegDst(RegDst[1:0]), 
                 .RegWrite(RegWrite), 
                 .state_out(state[5:0]),
-					 .MDRSrc(MDRSrc[1:0]),
-					 .Data_sel(Data_sel[1:0]),
-					 
-					 .cp0_selwt(cp0_selwt),
-					 .cp0_selpc(cp0_selpc[1:0]),
-					 .cp0_selmem(cp0_selmem), 
-					 .cp0_selcause(cp0_selcause),
-					 .cp0_status(status_out),
-					 .mtc0(mtc0),
-					 .wcau(wcau),
-					 .exc(exc),
-					 .wsta(wsta),
-					 .inta(inta),
-					 .wepc(wepc)
+                .MDRSrc(MDRSrc[1:0]),
+                .Data_sel(Data_sel[1:0]),
+             
+                .cp0_selwt(cp0_selwt),
+                .cp0_selpc(cp0_selpc[1:0]),
+                .cp0_selmem(cp0_selmem), 
+                .cp0_selcause(cp0_selcause),
+                .cp0_status(status_out),
+                .mtc0(mtc0),
+                .wcau(wcau),
+                .exc(exc),
+                .wsta(wsta),
+                .inta(inta),
+                .wepc(wepc)
 					 );
 					 
    data_path  U12 (.ALUSrcA(ALUSrcA), 
