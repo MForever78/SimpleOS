@@ -30,7 +30,7 @@ module data_path(input clk,
 					  
 					  output [31:0] IR_out,
 					  
-					  output[31:0]PC_Current,
+					  output reg [31:0]PC_Current,
 					  input[31:0]data2CPU,
 					  output[31:0]Inst_R,
 					  output[31:0]data_out,
@@ -46,7 +46,7 @@ module data_path(input clk,
 		wire [31:0] MDR;
 		wire [4:0] wt_addr;
 		wire [31:0] wt_data;
-		wire [31:0] ALU_out;
+		reg [31:0] ALU_out;
 		wire [31:0] JR;
 		wire [31:0] rdata_A;
 		wire [31:0] rdata_B;
@@ -70,25 +70,46 @@ module data_path(input clk,
 		VCC  vcc_dev (.P(V5));
 		GND  gnd_dev (.G(N0));
 
-        always @(posedge clk or posedge reset)
-        begin
-            if (reset == 1) IR <= 32'b0;
-            else IR <= data2CPU;
-        end
+        wire L_S = RegWrite;
+        wire [4:0] R_addr_A = IR[25:21];
+        wire [4:0] R_addr_B = IR[20:16];
+        reg [31:0] register[1:31];
+        assign rdata_A = (R_addr_A == 0)? 0:register[R_addr_A];
+        assign rdata_B = (R_addr_B == 0)? 0:register[R_addr_B];
+        integer i;
         
         always @(posedge clk or posedge reset)
         begin
-            if (reset == 1) MDR_tmp <= 32'b0;
-            else MDR_tmp <= data2CPU;
+            if (reset == 1) begin
+                for (i=1; i<32; i=i+1) register[i] <= 0;
+                ALU_out <= 32'b0;
+                IR <= 32'b0;
+                MDR_tmp <= 32'b0;
+                PC_Current <= 32'b0;
+            end
+            else begin
+                ALU_out <= ALUresult;
+                if (IRWrite) IR <= data2CPU; else IR <= IR;
+                MDR_tmp <= data2CPU;
+                if (PC_enable) PC_Current <= PC_next; 
+                else PC_Current <= PC_Current;
+                if ((wt_addr != 0) && (L_S == 1))
+				register[wt_addr] <= wt_data;
+
+            end
         end
 					 
 		assign Inst_R = IR;
 		assign IR_out = IR;
-					 
-		
+	
+        
+        
+        
+    
 		MDR_BYTE mdr_byte_dev(.pos(M_addr[1:0]),
 									.MDR_in(MDR_tmp[31:0]),
 									.data_out(MDR_lb[31:0]));
+                                    
 		MDR_HALF mdr_half_dev(.pos(M_addr[1]),
 									.MDR_in(MDR_tmp[31:0]),
 									.data_out(MDR_lh[31:0]));
@@ -131,15 +152,6 @@ module data_path(input clk,
 							  .b(wt_data_tmp[31:0]),
 							  .o(wt_data[31:0]));
 					  
-		Regs U2 (.clk(clk), 
-						  .rst(reset), 
-						  .L_S(RegWrite),
-						  .R_addr_A(IR[25:21]),
-						  .R_addr_B(IR[20:16]), 
-						  .Wt_addr(wt_addr[4:0]),
-						  .Wt_data(wt_data[31:0]),
-						  .rdata_A(rdata_A[31:0]), 
-						  .rdata_B(rdata_B[31:0]));
 		
 		mux4to1_32 mux7(.sel(Data_sel[1:0]),
 							  .x0(rdata_B[31:0]),    			//original
@@ -168,12 +180,6 @@ module data_path(input clk,
 						.overflow(overflow), 
 						.res(ALUresult[31:0]), 
 						.zero(zero));
-
-		REG32 ALUOut (.clk(clk),
-					 .rst(N0),
-					 .CE(V5),
-					 .D(ALUresult[31:0]),
-					 .Q(ALU_out[31:0]));
 		
 		mux4to1_32 mux6 (.sel(PCSource[1:0]),
 							  .x0(ALUresult[31:0]),
@@ -193,11 +199,6 @@ module data_path(input clk,
 		assign PC_enable = MIO_ready && (PCWrite || (PCWriteCond && (((~zero) && (~Branch)) || (zero && Branch))));
 		
 		
-		REG32 PC (.clk(clk), 
-					 .rst(reset),
-					 .CE(PC_enable),
-					 .D(PC_next[31:0]),
-					 .Q(PC_Current[31:0]));
 		
 		
 		
