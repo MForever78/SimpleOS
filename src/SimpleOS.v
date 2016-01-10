@@ -190,7 +190,7 @@ module SimpleOS(
         .clk2s(clk2s)
     );
         
-    wire clk_slow = SW[15] ? (SW[14] ? clk50 : clk2s) : 0;
+    wire clk_slow = SW[15] ? (SW[14] ? clk25 : clk2s) : 0;
     wire clk_fast = SW[15] ? (SW[14] ? clk100 : clk1s) : 0;
         
     wire mem_w, mem_r;
