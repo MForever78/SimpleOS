@@ -42,7 +42,7 @@ module data_path(input clk,
 					  
 		wire V5;
 		wire N0;
-		wire [31:0] IR;
+		reg [31:0] IR;
 		wire [31:0] MDR;
 		wire [4:0] wt_addr;
 		wire [31:0] wt_data;
@@ -60,7 +60,7 @@ module data_path(input clk,
 		wire [31:0] wt_data_tmp;
 		wire [31:0] PC_next_tmp;
 		wire [31:0] M_addr_tmp;
-		wire [31:0] MDR_tmp;
+		reg [31:0] MDR_tmp;
 		wire [31:0] MDR_lb;
 		wire [31:0] MDR_lh;
 		wire [31:0] Dataout_sb;
@@ -70,21 +70,20 @@ module data_path(input clk,
 		VCC  vcc_dev (.P(V5));
 		GND  gnd_dev (.G(N0));
 
-		
-		REG32 IR_dev (.clk(clk),
-					 .rst(N0),
-					 .CE(IRWrite),
-					 .D(data2CPU[31:0]),
-					 .Q(IR[31:0]));
+        always @(posedge clk or posedge reset)
+        begin
+            if (reset == 1) IR <= 32'b0;
+            else IR <= data2CPU;
+        end
+        
+        always @(posedge clk or posedge reset)
+        begin
+            if (reset == 1) MDR_tmp <= 32'b0;
+            else MDR_tmp <= data2CPU;
+        end
 					 
 		assign Inst_R = IR;
 		assign IR_out = IR;
-					 
-		REG32 MDR_dev (.clk(clk),
-					 .rst(N0),
-					 .CE(V5),
-					 .D(data2CPU[31:0]),
-					 .Q(MDR_tmp[31:0]));
 					 
 		
 		MDR_BYTE mdr_byte_dev(.pos(M_addr[1:0]),
